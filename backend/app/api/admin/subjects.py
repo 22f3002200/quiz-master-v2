@@ -1,0 +1,71 @@
+from datetime import timedelta
+
+from flask import jsonify, request
+from pydantic import ValidationError
+
+from app.api.admin import admin_bp
+from app.extensions import db
+from app.models.subject import Subject
+from app.schema.subject_schema import (
+    SubjectCreateSchema,
+    SubjectResponseSchema,
+    SubjectUpdateSchema,
+)
+
+
+@admin_bp.route("/subjects", methods=["POST"])
+def create_subject():
+    try:
+        json_data = request.get_json()
+        subject_data = SubjectCreateSchema(**json_data)
+        subject = Subject()
+        subject.name = subject_data.name
+        subject.description = subject_data.description
+        db.session.add(subject)
+        db.session.commit()
+
+        response_date = SubjectResponseSchema.model_validate(subject)
+        return jsonify(response_date.model_dump()), 201
+
+    except ValidationError as e:
+        return jsonify({"error": "Validation error", "details": e.errors()}), 400
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": "Internal server error", "details": str(e)}), 500
+
+
+@admin_bp.route("/subjects", methods=["GET"])
+def list_subjects():
+    try:
+        subjects = Subject.query.all()
+        subjects_data = [
+            SubjectResponseSchema.model_validate(subject).model_dump()
+            for subject in subjects
+        ]
+        return jsonify(subjects_data), 200
+
+    except Exception as e:
+        return jsonify({"error": "Internal Error", "details": str(e)}), 500
+
+
+@admin_bp.route("/subjects/<int:subject_id>", methods=["PUT"])
+def update_subject(subject_id):
+    try:
+        subject = Subject.query.get_or_404(subject_id)
+        json_data = request.get_json()
+        update_data = SubjectUpdateSchema(**json_data)
+
+        for field, value in update_data.model_dump(exclude_unset=True).items():
+            setattr(subject, field, value)
+
+        db.session.commit()
+
+        response_data = SubjectResponseSchema.model_validate(subject)
+        return jsonify(response_data.model_dump()), 200
+
+    except ValidationError as e:
+        return jsonify({"error": "Validation error", "details": e.errors()}), 400
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": "Internal server error", "details": str(e)}), 500

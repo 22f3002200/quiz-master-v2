@@ -7,7 +7,7 @@ from pydantic import BaseModel, EmailStr, Field, field_validator
 
 class UserCreateSchema(BaseModel):
     email: EmailStr = Field(..., description="User's email address")
-    password: str = Field(..., min_length=8, description="User's password")
+    password_hash: str = Field(..., min_length=8, description="User's password")
     full_name: str = Field(
         ..., min_length=2, max_length=120, description="User's full name"
     )
@@ -90,4 +90,4 @@ class UserListResponseSchema(BaseModel):
     active: bool
 
     class Config:
-        form_attributes = True
+        from_attributes = True

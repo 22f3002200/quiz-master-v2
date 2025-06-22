@@ -44,4 +44,4 @@ class QuestionResponseSchema(BaseModel):
     correct_option: int
 
     class Config:
-        form_attributes = True
+        from_attributes = True

@@ -22,4 +22,4 @@ class ChapterResponseSchema(BaseModel):
     created_at: datetime
 
     class Config:
-        form_attributes = True
+        from_attributes = True

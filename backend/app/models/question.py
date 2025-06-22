@@ -5,7 +5,7 @@ class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     quiz_id = db.Column(
         db.Integer, db.ForeignKey("quiz.id", ondelete="CASCADE"), nullable=False
-    )
+    )  # foreignKey
     statement = db.Column(db.Text, nullable=False)
     option1 = db.Column(db.Text, nullable=False)
     option2 = db.Column(db.Text, nullable=False)

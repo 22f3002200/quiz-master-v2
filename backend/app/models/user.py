@@ -1,4 +1,8 @@
+import uuid
 from datetime import datetime
+
+from flask_security.core import UserMixin
+from werkzeug.security import check_password_hash, generate_password_hash
 
 from app.extensions import db
 
@@ -24,17 +28,19 @@ enrolled_subjects = db.Table(
 )
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(255), nullable=False)
-    # fs_uniquifier = db.Column(db.String(255), unique=True, nullable=False)
+    password_hash = db.Column(db.String(255), nullable=False, server_default="")
+    fs_uniquifier = db.Column(
+        db.String(255), unique=True, nullable=False, default=lambda: uuid.uuid4().hex
+    )
     active = db.Column(db.Boolean(), default=True)
 
     full_name = db.Column(db.String(120), nullable=False)
     qualification = db.Column(db.String(50))
     dob = db.Column(db.Date)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=datetime.now())
 
     # Relationships
     roles = db.relationship("Role", secondary=user_roles, back_populates="users")
@@ -51,3 +57,14 @@ class User(db.Model):
     enrolled_subjects_rel = db.relationship(
         "Subject", secondary=enrolled_subjects, back_populates="enrolled_users"
     )
+
+    @property
+    def password(self):
+        return self.password_hash
+
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
