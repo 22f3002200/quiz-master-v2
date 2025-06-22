@@ -2,4 +2,4 @@ from flask import Blueprint
 
 admin_bp = Blueprint("admin", __name__, url_prefix="/api/admin")
 
-from app.api.admin import subjects
+from app.api.admin import chapters, subjects

@@ -17,17 +17,18 @@ def create_app(config_class=Config):
     login_manager.init_app(app)
 
     # setup flask-security
-    user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-    security = Security(app, user_datastore)
+    # user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+    # # security = Security(app, user_datastore)
 
-    from app import models
+    # from app import models
     from app.api import bp as api_blueprint
     from app.api.admin import admin_bp
-    from app.api.auth import auth_bp
+
+    # from app.api.auth import auth_bp
 
     app.register_blueprint(api_blueprint)
     app.register_blueprint(admin_bp)
-    app.register_blueprint(auth_bp)
+    # app.register_blueprint(auth_bp)
 
     with app.app_context():
         db.create_all()

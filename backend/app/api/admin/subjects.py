@@ -69,3 +69,16 @@ def update_subject(subject_id):
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": "Internal server error", "details": str(e)}), 500
+
+
+@admin_bp.route("/subjects/<int:subject_id>", methods=["DELETE"])
+def delete_subject(subject_id):
+    try:
+        subject = Subject.query.get_or_404(subject_id)
+        db.session.delete(subject)
+        db.session.commit()
+
+        return jsonify({"message": "Subject deleted successfully"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": "Internal server error", "details": str(e)}), 500
