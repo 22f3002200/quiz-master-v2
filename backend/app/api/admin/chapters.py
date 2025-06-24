@@ -38,7 +38,7 @@ def create_chapter(subject_id):
         return jsonify({"error": "Internal server error", "details": str(e)}), 500
 
 
-@admin_bp.route("/subjets/<int:subject_id>/chapters", methods=["GET"])
+@admin_bp.route("/subjects/<int:subject_id>/chapters", methods=["GET"])
 def list_chapters(subject_id):
     try:
         subject = Subject.query.get_or_404(subject_id)
@@ -47,6 +47,19 @@ def list_chapters(subject_id):
         chapters_data = [
             ChapterResponseSchema.model_validate(chapter).model_dump()
             for chapter in chapters
+        ]
+        return jsonify(chapters_data), 200
+
+    except Exception as e:
+        return jsonify({"error": "Internal server error", "details": str(e)}), 500
+
+
+@admin_bp.route("/chapters", methods=["GET"])
+def list_of_chapters():
+    try:
+        chapters = Chapter.query.all()
+        chapters_data = [
+            ChapterResponseSchema.model_validate(chapter) for chapter in chapters
         ]
         return jsonify(chapters_data), 200
 
