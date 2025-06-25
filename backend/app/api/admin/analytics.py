@@ -97,3 +97,55 @@ def get_quiz_performance():
 
     except Exception as e:
         return jsonify({"error": "Internal server error", "details": str(e)}), 500
+
+
+@admin_bp.route("/analytics/user-performance", methods=["GET"])
+def get_user_performance():
+    try:
+        user_stats = (
+            User.query.outerjoin.with_entities(
+                User.id,
+                User.full_name,
+                User.email,
+                func.count(Score.id).label("total_attempts"),
+                func.avg(Score.total_score).label("avg_score"),
+                func.max(Score.total_score).label("max_score"),
+            )
+            .group_by(User.id)
+            .order_by(func.avg(Score.total_score).desc())
+            .all()
+        )
+
+        performance_data = []
+        for stat in user_stats:
+            performance_data.append(
+                {
+                    "user_id": stat.id,
+                    "full_name": stat.full_name,
+                    "email": stat.email,
+                    "total_attemps": stat.total_attempts,
+                    "average_score": float(stat.avg_score) if stat.avg_score else 0,
+                    "max_score": stat.max_score or 0,
+                }
+            )
+
+        return jsonify(performance_data), 200
+
+    except Exception as e:
+        return jsonify({"error": "Internal server error", "details": str(e)}), 500
+
+
+@admin_bp.route("/analytics/monthly-stats", methods=["GET"])
+def get_monthly_stats():
+    try:
+        from datetime import datetime, timedelta
+        
+        # Get current month stats
+        current_month = datetime.now().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+
+        # Quiz attempts this month
+        monthly_attempts = Score.query.filter(
+            Score.timestamp >= current_month
+        ).count()
+
+        

@@ -17,7 +17,7 @@ class UserCreateSchema(BaseModel):
     dob: Optional[date] = Field(None, description="Date of Birth")
     active: bool = Field(True, description="Whether user is active")
 
-    @field_validator("password")
+    @field_validator("password_hash")
     def validate_password(cls, v):
         password = v
         if len(password) < 8:

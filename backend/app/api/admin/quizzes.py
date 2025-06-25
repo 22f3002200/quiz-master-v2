@@ -16,7 +16,7 @@ from app.schema.quiz_schema import (
 
 
 @admin_bp.route(
-    "/subjects/<int:subject_id>/chapters/<int:chapter_id/quizzes>", methods=["POST"]
+    "/subjects/<int:subject_id>/chapters/<int:chapter_id>/quizzes", methods=["POST"]
 )
 def create_quiz(subject_id, chapter_id):
     try:
@@ -47,7 +47,7 @@ def create_quiz(subject_id, chapter_id):
 
 
 @admin_bp.route(
-    "/subjects/<int:subject_id>/chapters/<int:chapter_id/quizzes>", methods=["GET"]
+    "/subjects/<int:subject_id>/chapters/<int:chapter_id>/quizzes", methods=["GET"]
 )
 def list_quizzes_by_chapter(subject_id, chapter_id):
     try:
@@ -64,7 +64,7 @@ def list_quizzes_by_chapter(subject_id, chapter_id):
         return jsonify({"error": "Internal server error", "details": str(e)}), 500
 
 
-@admin_bp.route("/subjects/<int:subject_id>/quizzes>", methods=["GET"])
+@admin_bp.route("/subjects/<int:subject_id>/quizzes", methods=["GET"])
 def list_quizzes_by_subject(subject_id):
     try:
         subject = Subject.query.get_or_404(subject_id)
