@@ -76,6 +76,7 @@ class UserUpdateSchema(BaseModel):
         return v
 
     class Config:
+        from_attributes = True
         json_encoders = {
             date: lambda v: v.isoformat(),
             datetime: lambda v: v.isoformat(),

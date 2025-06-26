@@ -8,3 +8,5 @@ email-validator
 flask-login
 flask-security
 PyJWT
+celery
+redis

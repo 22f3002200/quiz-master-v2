@@ -13,10 +13,12 @@ from app.schema.user_schema import (
 )
 
 
+# checked
 @admin_bp.route("/users", methods=["POST"])
 def create_user():
     try:
         json_data = request.get_json()
+        print("🚀 Incoming data:", json_data)
         user_data = UserCreateSchema(**json_data)
 
         # Check for existing user
@@ -50,17 +52,22 @@ def create_user():
         return jsonify({"error": "Internal server error", "details": str(e)}), 500
 
 
+# checked
 @admin_bp.route("/users", methods=["GET"])
 def list_users():
     try:
         users = User.query.all()
-        users_data = [UserListResponseSchema.model_validate(user) for user in users]
-        return jsonify(users_data), 200
+        users_data = [
+            UserListResponseSchema.model_validate(user).model_dump() for user in users
+        ]
+        # print(users_data)
+        return (users_data), 200
 
     except Exception as e:
         return jsonify({"error": "Internal Error", "details": str(e)}), 500
 
 
+# checked
 @admin_bp.route("/users/<int:user_id>", methods=["GET"])
 def get_user(user_id):
     try:
@@ -73,13 +80,17 @@ def get_user(user_id):
         return jsonify({"error": "Internal Error", "details": str(e)}), 500
 
 
+# checked
 @admin_bp.route("/users/<int:user_id>", methods=["PUT"])
 def update_user(user_id):
     try:
         user = User.query.get_or_404(user_id)
+        print(user)
 
         json_data = request.get_json()
+        print(json_data)
         update_data = UserUpdateSchema(**json_data)
+        print(update_data)
 
         for field, value in update_data.model_dump(exclude_unset=True).items():
             setattr(user, field, value)
@@ -87,6 +98,7 @@ def update_user(user_id):
         db.session.commit()
 
         response_data = UserResponseSchema.model_validate(user)
+        print(response_data)
         return jsonify(response_data.model_dump()), 200
 
     except ValidationError as e:
@@ -99,6 +111,7 @@ def update_user(user_id):
         return jsonify({"error": "Internal server error", "details": str(e)}), 500
 
 
+# checked
 @admin_bp.route("/users/<int:user_id>", methods=["DELETE"])
 def delete_user(user_id):
     try:
@@ -107,7 +120,7 @@ def delete_user(user_id):
         # user.active = False
         db.session.delete(user)
         db.session.commit()
-        return jsonify({"message": "User deleted successfully"}), 200
+        return jsonify({"message": "User deleted successfully"}), 204
 
     except Exception as e:
         db.session.rollback()

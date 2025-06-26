@@ -135,17 +135,15 @@ def get_user_performance():
         return jsonify({"error": "Internal server error", "details": str(e)}), 500
 
 
-@admin_bp.route("/analytics/monthly-stats", methods=["GET"])
-def get_monthly_stats():
-    try:
-        from datetime import datetime, timedelta
-        
-        # Get current month stats
-        current_month = datetime.now().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+# @admin_bp.route("/analytics/monthly-stats", methods=["GET"])
+# def get_monthly_stats():
+#     try:
+#         from datetime import datetime, timedelta
 
-        # Quiz attempts this month
-        monthly_attempts = Score.query.filter(
-            Score.timestamp >= current_month
-        ).count()
+#         # Get current month stats
+#         current_month = datetime.now().replace(day=1, hour=0, minute=0, second=0, microsecond=0)
 
-        
+#         # Quiz attempts this month
+#         monthly_attempts = Score.query.filter(
+#             Score.timestamp >= current_month
+#         ).count()

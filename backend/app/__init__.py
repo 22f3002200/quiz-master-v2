@@ -3,6 +3,7 @@ from flask import Flask
 from flask_security.core import Security
 from flask_security.datastore import SQLAlchemyUserDatastore
 
+from app.celery_app import make_celery
 from app.extensions import db, login_manager
 from app.models.role import Role
 from app.models.user import User
@@ -15,6 +16,10 @@ def create_app(config_class=Config):
     # Intialize extensions
     db.init_app(app)
     login_manager.init_app(app)
+
+    # Intialize Celery
+    celery = make_celery(app)
+    app.celery = celery
 
     # setup flask-security
     # user_datastore = SQLAlchemyUserDatastore(db, User, Role)

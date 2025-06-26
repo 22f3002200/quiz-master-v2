@@ -13,6 +13,7 @@ from app.schema.subject_schema import (
 )
 
 
+# checked
 @admin_bp.route("/subjects", methods=["POST"])
 def create_subject():
     try:
@@ -35,6 +36,7 @@ def create_subject():
         return jsonify({"error": "Internal server error", "details": str(e)}), 500
 
 
+# checked
 @admin_bp.route("/subjects", methods=["GET"])
 def list_subjects():
     try:
@@ -49,6 +51,7 @@ def list_subjects():
         return jsonify({"error": "Internal Error", "details": str(e)}), 500
 
 
+# checked
 @admin_bp.route("/subjects/<int:subject_id>", methods=["PUT"])
 def update_subject(subject_id):
     try:
@@ -71,6 +74,7 @@ def update_subject(subject_id):
         return jsonify({"error": "Internal server error", "details": str(e)}), 500
 
 
+# checked
 @admin_bp.route("/subjects/<int:subject_id>", methods=["DELETE"])
 def delete_subject(subject_id):
     try:

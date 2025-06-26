@@ -13,10 +13,12 @@ from app.schema.chapter_schema import (
 )
 
 
+# checked
 @admin_bp.route("/subjects/<int:subject_id>/chapters", methods=["POST"])
 def create_chapter(subject_id):
     try:
         subject = Subject.query.get_or_404(subject_id)
+        print(subject)
 
         json_data = request.get_json()
         chapter_data = ChapterCreateSchema(**json_data)
@@ -38,10 +40,12 @@ def create_chapter(subject_id):
         return jsonify({"error": "Internal server error", "details": str(e)}), 500
 
 
+# checked
 @admin_bp.route("/subjects/<int:subject_id>/chapters", methods=["GET"])
 def list_chapters(subject_id):
     try:
         subject = Subject.query.get_or_404(subject_id)
+        print(subject)
 
         chapters = Chapter.query.filter_by(subject_id=subject_id).all()
         chapters_data = [
@@ -54,12 +58,14 @@ def list_chapters(subject_id):
         return jsonify({"error": "Internal server error", "details": str(e)}), 500
 
 
+# checked
 @admin_bp.route("/chapters", methods=["GET"])
 def list_of_chapters():
     try:
         chapters = Chapter.query.all()
         chapters_data = [
-            ChapterResponseSchema.model_validate(chapter) for chapter in chapters
+            ChapterResponseSchema.model_validate(chapter).model_dump()
+            for chapter in chapters
         ]
         return jsonify(chapters_data), 200
 
@@ -67,6 +73,7 @@ def list_of_chapters():
         return jsonify({"error": "Internal server error", "details": str(e)}), 500
 
 
+# checked
 @admin_bp.route("/chapters/<int:chapter_id>", methods=["PUT"])
 def update_chapter(chapter_id):
     try:
