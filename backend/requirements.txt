@@ -10,3 +10,4 @@ flask-security
 PyJWT
 celery
 redis
+flask-jwt-extended
