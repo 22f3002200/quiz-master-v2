@@ -66,3 +66,99 @@ def register():
     except Exception as e:
         db.session.rollback()
         return jsonify({"msg": "Registration failed", "error": str(e)}), 500
+
+
+@auth_bp.route("/login", methods=["POST"])
+def login():
+    try:
+        json_data = request.get_json()
+        login_data = LoginSchema(**json_data)
+
+        # Find user
+        user = User.query.filter_by(email=login_data.email).first()
+
+        if not user or not user.check_password(login_data.password):
+            return jsonify({"msg": "Invalid email or password"}), 401
+
+        # Create Token
+        access_token = create_access_token(identity=user.id)
+        refresh_token = create_refresh_token(identity=user.id)
+
+        return (
+            jsonify(
+                {
+                    "msg": "Login successful",
+                    "access_token": access_token,
+                    "refresh_token": refresh_token,
+                    "user": {
+                        "id": user.id,
+                        "email": user.email,
+                        "full_name": user.full_name,
+                    },
+                }
+            ),
+            200,
+        )
+
+    except ValidationError as e:
+        return jsonify({"msg": "Validation error", "errors": e.errors()}), 400
+    except Exception as e:
+        return jsonify({"msg": "Login failed", "error": str(e)}), 500
+
+
+@auth_bp.route("/refresh", methods=["POST"])
+@jwt_required(refresh=True)
+def refresh():
+    try:
+        current_user_id = get_jwt_identity()
+        user = User.query.get(current_user_id)
+
+        if not user:
+            return jsonify({"msg": "User not found"}), 404
+
+        new_access_token = create_access_token(identity=current_user_id)
+
+        return jsonify({"access_token": new_access_token}), 200
+
+    except Exception as e:
+        return ({"msg": "Token refresh failed", "error": str(e)}), 500
+
+
+@auth_bp.route("/logout", methods=["POST"])
+@jwt_required()
+def logout():
+    try:  # have to remove token from client side using javascript
+        return jsonify({"msg": "Successfully logged out"})
+
+    except Exception as e:
+        return jsonify({"msg": "Internal server error", "error": str(e)}), 500
+
+
+@auth_bp.route("/profile", methods=["GET"])
+@jwt_required()
+def get_profile():
+    try:
+        current_user_id = get_jwt_identity()
+        user = User.query.get(current_user_id)
+
+        if not user:
+            return jsonify({"msg": "User not found"}), 404
+
+        return (
+            jsonify(
+                {
+                    "user": {
+                        "id": user.id,
+                        "email": user.email,
+                        "full_name": user.full_name,
+                        "qualification": user.qualification,
+                        "dob": user.dob.isoformat() if user.dob else None,
+                        "created_at": user.created_at.isoformat(),
+                    }
+                }
+            ),
+            200,
+        )
+
+    except Exception as e:
+        return jsonify({"msg": "Internal server error", "error": str(e)}), 500

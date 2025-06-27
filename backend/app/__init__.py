@@ -3,6 +3,7 @@ from flask import Flask
 from flask_security.core import Security
 from flask_security.datastore import SQLAlchemyUserDatastore
 
+from app.auth.jwt_manager import jwt
 from app.celery_app import make_celery
 from app.extensions import db, login_manager
 from app.models.role import Role
@@ -17,6 +18,9 @@ def create_app(config_class=Config):
     db.init_app(app)
     login_manager.init_app(app)
 
+    # Initialize jwt
+    jwt.init_app(app)
+
     # Intialize Celery
     celery = make_celery(app)
     app.celery = celery
@@ -28,12 +32,11 @@ def create_app(config_class=Config):
     # from app import models
     from app.api import bp as api_blueprint
     from app.api.admin import admin_bp
-
-    # from app.api.auth import auth_bp
+    from app.auth import auth_bp
 
     app.register_blueprint(api_blueprint)
     app.register_blueprint(admin_bp)
-    # app.register_blueprint(auth_bp)
+    app.register_blueprint(auth_bp)
 
     with app.app_context():
         db.create_all()
