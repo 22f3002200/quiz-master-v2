@@ -4,6 +4,7 @@ from flask import jsonify, request
 from pydantic import ValidationError
 
 from app.api.admin import admin_bp
+from app.auth.decorators import admin_required, user_required
 from app.extensions import db
 from app.models.chapter import Chapter
 from app.models.quiz import Quiz
@@ -18,6 +19,7 @@ from app.schema.quiz_schema import (
 @admin_bp.route(
     "/subjects/<int:subject_id>/chapters/<int:chapter_id>/quizzes", methods=["POST"]
 )
+@admin_required
 def create_quiz(subject_id, chapter_id):
     try:
         chapter = Chapter.query.get_or_404(chapter_id)
@@ -49,6 +51,7 @@ def create_quiz(subject_id, chapter_id):
 @admin_bp.route(
     "/subjects/<int:subject_id>/chapters/<int:chapter_id>/quizzes", methods=["GET"]
 )
+@admin_required
 def list_quizzes_by_chapter(subject_id, chapter_id):
     try:
         subject = Subject.query.get_or_404(subject_id)
@@ -65,6 +68,7 @@ def list_quizzes_by_chapter(subject_id, chapter_id):
 
 
 @admin_bp.route("/subjects/<int:subject_id>/quizzes", methods=["GET"])
+@admin_required
 def list_quizzes_by_subject(subject_id):
     try:
         subject = Subject.query.get_or_404(subject_id)
@@ -80,6 +84,7 @@ def list_quizzes_by_subject(subject_id):
 
 
 @admin_bp.route("/quizzes", methods=["GET"])
+@user_required
 def list_all_quizzes():
     try:
         quizzes = Quiz.query.all()
@@ -91,6 +96,7 @@ def list_all_quizzes():
 
 
 @admin_bp.route("/quizzes/<int:quiz_id>", methods=["PUT"])
+@admin_required
 def update_quiz(quiz_id):
     try:
         quiz = Quiz.query.get_or_404(quiz_id)
@@ -116,6 +122,7 @@ def update_quiz(quiz_id):
 
 
 @admin_bp.route("/quizzes/<int:quiz_id>", methods=["DELETE"])
+@admin_required
 def delete_quiz(quiz_id):
     try:
         quiz = Quiz.query.get_or_404(quiz_id)

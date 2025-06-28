@@ -3,6 +3,7 @@ from pydantic import ValidationError
 from sqlalchemy.exc import IntegrityError
 
 from app.api.admin import admin_bp
+from app.auth.decorators import admin_required, user_required
 from app.extensions import db
 from app.models.chapter import Chapter
 from app.models.subject import Subject
@@ -13,8 +14,9 @@ from app.schema.chapter_schema import (
 )
 
 
-# checked
+# Create Chapters (Checked)
 @admin_bp.route("/subjects/<int:subject_id>/chapters", methods=["POST"])
+@admin_required
 def create_chapter(subject_id):
     try:
         subject = Subject.query.get_or_404(subject_id)
@@ -40,8 +42,9 @@ def create_chapter(subject_id):
         return jsonify({"error": "Internal server error", "details": str(e)}), 500
 
 
-# checked
+# List of all Chapters in a Subject (Checked)
 @admin_bp.route("/subjects/<int:subject_id>/chapters", methods=["GET"])
+@user_required
 def list_chapters(subject_id):
     try:
         subject = Subject.query.get_or_404(subject_id)
@@ -58,8 +61,9 @@ def list_chapters(subject_id):
         return jsonify({"error": "Internal server error", "details": str(e)}), 500
 
 
-# checked
+# List of all Chapters
 @admin_bp.route("/chapters", methods=["GET"])
+@user_required
 def list_of_chapters():
     try:
         chapters = Chapter.query.all()
@@ -73,8 +77,9 @@ def list_of_chapters():
         return jsonify({"error": "Internal server error", "details": str(e)}), 500
 
 
-# checked
+# Update Chapters (Checked)
 @admin_bp.route("/chapters/<int:chapter_id>", methods=["PUT"])
+@admin_required
 def update_chapter(chapter_id):
     try:
         chapter = Chapter.query.get_or_404(chapter_id)
@@ -96,7 +101,9 @@ def update_chapter(chapter_id):
         return jsonify({"error": "Internal server error", "details": str(e)}), 500
 
 
+# Delete Chapters
 @admin_bp.route("/chapters/<int:chapter_id>", methods=["DELETE"])
+@admin_required
 def delete_chapter(chapter_id):
     try:
         chapter = Chapter.query.get_or_404(chapter_id)

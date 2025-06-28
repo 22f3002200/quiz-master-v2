@@ -3,6 +3,7 @@ from pydantic import ValidationError
 from sqlalchemy.exc import IntegrityError
 
 from app.api.admin import admin_bp
+from app.auth.decorators import admin_required
 from app.extensions import db
 from app.models.user import User
 from app.schema.user_schema import (
@@ -15,6 +16,7 @@ from app.schema.user_schema import (
 
 # checked
 @admin_bp.route("/users", methods=["POST"])
+@admin_required
 def create_user():
     try:
         json_data = request.get_json()
@@ -54,6 +56,7 @@ def create_user():
 
 # checked
 @admin_bp.route("/users", methods=["GET"])
+@admin_required
 def list_users():
     try:
         users = User.query.all()
@@ -69,6 +72,7 @@ def list_users():
 
 # checked
 @admin_bp.route("/users/<int:user_id>", methods=["GET"])
+@admin_required
 def get_user(user_id):
     try:
         user = User.query.get_or_404(user_id)
@@ -82,6 +86,7 @@ def get_user(user_id):
 
 # checked
 @admin_bp.route("/users/<int:user_id>", methods=["PUT"])
+@admin_required
 def update_user(user_id):
     try:
         user = User.query.get_or_404(user_id)
@@ -113,6 +118,7 @@ def update_user(user_id):
 
 # checked
 @admin_bp.route("/users/<int:user_id>", methods=["DELETE"])
+@admin_required
 def delete_user(user_id):
     try:
         user = User.query.get_or_404(user_id)
@@ -128,6 +134,7 @@ def delete_user(user_id):
 
 
 @admin_bp.route("/users/<int:user_id>/scores", methods=["GET"])
+@admin_required
 def get_user_scores(user_id):
     try:
         user = User.query.get_or_404(user_id)

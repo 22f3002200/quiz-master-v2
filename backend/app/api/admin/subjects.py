@@ -4,6 +4,7 @@ from flask import jsonify, request
 from pydantic import ValidationError
 
 from app.api.admin import admin_bp
+from app.auth.decorators import admin_required, user_required
 from app.extensions import db
 from app.models.subject import Subject
 from app.schema.subject_schema import (
@@ -13,8 +14,9 @@ from app.schema.subject_schema import (
 )
 
 
-# checked
+# Create subjects (Checked)
 @admin_bp.route("/subjects", methods=["POST"])
+@admin_required
 def create_subject():
     try:
         json_data = request.get_json()
@@ -36,8 +38,9 @@ def create_subject():
         return jsonify({"error": "Internal server error", "details": str(e)}), 500
 
 
-# checked
+# List of all subjects (Checked)
 @admin_bp.route("/subjects", methods=["GET"])
+@user_required
 def list_subjects():
     try:
         subjects = Subject.query.all()
@@ -51,8 +54,9 @@ def list_subjects():
         return jsonify({"error": "Internal Error", "details": str(e)}), 500
 
 
-# checked
+# Update Subjects (Checked)
 @admin_bp.route("/subjects/<int:subject_id>", methods=["PUT"])
+@admin_required
 def update_subject(subject_id):
     try:
         subject = Subject.query.get_or_404(subject_id)
@@ -74,8 +78,9 @@ def update_subject(subject_id):
         return jsonify({"error": "Internal server error", "details": str(e)}), 500
 
 
-# checked
+# Delete Subjects (Checked)
 @admin_bp.route("/subjects/<int:subject_id>", methods=["DELETE"])
+@admin_required
 def delete_subject(subject_id):
     try:
         subject = Subject.query.get_or_404(subject_id)

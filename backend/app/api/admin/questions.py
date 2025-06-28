@@ -2,6 +2,7 @@ from flask import jsonify, request
 from pydantic import ValidationError
 
 from app.api.admin import admin_bp
+from app.auth.decorators import admin_required
 from app.extensions import db
 from app.models.question import Question
 from app.models.quiz import Quiz
@@ -13,6 +14,7 @@ from app.schema.question_schema import (
 
 
 @admin_bp.route("/quizzes/<int:quiz_id>/questions", methods=["POST"])
+@admin_required
 def create_question(quiz_id):
     try:
         quiz = Quiz.query.get_or_404(quiz_id)
@@ -44,6 +46,7 @@ def create_question(quiz_id):
 
 
 @admin_bp.route("/quizzes/<int:quiz_id>/questions", methods=["GET"])
+@admin_required
 def list_question_by_quiz(quiz_id):
     try:
         quiz = Quiz.query.get_or_404(quiz_id)
@@ -61,6 +64,7 @@ def list_question_by_quiz(quiz_id):
 
 
 @admin_bp.route("/questions/<int:question_id>", methods=["GET"])
+@admin_required
 def get_question(question_id):
     try:
         question = Question.query.get_or_404(question_id)
@@ -96,6 +100,7 @@ def update_question(question_id):
 
 
 @admin_bp.route("/questions/<int:question_id>", methods=["DELETE"])
+@admin_required
 def delete_question(question_id):
     try:
         question = Question.query.get_or_404(question_id)
