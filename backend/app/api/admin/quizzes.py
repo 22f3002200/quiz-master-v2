@@ -85,7 +85,7 @@ def list_quizzes_by_subject(subject_id):
 
 @admin_bp.route("/quizzes", methods=["GET"])
 @user_required
-def list_all_quizzes():
+def list_all_quizzes(current_user_id):
     try:
         quizzes = Quiz.query.all()
         quizzes_data = [QuizResponseSchema.model_validate(quiz) for quiz in quizzes]

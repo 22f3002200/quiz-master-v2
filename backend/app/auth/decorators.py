@@ -36,7 +36,7 @@ def user_required(f):
         if not user:
             return jsonify({"msg": "User not found"}), 404
 
-        return f(*args, **kwargs)
+        return f(*args, current_user_id=current_user_id, **kwargs)
 
     return decorated_function
 
@@ -57,7 +57,7 @@ def role_required(role_name):
                 (role for role in user.roles if role.name == role_name), None
             )
             if not required_role:
-                return jsonify({"msg" f"{role_name.title()} access required"}), 403
+                return jsonify({"msg": f"{role_name.title()} access required"}), 403
 
             return f(*args, **kwargs)
 

@@ -45,7 +45,7 @@ def create_chapter(subject_id):
 # List of all Chapters in a Subject (Checked)
 @admin_bp.route("/subjects/<int:subject_id>/chapters", methods=["GET"])
 @user_required
-def list_chapters(subject_id):
+def list_chapters(subject_id, current_user_id):
     try:
         subject = Subject.query.get_or_404(subject_id)
         print(subject)
@@ -64,7 +64,7 @@ def list_chapters(subject_id):
 # List of all Chapters
 @admin_bp.route("/chapters", methods=["GET"])
 @user_required
-def list_of_chapters():
+def list_of_chapters(current_user_id):
     try:
         chapters = Chapter.query.all()
         chapters_data = [

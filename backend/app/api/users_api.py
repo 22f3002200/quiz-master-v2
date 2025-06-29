@@ -210,7 +210,7 @@ def get_scores(current_user_id):
                 "chapter_name": score.quiz.chapter.name,
                 "subject_name": score.quiz.subject.name,
                 "correct_count": score.correct_count,
-                "wrong_coung": score.wrong_count,
+                "wrong_count": score.wrong_count,
                 "unattempted_count": score.unattempted_count,
                 "total_score": score.total_score,
                 "timestamp": score.timestamp.isoformat(),

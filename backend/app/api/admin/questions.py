@@ -76,6 +76,7 @@ def get_question(question_id):
 
 
 @admin_bp.route("/questions/<int:question_id>", methods=["PUT"])
+@admin_required
 def update_question(question_id):
     try:
         question = Question.query.get_or_404(question_id)
