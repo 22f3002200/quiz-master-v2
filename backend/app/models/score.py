@@ -17,5 +17,5 @@ class Score(db.Model):
     wrong_count = db.Column(db.Integer, nullable=False)
     unattempted_count = db.Column(db.Integer, nullable=False)
     total_score = db.Column(db.Integer, nullable=False)
-    timestamp = db.Column(db.DateTime, default=now.strftime("%H:%M:%S"))
+    timestamp = db.Column(db.DateTime, default=now)
     status = db.Column(db.String(20))

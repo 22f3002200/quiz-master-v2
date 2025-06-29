@@ -20,7 +20,7 @@ from app.schema.user_schema import (
 def create_user():
     try:
         json_data = request.get_json()
-        print("🚀 Incoming data:", json_data)
+        print("data:", json_data)
         user_data = UserCreateSchema(**json_data)
 
         # Check for existing user
@@ -156,7 +156,7 @@ def get_user_scores(user_id):
             scores_data.append(score_data)
         return (
             jsonify(
-                {"user_id": user_id, "user_name": user.full_name, "scores": score_data}
+                {"user_id": user_id, "user_name": user.full_name, "scores": scores_data}
             ),
             200,
         )

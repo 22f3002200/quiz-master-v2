@@ -103,7 +103,8 @@ def get_quiz_performance():
 def get_user_performance():
     try:
         user_stats = (
-            User.query.outerjoin.with_entities(
+            User.query.outerjoin(Score)
+            .with_entities(
                 User.id,
                 User.full_name,
                 User.email,
