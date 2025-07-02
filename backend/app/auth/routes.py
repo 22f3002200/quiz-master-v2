@@ -9,12 +9,14 @@ from flask_jwt_extended import (
     jwt_required,
 )
 from pydantic import ValidationError
+from sqlalchemy.exc import IntegrityError
 from werkzeug.security import check_password_hash
 
 from app.auth import auth_bp
 from app.extensions import db
 from app.models.user import User
 from app.schema.auth_schema import ChangePasswordSchema, LoginSchema, RegisterSchema
+from app.schema.user_schema import UserResponseSchema, UserUpdateSchema
 
 
 @auth_bp.route("/register", methods=["POST"])
@@ -162,3 +164,57 @@ def get_profile():
 
     except Exception as e:
         return jsonify({"msg": "Internal server error", "error": str(e)}), 500
+
+
+@auth_bp.route("/me", methods=["PUT"])
+@jwt_required()
+def update_profile():
+    try:
+        current_user_id = get_jwt_identity()
+        user = User.query.get(current_user_id)
+
+        json_data = request.get_json()
+        update_data = UserUpdateSchema(**json_data)
+
+        for field, value in update_data.model_dump(exclude_unset=True).items():
+            setattr(user, field, value)
+
+        db.session.commit()
+
+        response_data = UserResponseSchema.model_validate(user)
+        print(response_data)
+        return jsonify(response_data.model_dump()), 200
+
+    except ValidationError as e:
+        return jsonify({"error": "Validation error", "details": e.errors()}), 400
+    except IntegrityError:
+        db.session.rollback()
+        return jsonify({"error": "Email already exists"}), 409
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": "Internal server error", "details": str(e)}), 500
+
+
+@auth_bp.route("/password", methods=["POST"])
+@jwt_required()
+def change_password():
+    try:
+        current_user_id = get_jwt_identity()
+        user = User.query.get(current_user_id)
+
+        if not user:
+            return jsonify({"error": "User not found"}), 404
+
+        json_data = request.get_json()
+        change_data = ChangePasswordSchema(**json_data)
+
+        if not user.check_password(change_data.current_password):
+            return jsonify({"error": "Old password is incorrect"}), 400
+        user.password = change_data.new_password
+        db.session.commit()
+
+        return jsonify({"msg": "Password changed successfully"}), 400
+    except ValidationError as e:
+        return jsonify({"msg": "Validation error", "errors": e.errors()}), 400
+    except Exception as e:
+        return jsonify({"msg": "Login failed", "error": str(e)}), 500
