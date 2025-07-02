@@ -21,7 +21,7 @@ def admin_required(f):
         if not admin_role:
             return jsonify({"msg": "Admin access required"}), 403
 
-        return f(*args, kwargs)
+        return f(*args, **kwargs)
 
     return decorated_function
 

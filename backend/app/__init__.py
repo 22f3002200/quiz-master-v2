@@ -4,7 +4,8 @@ from flask_security.core import Security
 from flask_security.datastore import SQLAlchemyUserDatastore
 
 from app.auth.jwt_manager import jwt
-from app.celery_app import make_celery
+
+# from app.celery_app import make_celery
 from app.extensions import db, login_manager
 from app.models.role import Role
 from app.models.user import User
@@ -31,14 +32,16 @@ def create_admin_user():
         admin_user.qualification = "Administrator"
 
         admin_user.roles.append(admin_role)
+        db.session.add(admin_user)
         db.session.commit()
 
         print("Admin user created successfully")
         print(f"Email: {admin_user.email}")
-        print(f"Password: {admin_user.password}")
+        print("Password: Admin@123")
     else:
         if admin_role not in admin_user.roles:
             admin_user.roles.append(admin_role)
+            # db.session.add(admin_user)
             db.session.commit()
 
 
@@ -54,8 +57,8 @@ def create_app(config_class=Config):
     jwt.init_app(app)
 
     # Intialize Celery
-    celery = make_celery(app)
-    app.celery = celery
+    # celery = make_celery(app)
+    # app.celery = celery
 
     # setup flask-security
     # user_datastore = SQLAlchemyUserDatastore(db, User, Role)

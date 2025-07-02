@@ -32,6 +32,7 @@ class Config(object):
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=30)
     JWT_ALGORIGHTM = "HS256"
+    JWT_VERIFY_SUB = False
 
     # Celery Configuration
     CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "redis://localhost:6379/0")
