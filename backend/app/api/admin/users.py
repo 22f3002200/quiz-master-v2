@@ -14,13 +14,13 @@ from app.schema.user_schema import (
 )
 
 
-# checked
+# checked (Not required)
 @admin_bp.route("/users", methods=["POST"])
 @admin_required
 def create_user():
     try:
         json_data = request.get_json()
-        print("data:", json_data)
+        # print("data:", json_data)
         user_data = UserCreateSchema(**json_data)
 
         # Check for existing user
@@ -40,6 +40,7 @@ def create_user():
         db.session.commit()
 
         response_data = UserResponseSchema.model_validate(user)
+        # print(user.roles)
         return jsonify(response_data.model_dump()), 201
 
     except ValidationError as e:
