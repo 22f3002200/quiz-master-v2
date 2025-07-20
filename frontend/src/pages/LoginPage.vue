@@ -93,9 +93,14 @@
 
 <script>
 import api from "../utils/api";
+import { useAuth } from "../composables/useAuth";
 
 export default {
     name: "LoginPage",
+    setup() {
+        const { setUser } = useAuth();
+        return { setUser };
+    },
     data() {
         return {
             loading: false,
@@ -118,25 +123,15 @@ export default {
                     this.loginForm
                 );
 
-                // Store token
                 localStorage.setItem(
                     "access_token",
                     response.data.access_token
                 );
+                // Use the composable to update the state for other components
+                this.setUser(response.data.user);
 
-                this.message = "Login successful!";
-                this.messageType = "success";
-
-                const user = response.data.user;
-                const isAdmin =
-                    user && user.roles && user.roles.includes("admin");
-
-                const redirectPath = isAdmin ? "/admin/dashboard" : "/";
-
-                // Redirect to homepage after a short delay
-                setTimeout(() => {
-                    this.$router.push(redirectPath);
-                }, 1000);
+                // Redirect to root. The router guard will handle the rest.
+                this.$router.push("/");
             } catch (error) {
                 this.message = error.response?.data?.msg || "Login failed";
                 this.messageType = "error";
