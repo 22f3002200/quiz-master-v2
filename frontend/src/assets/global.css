@@ -1,0 +1,28 @@
+.bg-gradient-primary {
+    background: linear-gradient(to right, #4e54c8, #8f94fb);
+}
+
+.navbar-brand .fs-4 {
+    transition: transform 0.2s ease;
+}
+.navbar-brand:hover .fs-4 {
+    transform: rotate(15deg);
+}
+
+.hover-underline-animation {
+    position: relative;
+    padding-bottom: 4px;
+}
+.hover-underline-animation::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: white;
+    transition: width 0.3s ease;
+}
+.hover-underline-animation:hover::after {
+    width: 100%;
+}

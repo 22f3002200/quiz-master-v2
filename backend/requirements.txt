@@ -7,7 +7,7 @@ pydantic[email]
 email-validator
 flask-login
 flask-security
-PyJWT
+PyJWT == 2.9.0
 celery
 redis
 flask-jwt-extended
