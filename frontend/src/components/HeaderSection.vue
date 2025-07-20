@@ -6,28 +6,31 @@
                 <h2 class="text-primary fw-bold mb-0">QuizMaster</h2>
                 <nav class="d-none d-md-flex gap-4 align-items-center">
                     <a
-                        href="#features"
+                        href="/#features"
                         class="text-secondary text-decoration-none hover-text-primary"
                         >Features</a
                     >
                     <a
-                        href="#how-it-works"
+                        href="/#how-it-works"
                         class="text-secondary text-decoration-none hover-text-primary"
                         >How It Works</a
                     >
                     <a
-                        href="#categories"
+                        href="/#categories"
                         class="text-secondary text-decoration-none hover-text-primary"
                         >Categories</a
                     >
-                    <a
-                        href="#"
+                    <router-link
+                        to="/login"
                         class="text-secondary text-decoration-none hover-text-primary"
-                        >Pricing</a
+                        @click="isMenuOpen = False"
+                        >Login</router-link
                     >
-                    <button class="btn gradient btn-primary">
-                        Sign Up Free
-                    </button>
+                    <router-link
+                        to="/register"
+                        class="btn gradient btn-primary"
+                        >Sign Up</router-link
+                    >
                 </nav>
                 <button
                     class="btn d-md-none"
@@ -44,30 +47,34 @@
             class="d-md-none bg-white shadow-sm px-3 pt-2 pb-3"
         >
             <a
-                href="#features"
+                href="/#features"
                 class="d-block py-2 text-secondary"
                 @click="isMenuOpen = false"
                 >Features</a
             >
             <a
-                href="#how-it-works"
+                href="/#how-it-works"
                 class="d-block py-2 text-secondary"
                 @click="isMenuOpen = false"
                 >How It Works</a
             >
             <a
-                href="#categories"
+                href="/#categories"
                 class="d-block py-2 text-secondary"
                 @click="isMenuOpen = false"
                 >Categories</a
             >
-            <a
-                href="#"
-                class="d-block py-2 text-secondary"
-                @click="isMenuOpen = false"
-                >Pricing</a
+            <router-link
+                to="/login"
+                class="text-secondary text-decoration-none hover-text-primary"
+                @click="isMenuOpen = False"
+                >Login</router-link
             >
-            <button class="btn btn-primary w-100 mt-3">Sign Up Free</button>
+            <router-link
+                to="/register"
+                class="btn btn-primary w-100 mt-3"
+                >Sign Up</router-link
+            >
         </div>
     </header>
 </template>

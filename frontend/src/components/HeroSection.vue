@@ -12,11 +12,12 @@
                         for learning, teaching, or just having fun with friends.
                     </p>
                     <div class="d-flex flex-column flex-sm-row gap-3">
-                        <button
+                        <router-link
+                            to="/register"
                             class="btn btn-light text-primary fw-semibold px-4 py-2"
                         >
-                            Get Started Free
-                        </button>
+                            Get Started
+                        </router-link>
                         <button
                             class="btn btn-outline-light d-flex align-items-center px-4 py-2"
                         >

@@ -1,5 +1,6 @@
 from config import Config
 from flask import Flask
+from flask_cors import CORS
 from flask_security.core import Security
 from flask_security.datastore import SQLAlchemyUserDatastore
 
@@ -63,6 +64,8 @@ def create_app(config_class=Config):
     # setup flask-security
     # user_datastore = SQLAlchemyUserDatastore(db, User, Role)
     # # security = Security(app, user_datastore)
+
+    CORS(app)
 
     # from app import models
     from app.api import bp as api_blueprint
