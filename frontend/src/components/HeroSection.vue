@@ -1,20 +1,20 @@
 <!-- components/HeroSection.vue -->
 <template>
-    <section class="background text-white py-5">
+    <section class="bg py-5">
         <div class="container py-5">
             <div class="row align-items-center">
                 <div class="col-md-6 mb-4 mb-md-0">
-                    <h1 class="display-4 fw-bold mb-3 text-primary">
+                    <h1 class="display-4 fw-bold mb-3 heading">
                         Challenge Your Knowledge with Interactive Quizzes
                     </h1>
-                    <p class="lead mb-4 text-secondary fw-normal">
+                    <p class="lead mb-4 description fw-normal">
                         Create, share, and take quizzes on any topic. Perfect
                         for learning, teaching, or just having fun with friends.
                     </p>
                     <div class="d-flex flex-column flex-sm-row gap-3">
                         <router-link
                             to="/register"
-                            class="btn btn-primary text-light fw-semibold px-4 py-2"
+                            class="btn fw-semibold px-4 py-2"
                         >
                             Get Started
                         </router-link>
@@ -55,7 +55,7 @@
                         </div>
                         <div class="d-flex justify-content-between">
                             <small class="text-muted">Question 3 of 10</small>
-                            <button class="btn btn-primary btn-sm">Next</button>
+                            <button class="btn btn-sm">Next</button>
                         </div>
                     </div>
 
@@ -78,18 +78,42 @@
     </section>
 </template>
 
-<script setup></script>
+<script setup>
+import "../assets/global.css";
+</script>
 
 <style scoped>
-section.background {
-    background-color: #f2f9ff;
+section {
+    background-color: var(--background);
 }
 
-div.container {
-    max-width: 1050px;
+h1.heading {
+    color: var(--text);
 }
 
-div.bg {
-    background-color: #f8f8f8;
+p.description {
+    color: var(--primary);
+}
+
+.btn {
+    padding: 0.5em 2em;
+    background-color: var(--primary);
+    transition: transform ease 0.2s, box-shadow ease 0.2s;
+    display: inline-block;
+    z-index: 2;
+    white-space: nowrap;
+    color: var(--background);
+}
+
+.btn:hover {
+    background-color: var(--primary);
+    color: var(--background);
+    transform: translate(0, -3px);
+    box-shadow: 0 20px 80px -10px var(--text);
+}
+
+.btn:active {
+    box-shadow: 0 0 2em var(--secondary) !important;
+    background-color: var(--primary) !important;
 }
 </style>

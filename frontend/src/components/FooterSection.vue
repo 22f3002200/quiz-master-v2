@@ -1,25 +1,25 @@
 <template>
-    <footer class="bg py-5">
+    <footer class="py-5">
         <div class="container text-center">
             <div class="d-flex justify-content-center gap-4 mb-4">
                 <a
                     href="#"
-                    class="text-muted"
+                    class=""
                     >About Us</a
                 >
                 <a
                     href="#"
-                    class="text-muted"
+                    class=""
                     >Contact</a
                 >
                 <a
                     href="#"
-                    class="text-muted"
+                    class=""
                     >Privacy Policy</a
                 >
                 <a
                     href="#"
-                    class="text-muted"
+                    class=""
                     >Terms of Service</a
                 >
             </div>
@@ -32,7 +32,7 @@
                 <a
                     href="#"
                     class="text-muted"
-                    ><i class="bi bi-facebook fs-4"></i
+                    ><i class="bi bi-twitter-x fs-4"></i
                 ></a>
                 <a
                     href="#"
@@ -40,15 +40,21 @@
                     ><i class="bi bi-instagram fs-4"></i
                 ></a>
             </div>
-            <p class="text-muted">
-                &copy; 2024 QuizMaster. All rights reserved.
-            </p>
+            <p class="">&copy; 2024 QuizMaster. All rights reserved.</p>
         </div>
     </footer>
 </template>
 
 <style scoped>
-footer.bg {
-    background-color: #f8f8f8;
+footer {
+    background-color: var(--text5);
+}
+a {
+    color: var(--text);
+    text-decoration: none;
+}
+
+i.bi {
+    color: var(--primary);
 }
 </style>

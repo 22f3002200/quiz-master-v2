@@ -5,29 +5,25 @@
         class="py-5"
     >
         <div class="container text-center mb-5">
-            <h2 class="fw-bold text-dark mb-3">How QuizMaster Works</h2>
-            <p class="lead text-secondary">
+            <h2 class="fw-bold mb-3">How QuizMaster Works</h2>
+            <p class="lead">
                 Getting started is easy. Follow these simple steps to begin your
                 quiz journey.
             </p>
         </div>
 
-        <div class="container position-relative">
-            <div
-                class="d-none d-md-block position-absolute top-50 start-0 end-0 translate-middle-y bg-primary"
-                style="height: 2px; z-index: 0"
-            ></div>
-            <div class="row text-center z-1 position-relative">
+        <div class="container">
+            <div class="row text-center">
                 <div
                     class="col-md-4 mb-4"
                     v-for="(step, index) in steps"
                     :key="index"
                 >
                     <div
-                        class="bg-white p-4 rounded shadow-sm h-100 d-flex flex-column align-items-center"
+                        class="card-box p-4 rounded shadow-sm h-100 d-flex flex-column align-items-center"
                     >
                         <div
-                            class="bg-primary bg-opacity-25 rounded-circle d-flex align-items-center justify-content-center mb-3"
+                            class="bg-opacity-25 rounded-circle d-flex align-items-center justify-content-center mb-3 image-box"
                             style="width: 64px; height: 64px"
                         >
                             <i
@@ -71,10 +67,26 @@ const steps = [
 
 <style scoped>
 #how-it-works {
-    background-color: #f8f8f8;
+    background-color: var(--background);
 }
 
 div.container {
-    max-width: 1050px;
+    max-width: 1000px;
+}
+
+h2 {
+    color: var(--text);
+}
+
+p {
+    color: var(--primary);
+}
+
+div.card-box {
+    background-color: var(--primary5) !important;
+}
+
+div.image-box {
+    background-color: var(--background);
 }
 </style>

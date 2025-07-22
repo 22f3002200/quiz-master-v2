@@ -1,8 +1,6 @@
 <template>
     <header>
-        <nav
-            class="navbar navbar-expand-lg fixed-top navbar-light bg-white shadow-sm py-2"
-        >
+        <nav class="navbar navbar-expand-lg navbar-light shadow-sm py-2">
             <div class="container-xxl">
                 <a
                     class="navbar-brand d-flex align-items-center gap-2"
@@ -10,14 +8,15 @@
                 >
                     <i
                         class="bi bi-hourglass-split fs-3"
-                        style="color: #3d98f4"
+                        style="color: var(--primary)"
                     ></i>
-                    <h2
+                    <router-link
+                        to="/"
                         class="h4 mb-0 fw-bold"
-                        style="color: #3d98f4"
+                        style="color: var(--primary); text-decoration: none"
                     >
                         QuizMaster
-                    </h2>
+                    </router-link>
                 </a>
                 <button
                     class="navbar-toggler"
@@ -59,15 +58,15 @@
                     </ul>
                     <span class="d-flex"
                         ><div class="d-flex align-items-end ms-auto gap-2">
-                            <a
-                                href="#"
-                                class="btn btn-light text-light"
-                                >Login</a
+                            <router-link
+                                to="/login"
+                                class="btn login"
+                                >Login</router-link
                             >
-                            <a
-                                href="#"
-                                class="btn btn-primary"
-                                >Signup</a
+                            <router-link
+                                to="/register"
+                                class="btn signup"
+                                >Signup</router-link
                             >
                         </div></span
                     >
@@ -77,26 +76,36 @@
     </header>
 </template>
 
-<script setup></script>
+<script setup>
+import "../assets/global.css";
+</script>
 
 <style scoped>
+nav.navbar {
+    background-color: var(--background);
+}
+
 .nav-link {
-    color: #64748b;
+    color: var(--text) !important;
 }
 .nav-link:hover {
-    color: #3d98f4;
+    color: var(--primary) !important;
 }
-.btn-primary {
-    background-color: #3d98f4;
-    border-color: #3d98f4;
-}
-
-.btn-light {
-    background-color: #64748b;
-    border-color: #e0f2f7;
+.btn.signup {
+    background-color: var(--primary);
+    color: var(--background);
 }
 
-.btn-light:hover {
-    background-color: #5e708ade;
+.btn.signup:hover {
+    box-shadow: 0 20px 80px -10px var(--text);
+}
+
+.btn.login {
+    background-color: var(--secondary);
+    color: var(--text);
+}
+
+.btn.login:hover {
+    box-shadow: 0 20px 80px -10px var(--text);
 }
 </style>

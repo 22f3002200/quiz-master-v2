@@ -1,14 +1,12 @@
 <template>
     <section
         id="features"
-        class="py-5 bg-white"
+        class="py-5"
     >
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="fw-bold text-dark mb-3">
-                    Elevate Your Quiz Experience
-                </h2>
-                <p class="lead text-secondary">
+                <h2 class="fw-bold mb-3">Elevate Your Quiz Experience</h2>
+                <p class="lead">
                     QuizMaster offers everything you need to create, share, and
                     enjoy interactive quizzes.
                 </p>
@@ -21,10 +19,10 @@
                     :key="index"
                 >
                     <div
-                        class="bg-light rounded p-4 h-100 shadow-sm d-flex flex-column align-items-center"
+                        class="card-box rounded p-4 h-100 shadow-sm d-flex flex-column align-items-center"
                     >
                         <div
-                            class="bg-primary bg-opacity-25 rounded-circle d-flex align-items-center justify-content-center mb-3"
+                            class="image-box bg-opacity-25 rounded-circle d-flex align-items-center justify-content-center mb-3"
                             style="width: 64px; height: 64px"
                         >
                             <i
@@ -32,7 +30,7 @@
                                 class="fs-4 text-primary"
                             ></i>
                         </div>
-                        <h5 class="fw-semibold text-dark mb-2">
+                        <h5 class="fw-semibold mb-2">
                             {{ feature.title }}
                         </h5>
                         <p class="text-secondary mb-0">
@@ -67,10 +65,30 @@ const features = [
 
 <style scoped>
 #features {
-    background-color: #f8fafc;
+    background-color: var(--background);
 }
 
 div.container {
-    max-width: 1050px;
+    max-width: 1000px;
+}
+
+h2 {
+    color: var(--text);
+}
+
+p {
+    color: var(--primary);
+}
+
+div.card-box {
+    background-color: var(--primary5);
+}
+
+div.image-box {
+    background-color: var(--background);
+}
+
+h5 {
+    color: var(--text);
 }
 </style>
