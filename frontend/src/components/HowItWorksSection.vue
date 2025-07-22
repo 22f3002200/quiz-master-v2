@@ -2,7 +2,7 @@
 <template>
     <section
         id="how-it-works"
-        class="py-5 bg-light"
+        class="py-5"
     >
         <div class="container text-center mb-5">
             <h2 class="fw-bold text-dark mb-3">How QuizMaster Works</h2>
@@ -19,7 +19,7 @@
             ></div>
             <div class="row text-center z-1 position-relative">
                 <div
-                    class="col-md-3 mb-4"
+                    class="col-md-4 mb-4"
                     v-for="(step, index) in steps"
                     :key="index"
                 >
@@ -49,10 +49,9 @@
 <script setup>
 const steps = [
     {
-        icon: "bi-plus-circle",
-        title: "Create or Choose",
-        description:
-            "Create your own quiz or choose from thousands of pre-made options across various categories.",
+        icon: "bi-person-add",
+        title: "Sign up",
+        description: "Sign up to see pre-made quizzes.",
     },
     {
         icon: "bi-play-circle",
@@ -60,12 +59,7 @@ const steps = [
         description:
             "Take quizzes on any device, anytime. Perfect for learning on the go or during downtime.",
     },
-    {
-        icon: "bi-people",
-        title: "Challenge Others",
-        description:
-            "Invite friends to take your quiz or compete against others in real-time challenges.",
-    },
+
     {
         icon: "bi-award",
         title: "Track Progress",
@@ -74,3 +68,13 @@ const steps = [
     },
 ];
 </script>
+
+<style scoped>
+#how-it-works {
+    background-color: #f8f8f8;
+}
+
+div.container {
+    max-width: 1050px;
+}
+</style>

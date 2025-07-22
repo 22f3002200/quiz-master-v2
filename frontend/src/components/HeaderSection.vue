@@ -1,119 +1,102 @@
 <template>
-    <header class="bg-white shadow-sm sticky-top">
-        <div class="container">
-            <div class="d-flex justify-content-between align-items-center py-3">
-                <h2 class="text-primary fw-bold mb-0">QuizMaster</h2>
-                <nav class="d-none d-md-flex gap-4 align-items-center">
-                    <template v-if="!user">
-                        <a
-                            href="/#features"
-                            class="text-secondary text-decoration-none hover-text-primary"
-                            >Features</a
-                        >
-                        <a
-                            href="/#how-it-works"
-                            class="text-secondary text-decoration-none hover-text-primary"
-                            >How It Works</a
-                        >
-                        <a
-                            href="/#categories"
-                            class="text-secondary text-decoration-none hover-text-primary"
-                            >Categories</a
-                        >
-                        <router-link
-                            to="/login"
-                            class="text-secondary text-decoration-none hover-text-primary"
-                            >Login</router-link
-                        >
-                        <router-link
-                            to="/register"
-                            class="btn gradient btn-primary"
-                            >Sign Up</router-link
-                        >
-                    </template>
-                    <template v-else-if="isAdmin">
-                        <router-link
-                            to="/admin/dashboard"
-                            class="text-secondary text-decoration-none hover-text-primary"
-                            >Dashboard</router-link
-                        >
-                        <router-link
-                            to="/admin/subjects"
-                            class="text-secondary text-decoration-none hover-text-primary"
-                            >Subjects</router-link
-                        >
-                        <router-link
-                            to="/admin/quizzes"
-                            class="text-secondary text-decoration-none hover-text-primary"
-                            >Quizzes</router-link
-                        >
-                        <router-link
-                            to="/admin/users"
-                            class="text-secondary text-decoration-none hover-text-primary"
-                            >Profile</router-link
-                        >
-                        <button
-                            @click="handleLogout"
-                            class="btn btn-link text-secondary text-decoration-none hover-text-primary"
-                        >
-                            Logout
-                        </button>
-                    </template>
-                    <template v-else>
-                        <a
-                            href="/#features"
-                            class="text-secondary text-decoration-none hover-text-primary"
-                            >Features</a
-                        >
-                        <a
-                            href="/#how-it-works"
-                            class="text-secondary text-decoration-none hover-text-primary"
-                            >How It Works</a
-                        >
-                        <a
-                            href="/#categories"
-                            class="text-secondary text-decoration-none hover-text-primary"
-                            >Categories</a
-                        >
-                        <button
-                            @click="handleLogout"
-                            class="btn btn-link text-secondary text-decoration-none hover-text-primary"
-                        >
-                            Logout
-                        </button>
-                    </template>
-                </nav>
-                <button
-                    class="btn d-md-none"
-                    @click="isMenuOpen = !isMenuOpen"
+    <header>
+        <nav
+            class="navbar navbar-expand-lg fixed-top navbar-light bg-white shadow-sm py-2"
+        >
+            <div class="container-xxl">
+                <a
+                    class="navbar-brand d-flex align-items-center gap-2"
+                    href="#"
                 >
-                    <i :class="isMenuOpen ? 'bi-x-lg' : 'bi-list'"></i>
+                    <i
+                        class="bi bi-hourglass-split fs-3"
+                        style="color: #3d98f4"
+                    ></i>
+                    <h2
+                        class="h4 mb-0 fw-bold"
+                        style="color: #3d98f4"
+                    >
+                        QuizMaster
+                    </h2>
+                </a>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav"
+                    aria-controls="navbarNav"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
                 </button>
+                <div
+                    class="collapse navbar-collapse"
+                    id="navbarNav"
+                >
+                    <ul class="navbar-nav ms-auto align-items-end">
+                        <li class="nav-item">
+                            <a
+                                class="nav-link"
+                                href="/#features"
+                                >Features</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                class="nav-link"
+                                href="/#how-it-works"
+                                >How it works</a
+                            >
+                        </li>
+                        <li class="nav-item">
+                            <a
+                                class="nav-link"
+                                href="/#categories"
+                                >Categories</a
+                            >
+                        </li>
+                    </ul>
+                    <span class="d-flex"
+                        ><div class="d-flex align-items-end ms-auto gap-2">
+                            <a
+                                href="#"
+                                class="btn btn-light text-light"
+                                >Login</a
+                            >
+                            <a
+                                href="#"
+                                class="btn btn-primary"
+                                >Signup</a
+                            >
+                        </div></span
+                    >
+                </div>
             </div>
-        </div>
-
-        <div
-            v-if="isMenuOpen"
-            class="d-md-none bg-white shadow-sm px-3 pt-2 pb-3"
-        ></div>
+        </nav>
     </header>
 </template>
 
-<script setup>
-import { ref } from "vue";
-import { useRouter } from "vue-router";
-import { useAuth } from "../composables/useAuth";
+<script setup></script>
 
-const isMenuOpen = ref(false);
-const router = useRouter();
-const { user, logout } = useAuth();
+<style scoped>
+.nav-link {
+    color: #64748b;
+}
+.nav-link:hover {
+    color: #3d98f4;
+}
+.btn-primary {
+    background-color: #3d98f4;
+    border-color: #3d98f4;
+}
 
-const isAdmin = user.value.role === "admin";
-console.log("User:", user.value);
-console.log("Is Admin", isAdmin);
+.btn-light {
+    background-color: #64748b;
+    border-color: #e0f2f7;
+}
 
-const handleLogout = () => {
-    logout();
-    router.push("/login");
-};
-</script>
+.btn-light:hover {
+    background-color: #5e708ade;
+}
+</style>

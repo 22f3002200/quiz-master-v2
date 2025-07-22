@@ -1,4 +1,3 @@
-<!-- components/FeaturesSection.vue -->
 <template>
     <section
         id="features"
@@ -51,20 +50,27 @@ const features = [
     {
         icon: "bi-question-lg",
         title: "Thousands of Questions",
-        description:
-            "Access our vast library of questions across dozens of categories and difficulty levels.",
+        description: "Access vast library of questions.",
     },
     {
         icon: "bi-trophy",
         title: "Leaderboards & Achievements",
-        description:
-            "Earn badges, climb the ranks and showcase your knowledge prowess.",
+        description: "Showcase your knowledge prowess.",
     },
     {
         icon: "bi-bar-chart",
         title: "Detailed Analytics",
-        description:
-            "Track your progress over time and identify areas for improvement.",
+        description: "Track your progress over time .",
     },
 ];
 </script>
+
+<style scoped>
+#features {
+    background-color: #f8fafc;
+}
+
+div.container {
+    max-width: 1050px;
+}
+</style>

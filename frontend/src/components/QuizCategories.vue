@@ -95,7 +95,7 @@ const categories = [
         icon: "bi-code-slash",
         name: "Technology",
         quizCount: "320+ quizzes",
-        color: "bg-purple",
+        color: "bg-black",
     },
     {
         icon: "bi-globe",
@@ -161,5 +161,8 @@ const categories = [
 }
 .bg-info-text {
     color: #0dcaf0;
+}
+div.container {
+    max-width: 1050px;
 }
 </style>
