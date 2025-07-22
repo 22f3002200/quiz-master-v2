@@ -38,6 +38,7 @@ def register():
         user.dob = register_data.dob
         user.active = True
         user.password = register_data.password
+        user.role = "user"
 
         db.session.add(user)
         db.session.commit()
@@ -56,7 +57,9 @@ def register():
                         "id": user.id,
                         "email": user.email,
                         "full_name": user.full_name,
-                        "active": user.active,
+                        "qualification": user.qualification,
+                        "dob": user.dob.strftime("%d-%m-%Y"),
+                        "role": [role.name for role in user.roles][0]
                     },
                 }
             ),
@@ -96,6 +99,7 @@ def login():
                         "id": user.id,
                         "email": user.email,
                         "full_name": user.full_name,
+                        "role": [role.name for role in user.roles][0]
                     },
                 }
             ),

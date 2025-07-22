@@ -50,7 +50,7 @@
                         <router-link
                             to="/admin/users"
                             class="text-secondary text-decoration-none hover-text-primary"
-                            >Users</router-link
+                            >Profile</router-link
                         >
                         <button
                             @click="handleLogout"
@@ -106,7 +106,11 @@ import { useAuth } from "../composables/useAuth";
 
 const isMenuOpen = ref(false);
 const router = useRouter();
-const { user, isAdmin, logout } = useAuth();
+const { user, logout } = useAuth();
+
+const isAdmin = user.value.role === "admin";
+console.log("User:", user.value);
+console.log("Is Admin", isAdmin);
 
 const handleLogout = () => {
     logout();

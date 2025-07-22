@@ -1,4 +1,4 @@
-import { ref, computed } from "vue";
+import { ref } from "vue";
 
 const user = ref(null);
 
@@ -23,12 +23,6 @@ export function useAuth() {
         }
     };
 
-    const isAdmin = computed(() => {
-        return (
-            user.value && user.value.roles && user.value.roles.includes("admin")
-        );
-    });
-
     const logout = () => {
         setUser(null);
     };
@@ -36,7 +30,6 @@ export function useAuth() {
     return {
         user,
         setUser,
-        isAdmin,
         logout,
     };
 }
