@@ -115,7 +115,7 @@ export default {
                 id: "admin-dashboard",
                 class: "nav-link",
                 to: "/admin/dashboard",
-                field: "Admin Dashboard",
+                field: "Dashboard",
                 showFor: "admin",
             },
             {
@@ -137,7 +137,7 @@ export default {
                 id: "user-dashboard",
                 class: "nav-link",
                 to: "/user/dashboard",
-                field: "user Dashboard",
+                field: "Dashboard",
                 showFor: "user",
             },
             {

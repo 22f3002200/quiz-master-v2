@@ -14,6 +14,7 @@ from werkzeug.security import check_password_hash
 
 from app.auth import auth_bp
 from app.extensions import db
+from app.models.role import Role
 from app.models.user import User
 from app.schema.auth_schema import ChangePasswordSchema, LoginSchema, RegisterSchema
 from app.schema.user_schema import UserResponseSchema, UserUpdateSchema
@@ -30,6 +31,12 @@ def register():
         if existing_user:
             return jsonify({"msg": "User with this email already exists"}), 409
 
+        # Find or create the 'user' role
+        user_role = Role.query.filter_by(name="user").first()
+        if not user_role:
+            user_role = Role(name="user", description="User role")
+            db.session.add(user_role)
+
         # Create new user
         user = User()
         user.email = register_data.email
@@ -38,7 +45,7 @@ def register():
         user.dob = register_data.dob
         user.active = True
         user.password = register_data.password
-        user.role = "user"
+        user.roles.append(user_role)
 
         db.session.add(user)
         db.session.commit()
@@ -59,7 +66,7 @@ def register():
                         "full_name": user.full_name,
                         "qualification": user.qualification,
                         "dob": user.dob.strftime("%d-%m-%Y"),
-                        "role": [role.name for role in user.roles][0]
+                        "role": [role.name for role in user.roles][0],
                     },
                 }
             ),
@@ -99,7 +106,7 @@ def login():
                         "id": user.id,
                         "email": user.email,
                         "full_name": user.full_name,
-                        "role": [role.name for role in user.roles][0]
+                        "role": [role.name for role in user.roles][0],
                     },
                 }
             ),

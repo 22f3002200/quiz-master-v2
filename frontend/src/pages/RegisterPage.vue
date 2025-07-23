@@ -118,9 +118,9 @@ export default {
             message: "",
             messageType: "",
             form: {
-                fullname: "",
+                full_name: "",
                 email: "",
-                qualication: "",
+                qualification: "",
                 dob: "",
                 password: "",
             },
@@ -170,7 +170,7 @@ export default {
             try {
                 const res = await api.post("/api/auth/register", this.form);
                 localStorage.setItem("access_token", res.data.access_token);
-                this.$router.push("/login"); // Redirect to home or a profile page
+                this.$router.push("/"); // Redirect to home or a profile page
                 this.message = "Registration successful!";
                 this.messageType = "success";
             } catch (err) {
