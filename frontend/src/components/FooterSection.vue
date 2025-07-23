@@ -48,8 +48,6 @@
 <style scoped>
 footer {
     background-color: var(--text5);
-    overflow-y: scroll;
-    overflow-x: hidden;
 }
 a {
     color: var(--text);
