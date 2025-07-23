@@ -1,5 +1,5 @@
 <template>
-    <div class="min-vh-100 bg-light">
+    <div class="min-vh-100">
         <HeaderSection />
         <main>
             <router-view />
@@ -12,3 +12,5 @@
 import HeaderSection from "./components/HeaderSection.vue";
 import FooterSection from "./components/FooterSection.vue";
 </script>
+
+<style scoped></style>

@@ -52,20 +52,6 @@
                             <button class="btn btn-sm">Next</button>
                         </div>
                     </div>
-
-                    <div
-                        class="d-none d-md-block position-absolute question-card p-4 rounded shadow"
-                        style="
-                            bottom: -30px;
-                            right: -30px;
-                            transform: rotate(-6deg);
-                            width: 260px;
-                            height: 130px;
-                            z-index: -1;
-                        "
-                    >
-                        <div class="w-100 h-100 rounded"></div>
-                    </div>
                 </div>
             </div>
         </div>
