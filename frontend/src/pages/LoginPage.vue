@@ -32,21 +32,16 @@
 
                         <form @submit.prevent="loginUser">
                             <FormInput
-                                id="email"
-                                label="Email Address"
-                                type="email"
-                                v-model="form.email"
-                                placeholder="Enter your email"
+                                v-for="field in inputFields"
+                                :key="field.id"
+                                :id="field.id"
+                                :label="field.label"
+                                :type="field.type"
+                                :model="field.email"
+                                :placeholder="field.placeholder"
                                 required
                             />
-                            <FormInput
-                                id="password"
-                                label="Password"
-                                type="password"
-                                v-model="form.password"
-                                placeholder="Enter your password"
-                                required
-                            />
+
                             <BaseButton
                                 type="submit"
                                 color="primary"
@@ -95,6 +90,23 @@ export default {
                 email: "",
                 password: "",
             },
+
+            inputFields: [
+                {
+                    id: "email",
+                    label: "Email Address",
+                    type: "email",
+                    model: "email",
+                    placeholder: "Enter your email",
+                },
+                {
+                    id: "password",
+                    label: "Password",
+                    type: "password",
+                    model: "password",
+                    placeholder: "Enter your password",
+                },
+            ],
         };
     },
     methods: {

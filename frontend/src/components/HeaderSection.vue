@@ -34,39 +34,27 @@
                     id="navbarNav"
                 >
                     <ul class="navbar-nav ms-auto align-items-end">
-                        <li class="nav-item">
+                        <li
+                            v-for="link in links"
+                            :key="link.id"
+                            class="nav-item"
+                        >
                             <a
-                                class="nav-link"
-                                href="/#features"
-                                >Features</a
-                            >
-                        </li>
-                        <li class="nav-item">
-                            <a
-                                class="nav-link"
-                                href="/#how-it-works"
-                                >How it works</a
-                            >
-                        </li>
-                        <li class="nav-item">
-                            <a
-                                class="nav-link"
-                                href="/#categories"
-                                >Categories</a
+                                :key="link.id"
+                                :class="link.class"
+                                :href="link.href"
+                                >{{ link.field }}</a
                             >
                         </li>
                     </ul>
                     <span class="d-flex"
                         ><div class="d-flex align-items-end ms-auto gap-2">
                             <router-link
-                                to="/login"
-                                class="btn login"
-                                >Login</router-link
-                            >
-                            <router-link
-                                to="/register"
-                                class="btn signup"
-                                >Signup</router-link
+                                v-for="button in buttons"
+                                :key="button.id"
+                                :to="button.to"
+                                :class="button.class"
+                                >{{ button.text }}</router-link
                             >
                         </div></span
                     >
@@ -76,8 +64,51 @@
     </header>
 </template>
 
-<script setup>
+<script>
 import "../assets/global.css";
+
+export default {
+    data() {
+        return {
+            links: [
+                {
+                    id: "features",
+                    type: "nav-item",
+                    class: "nav-link",
+                    href: "/#features",
+                    field: "Features",
+                },
+                {
+                    id: "how-it-works",
+                    class: "nav-link",
+                    href: "/#how-it-works",
+                    field: "How It Works",
+                },
+                {
+                    id: "categories",
+                    class: "nav-link",
+                    href: "/#categories",
+                    field: "Categories",
+                },
+            ],
+
+            buttons: [
+                {
+                    id: "login",
+                    to: "/login",
+                    class: ["btn", "login"],
+                    text: "Login",
+                },
+                {
+                    id: "register",
+                    to: "/register",
+                    class: ["btn", "signup"],
+                    text: "Sign up",
+                },
+            ],
+        };
+    },
+};
 </script>
 
 <style scoped>
@@ -96,16 +127,13 @@ nav.navbar {
     color: var(--background);
 }
 
-.btn.signup:hover {
-    box-shadow: 0 20px 80px -10px var(--text);
-}
-
 .btn.login {
     background-color: var(--secondary);
     color: var(--text);
 }
 
-.btn.login:hover {
+.btn.login:hover,
+.btn.signup:hover {
     box-shadow: 0 20px 80px -10px var(--text);
 }
 </style>
