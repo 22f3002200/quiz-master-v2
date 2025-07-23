@@ -1,3 +1,4 @@
+import router from "@/router";
 import { ref } from "vue";
 
 const user = ref(null);
@@ -25,6 +26,7 @@ export function useAuth() {
 
     const logout = () => {
         setUser(null);
+        router.push("/login");
     };
 
     return {
