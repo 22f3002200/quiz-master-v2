@@ -112,7 +112,8 @@ div.container {
     max-width: 1000px;
 }
 
-h2 {
+h2,
+h5 {
     color: var(--text);
 }
 
@@ -126,10 +127,6 @@ div.border {
 
 div.d-block {
     background-color: var(--primary);
-}
-
-h5 {
-    color: var(--text);
 }
 
 small {
@@ -151,5 +148,9 @@ span.badge {
     color: var(--background);
     transform: translate(0, -3px);
     box-shadow: 0 20px 80px -10px var(--text);
+}
+
+i {
+    color: var(--primary);
 }
 </style>

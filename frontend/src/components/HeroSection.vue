@@ -22,45 +22,39 @@
                 </div>
                 <div class="col-md-6">
                     <div
-                        class="p-4 bg-white text-dark rounded shadow-lg position-relative"
+                        class="p-4 card-text rounded shadow-lg position-relative"
                         style="transform: rotate(3deg)"
                     >
-                        <div class="bg-light p-3 rounded mb-3">
-                            <h5 class="text-primary fw-bold mb-3">
-                                Pop Culture Quiz
-                            </h5>
+                        <div class="p-3 rounded mb-3">
+                            <h5 class="fw-bold mb-3">Pop Culture Quiz</h5>
                             <div>
-                                <div class="mb-2 p-2 bg border rounded">
+                                <div class="mb-2 p-2 question-box rounded">
                                     Which actor played Iron Man in the Marvel
                                     movies?
                                 </div>
                                 <div class="d-grid gap-2">
                                     <div
-                                        class="bg-primary text-white px-3 py-2 rounded"
+                                        class="option correct px-3 py-2 rounded"
                                     >
                                         Robert Downey Jr.
                                     </div>
-                                    <div
-                                        class="bg-light text-dark px-3 py-2 rounded"
-                                    >
+                                    <div class="option px-3 py-2 rounded">
                                         Chris Evans
                                     </div>
-                                    <div
-                                        class="bg-light text-dark px-3 py-2 rounded"
-                                    >
+                                    <div class="option px-3 py-2 rounded">
                                         Mark Ruffalo
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="d-flex justify-content-between">
-                            <small class="text-muted">Question 3 of 10</small>
+                            <small class="question">Question 3 of 10</small>
                             <button class="btn btn-sm">Next</button>
                         </div>
                     </div>
 
                     <div
-                        class="d-none d-md-block position-absolute bg-white p-4 rounded shadow"
+                        class="d-none d-md-block position-absolute question-card p-4 rounded shadow"
                         style="
                             bottom: -30px;
                             right: -30px;
@@ -70,7 +64,7 @@
                             z-index: -1;
                         "
                     >
-                        <div class="bg-light w-100 h-100 rounded"></div>
+                        <div class="w-100 h-100 rounded"></div>
                     </div>
                 </div>
             </div>
@@ -83,16 +77,30 @@ import "../assets/global.css";
 </script>
 
 <style scoped>
-section {
+section,
+.question-card {
     background-color: var(--background);
 }
 
-h1.heading {
+h1.heading,
+h5 {
     color: var(--text);
 }
 
-p.description {
+div.question-box {
+    border: 1px solid var(--primary);
+}
+
+p.description,
+div.bg,
+div.option,
+small.question {
     color: var(--primary);
+}
+
+div.correct {
+    background-color: var(--primary);
+    color: var(--background);
 }
 
 .btn {

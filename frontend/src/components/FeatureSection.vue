@@ -27,7 +27,7 @@
                         >
                             <i
                                 :class="feature.icon"
-                                class="fs-4 text-primary"
+                                class="fs-4"
                             ></i>
                         </div>
                         <h5 class="fw-semibold mb-2">
@@ -90,5 +90,9 @@ div.image-box {
 
 h5 {
     color: var(--text);
+}
+
+i {
+    color: var(--primary);
 }
 </style>

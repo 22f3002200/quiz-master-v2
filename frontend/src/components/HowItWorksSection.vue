@@ -28,7 +28,7 @@
                         >
                             <i
                                 :class="step.icon"
-                                class="fs-4 text-primary"
+                                class="fs-4"
                             ></i>
                         </div>
                         <h5 class="fw-semibold text-dark mb-2">
@@ -88,5 +88,9 @@ div.card-box {
 
 div.image-box {
     background-color: var(--background);
+}
+
+i {
+    color: var(--primary);
 }
 </style>
