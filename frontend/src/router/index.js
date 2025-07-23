@@ -4,6 +4,7 @@ import HomePage from "@/pages/HomePage.vue";
 import LoginPage from "@/pages/LoginPage.vue";
 import RegisterPage from "@/pages/RegisterPage.vue";
 import AdminDashboard from "@/pages/AdminDashboard.vue";
+import UserDashboard from "@/pages/UserDashboard.vue";
 
 const routes = [
     { path: "/", name: "Quiz Master", component: HomePage },
@@ -25,6 +26,12 @@ const routes = [
         name: "Admin Dashboard",
         component: AdminDashboard,
         meta: { requiresAuth: true, isAdmin: true },
+    },
+    {
+        path: "/user/dashboard",
+        name: "User Dashboard",
+        component: UserDashboard,
+        meta: { requiresAuth: true, isUser: true },
     },
 ];
 
@@ -48,50 +55,51 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    // Get user and admin status directly from localStorage
     const accessToken = localStorage.getItem("access_token");
+    const storedUser = localStorage.getItem("user");
     let user = null;
-    let isAdmin = false;
 
     try {
-        const storedUser = localStorage.getItem("user");
         if (storedUser) {
             user = JSON.parse(storedUser);
-            isAdmin = user && user.roles && user.roles.includes("admin");
         }
     } catch (e) {
-        console.error(
-            "Error parsing user from localStorage in router guard",
-            e
-        );
+        // Clear invalid data if parsing fails
+        localStorage.removeItem("user");
+        localStorage.removeItem("access_token");
+        console.error("Failed to parse user from localStorage:", e);
     }
 
     const isLoggedIn = !!accessToken && !!user;
+    // Use a case-insensitive and safe check for roles
+    const userRole = user ? (user.role || "").toLowerCase() : "";
+    const isAdmin = userRole === "admin";
+    const isUser = userRole === "user";
 
-    // Special handling for the root path "/"
-    if (to.path === "/") {
-        if (isLoggedIn && isAdmin) {
-            // If an admin is logged in and navigates to "/", send them to the dashboard
-            return next("/admin/dashboard");
-        }
-    }
-
-    // If a logged-in user tries to visit guest pages (login/register), redirect them
+    // Redirect logged-in users from guest pages (like /login)
     if (to.meta.guest && isLoggedIn) {
-        return next(isAdmin ? "/admin/dashboard" : "/");
+        if (isAdmin) return next("/admin/dashboard");
+        return next("/user/dashboard"); // Default for other logged-in users
     }
 
-    // Protect admin routes
-    if (to.meta.isAdmin && !isAdmin) {
-        return next("/");
-    }
-
-    // Protect general authenticated routes
+    // Block access to protected routes if not logged in
     if (to.meta.requiresAuth && !isLoggedIn) {
         return next("/login");
     }
 
-    // Otherwise, allow navigation
+    // Handle role-specific route access for logged-in users
+    if (isLoggedIn) {
+        // If a non-admin tries to access an admin-only route
+        if (to.meta.isAdmin && !isAdmin) {
+            return next("/user/dashboard"); // Redirect to their own dashboard
+        }
+        // If a non-user (i.e., an admin) tries to access a user-only route
+        if (to.meta.isUser && !isUser) {
+            return next("/admin/dashboard"); // Redirect to their own dashboard
+        }
+    }
+
+    // If none of the above, allow navigation
     return next();
 });
 

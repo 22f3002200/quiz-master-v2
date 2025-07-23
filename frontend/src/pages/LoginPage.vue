@@ -124,9 +124,21 @@ export default {
             const { setUser } = useAuth();
             try {
                 const res = await api.post("/api/auth/login", this.form);
-                setUser(res.data.user);
-                localStorage.setItem("access_token", res.data.access_token);
-                this.$router.push("/");
+                const { user, access_token } = res.data;
+
+                // Set items in local storage
+                localStorage.setItem("user", JSON.stringify(user));
+                localStorage.setItem("access_token", access_token);
+
+                // Update app's state
+                setUser(user);
+
+                // Redirect based on user role
+                if (res.data.user.role === "admin") {
+                    this.$router.push("/admin/dashboard");
+                } else {
+                    this.$router.push("/user/dashboard");
+                }
             } catch (err) {
                 console.error("Error response:", err.response);
                 this.message = err.response?.data?.msg || "Login failed";
