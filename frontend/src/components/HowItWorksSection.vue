@@ -31,10 +31,10 @@
                                 class="fs-4"
                             ></i>
                         </div>
-                        <h5 class="fw-semibold text-dark mb-2">
+                        <h5 class="fw-semibold mb-2">
                             {{ step.title }}
                         </h5>
-                        <p class="text-secondary">{{ step.description }}</p>
+                        <p class="">{{ step.description }}</p>
                     </div>
                 </div>
             </div>
@@ -74,12 +74,13 @@ div.container {
     max-width: 1000px;
 }
 
-h2 {
-    color: var(--text);
+h2,
+h5 {
+    color: var(--primary);
 }
 
 p {
-    color: var(--primary);
+    color: var(--text);
 }
 
 div.card-box {

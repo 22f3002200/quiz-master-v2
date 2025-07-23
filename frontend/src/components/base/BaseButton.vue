@@ -1,7 +1,9 @@
 <template>
     <button
+        type="button"
         :class="['btn', `btn-${color}`]"
         :disabled="disabled"
+        @click="$emit('click', '$event')"
     >
         <span
             v-if="loading"
@@ -26,6 +28,7 @@ defineProps({
         default: false,
     },
 });
+defineEmits(["click"]);
 </script>
 
 <style scoped>

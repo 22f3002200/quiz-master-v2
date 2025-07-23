@@ -3,47 +3,70 @@
         <div class="container text-center">
             <div class="d-flex justify-content-center gap-4 mb-4">
                 <a
-                    href="#"
+                    v-for="link in links"
+                    :key="link.id"
+                    :href="link.href"
                     class=""
-                    >About Us</a
-                >
-                <a
-                    href="#"
-                    class=""
-                    >Contact</a
-                >
-                <a
-                    href="#"
-                    class=""
-                    >Privacy Policy</a
-                >
-                <a
-                    href="#"
-                    class=""
-                    >Terms of Service</a
+                    >{{ link.field }}</a
                 >
             </div>
             <div class="d-flex justify-content-center gap-4 mb-4">
                 <a
-                    href="#"
-                    class="text-muted"
-                    ><i class="bi bi-twitter fs-4"></i
-                ></a>
-                <a
-                    href="#"
-                    class="text-muted"
-                    ><i class="bi bi-twitter-x fs-4"></i
-                ></a>
-                <a
-                    href="#"
-                    class="text-muted"
-                    ><i class="bi bi-instagram fs-4"></i
+                    v-for="social in socials"
+                    :key="social.id"
+                    :href="social.href"
+                    class=""
+                    ><i :class="social.i_class"></i
                 ></a>
             </div>
-            <p class="">&copy; 2024 QuizMaster. All rights reserved.</p>
+            <p class="">&copy; 2025 QuizMaster. All rights reserved.</p>
         </div>
     </footer>
 </template>
+
+<script>
+export default {
+    data() {
+        return {
+            links: [
+                {
+                    id: "about-us",
+                    href: "#",
+                    field: "About us",
+                },
+                {
+                    id: "contact",
+                    href: "#",
+                    field: "Contact",
+                },
+                {
+                    id: "privacy-policy",
+                    href: "#",
+                    field: "Privacy Policy",
+                },
+                {
+                    id: "terms-of-service",
+                    href: "#",
+                    field: "Terms of Service",
+                },
+            ],
+
+            socials: [
+                {
+                    id: "x",
+                    href: "#",
+                    i_class: ["bi", "bi-twitter-x", "fs-4"],
+                },
+                {
+                    id: "instagra,",
+                    href: "#",
+                    i_class: ["bi", "bi-instagram", "fs-4"],
+                },
+            ],
+        };
+    },
+};
+</script>
 
 <style scoped>
 footer {

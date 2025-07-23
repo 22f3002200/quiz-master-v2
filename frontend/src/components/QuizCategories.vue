@@ -45,7 +45,7 @@
                                     <h5 class="fw-semibold mb-1">
                                         {{ category.name }}
                                     </h5>
-                                    <small class="text-muted">{{
+                                    <small class="">{{
                                         category.quizCount
                                     }}</small>
                                 </div>
@@ -114,11 +114,11 @@ div.container {
 
 h2,
 h5 {
-    color: var(--text);
+    color: var(--primary);
 }
 
 p {
-    color: var(--primary);
+    color: var(--text);
 }
 
 div.border {

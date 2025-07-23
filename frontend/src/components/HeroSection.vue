@@ -58,9 +58,7 @@
     </section>
 </template>
 
-<script setup>
-import "../assets/global.css";
-</script>
+<script setup></script>
 
 <style scoped>
 section,
@@ -70,18 +68,18 @@ section,
 
 h1.heading,
 h5 {
-    color: var(--text);
+    color: var(--primary);
 }
 
 div.question-box {
-    border: 1px solid var(--primary);
+    border: 1px solid var(--text);
 }
 
 p.description,
 div.bg,
 div.option,
 small.question {
-    color: var(--primary);
+    color: var(--text);
 }
 
 div.correct {
@@ -103,7 +101,7 @@ div.correct {
     background-color: var(--primary);
     color: var(--background);
     transform: translate(0, -3px);
-    box-shadow: 0 20px 80px -10px var(--text);
+    box-shadow: 0 4px 12px -2px var(--text);
 }
 
 .btn:active {

@@ -11,6 +11,7 @@ const routes = [
         path: "/login",
         name: "Quiz Master - Login",
         component: LoginPage,
+        props: { title: "QuizMaster" },
         meta: { guest: true },
     },
     {
@@ -27,9 +28,23 @@ const routes = [
     },
 ];
 
+const scrollBehavior = function (to, from, savedPosition) {
+    if (to.hash) {
+        return {
+            el: to.hash,
+            behavior: "smooth",
+        };
+    } else if (savedPosition) {
+        return savedPosition;
+    } else {
+        return { top: 0 };
+    }
+};
+
 const router = createRouter({
     history: createWebHistory(),
     routes,
+    scrollBehavior,
 });
 
 router.beforeEach((to, from, next) => {

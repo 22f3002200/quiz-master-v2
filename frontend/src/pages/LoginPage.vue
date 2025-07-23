@@ -11,10 +11,10 @@
                                 class="fw-bold mb-2 d-flex align-items-center justify-content-center gap-2"
                             >
                                 <i class="bi bi-box-arrow-in-right fs-2"></i
-                                >QuizMaster
+                                >{{ title }}
                             </h2>
                             <p class="">
-                                Welcome back! Please sign in to continue.
+                                {{ greet }}
                             </p>
                         </div>
 
@@ -37,7 +37,7 @@
                                 :id="field.id"
                                 :label="field.label"
                                 :type="field.type"
-                                :model="field.email"
+                                v-model="form[field.id]"
                                 :placeholder="field.placeholder"
                                 required
                             />
@@ -77,12 +77,19 @@ import FormInput from "../components/base/FormInput.vue";
 import BaseButton from "../components/base/BaseButton.vue";
 
 export default {
+    props: {
+        title: {
+            type: String,
+            required: true,
+        },
+    },
     components: {
         FormInput,
         BaseButton,
     },
     data() {
         return {
+            greet: "Welcome back! Please sign in to continue.",
             loading: false,
             message: "",
             messageType: "",
@@ -111,6 +118,7 @@ export default {
     },
     methods: {
         async loginUser() {
+            console.log("Form data:", this.form);
             this.loading = true;
             this.message = "";
             const { setUser } = useAuth();
@@ -120,8 +128,12 @@ export default {
                 localStorage.setItem("access_token", res.data.access_token);
                 this.$router.push("/");
             } catch (err) {
+                console.error("Error response:", err.response);
                 this.message = err.response?.data?.msg || "Login failed";
                 this.messageType = "error";
+                setTimeout(() => {
+                    this.message = "";
+                }, 5000);
             } finally {
                 this.loading = false;
             }

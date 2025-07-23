@@ -33,7 +33,7 @@
                         <h5 class="fw-semibold mb-2">
                             {{ feature.title }}
                         </h5>
-                        <p class="text-secondary mb-0">
+                        <p class="mb-0">
                             {{ feature.description }}
                         </p>
                     </div>
@@ -73,11 +73,11 @@ div.container {
 }
 
 h2 {
-    color: var(--text);
+    color: var(--primary);
 }
 
 p {
-    color: var(--primary);
+    color: var(--text);
 }
 
 div.card-box {
@@ -89,7 +89,7 @@ div.image-box {
 }
 
 h5 {
-    color: var(--text);
+    color: var(--primary);
 }
 
 i {

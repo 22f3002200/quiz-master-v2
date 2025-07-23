@@ -33,17 +33,18 @@ import { ref } from "vue";
 defineProps({
     id: String,
     label: String,
+    modelValue: String,
     type: {
         type: String,
         default: "text",
     },
-    modelValue: String,
     placeholder: String,
     required: {
         type: Boolean,
         default: false,
     },
 });
+defineEmits(["update:modelValue"]);
 
 const showPassword = ref(false);
 
