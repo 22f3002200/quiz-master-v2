@@ -1,8 +1,8 @@
 <template>
     <div class="container py-4">
-        <div class="card-box p-4 rounded-3 shadow-sm">
+        <div class="card-box p-4 rounded-3 shadow-lg">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 class="fw-bold mb-0">Manage Subjects</h2>
+                <h2 class="fw-bold mb-0">Subjects</h2>
                 <BaseButton @click="openAddModal">
                     <i class="bi bi-plus-lg me-2"></i>Add New Subject
                 </BaseButton>
@@ -50,18 +50,25 @@
                             <td>{{ subject.name }}</td>
                             <td>{{ subject.description }}</td>
                             <td class="text-end">
-                                <a
-                                    href="#"
-                                    class="text-primary me-3"
-                                    @click.prevent="openEditModal(subject)"
-                                    >Edit</a
-                                >
-                                <a
-                                    href="#"
-                                    class="text-danger"
-                                    @click.prevent="deleteSubject(subject.id)"
-                                    >Delete</a
-                                >
+                                <div class="d-flex justify-content-end gap-2">
+                                    <BaseButton
+                                        size="sm"
+                                        class="btn-outline-success edit"
+                                        style="padding: 0.5em 1em"
+                                        color="primary5"
+                                        @click="openEditModal(subject)"
+                                    >
+                                        <i class="bi bi-pencil"></i>
+                                    </BaseButton>
+                                    <BaseButton
+                                        size="sm"
+                                        style="padding: 0.5em 1em"
+                                        class="btn-outline-danger delete"
+                                        color="primary5"
+                                        @click="deleteSubject(subject.id)"
+                                        ><i class="bi bi-trash"></i>
+                                    </BaseButton>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
@@ -204,42 +211,5 @@ const deleteSubject = async (id) => {
 </script>
 
 <style scoped>
-.container {
-    max-width: 1000px;
-}
-.card-box {
-    background-color: white;
-    border: 1px solid var(--primary5);
-}
-h2 {
-    color: var(--primary);
-}
-.table thead th {
-    color: var(--accent);
-    font-weight: 600;
-    border-bottom: 2px solid var(--primary);
-}
-.table tbody td {
-    color: var(--text);
-}
-.table-hover tbody tr:hover {
-    background-color: var(--primary5);
-}
-a {
-    text-decoration: none;
-    font-weight: 500;
-}
-.form-control,
-.form-select {
-    background-color: white;
-    border: 1px solid var(--secondary);
-}
-.form-control:focus,
-.form-select:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 0.25rem var(--primary5);
-}
-.form-label {
-    color: var(--primary);
-}
+@import "../../assets/subjects.css";
 </style>

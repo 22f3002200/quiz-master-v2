@@ -3,9 +3,10 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomePage from "@/pages/HomePage.vue";
 import LoginPage from "@/pages/LoginPage.vue";
 import RegisterPage from "@/pages/RegisterPage.vue";
-import AdminDashboard from "@/pages/AdminDashboard.vue";
-import UserDashboard from "@/pages/UserDashboard.vue";
-import ManageSubjects from "@/pages/ManageSubjects.vue";
+import AdminDashboard from "@/pages/admin/AdminDashboard.vue";
+import AdminSubjects from "@/pages/admin/AdminSubjects.vue";
+import UserDashboard from "@/pages/user/UserDashboard.vue";
+import UserSubjects from "@/pages/user/UserSubjects.vue";
 
 const routes = [
     { path: "/", name: "Quiz Master", component: HomePage },
@@ -29,16 +30,22 @@ const routes = [
         meta: { requiresAuth: true, isAdmin: true },
     },
     {
+        path: "/admin/subjects",
+        name: "Manage Subjects",
+        component: AdminSubjects,
+        meta: { requiresAuth: true, isAdmin: true },
+    },
+    {
         path: "/user/dashboard",
         name: "User Dashboard",
         component: UserDashboard,
         meta: { requiresAuth: true, isUser: true },
     },
     {
-        path: "/admin/subjects",
-        name: "Manage Subjects",
-        component: ManageSubjects,
-        meta: { requiresAuth: true, isAdmin: true },
+        path: "/user/subjects",
+        name: "View Subjects",
+        component: UserSubjects,
+        meta: { requiresAuth: true, isUser: true },
     },
 ];
 

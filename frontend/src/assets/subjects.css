@@ -1,0 +1,73 @@
+.container {
+    max-width: 900px;
+}
+.card-box {
+    background-color: var(--background);
+}
+h2 {
+    color: var(--primary);
+}
+
+.table-responsive {
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--primary5);
+}
+
+.table thead th {
+    color: var(--accent);
+    font-weight: 600;
+    border-bottom: 1px solid var(--text5);
+    background-color: var(--primary5);
+}
+.table tbody td {
+    color: var(--text);
+    background-color: var(--primary5);
+    border-bottom: 1px solid var(--text5);
+}
+
+.btn-outline-success.edit {
+    border-color: var(--primary);
+}
+
+.btn-outline-success.edit:hover {
+    background-color: var(--secondary);
+}
+
+i.bi-pencil {
+    color: var(--primary);
+}
+
+.btn-outline-success.edit:hover i.bi-pencil {
+    color: var(--background);
+}
+
+.btn-outline-danger.delete:hover {
+    background-color: rgba(255, 0, 0, 0.356);
+}
+
+i.bi-trash {
+    color: red;
+}
+
+.btn-outline-danger.delete:hover i.bi-trash {
+    color: var(--background);
+}
+
+a {
+    text-decoration: none;
+    font-weight: 500;
+}
+.form-control,
+.form-select {
+    background-color: white;
+    border: 1px solid var(--secondary);
+}
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 0.25rem var(--primary5);
+}
+.form-label {
+    color: var(--primary);
+}

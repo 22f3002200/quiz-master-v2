@@ -25,5 +25,6 @@ export default {
 <style scoped>
 main {
     min-height: 100vh;
+    background-color: var(--background);
 }
 </style>
