@@ -1,10 +1,10 @@
-// frontend/src/router/index.js
 import { createRouter, createWebHistory } from "vue-router";
 import HomePage from "@/pages/HomePage.vue";
 import LoginPage from "@/pages/LoginPage.vue";
 import RegisterPage from "@/pages/RegisterPage.vue";
 import AdminDashboard from "@/pages/admin/AdminDashboard.vue";
 import AdminSubjects from "@/pages/admin/AdminSubjects.vue";
+import AdminChapters from "@/pages/admin/AdminChapters.vue";
 import UserDashboard from "@/pages/user/UserDashboard.vue";
 import UserSubjects from "@/pages/user/UserSubjects.vue";
 
@@ -33,6 +33,12 @@ const routes = [
         path: "/admin/subjects",
         name: "Manage Subjects",
         component: AdminSubjects,
+        meta: { requiresAuth: true, isAdmin: true },
+    },
+    {
+        path: "/admin/chapters",
+        name: "Manage Chapters",
+        component: AdminChapters,
         meta: { requiresAuth: true, isAdmin: true },
     },
     {

@@ -18,6 +18,11 @@ const adminNavLinks = [
         to: "/admin/subjects",
         icon: "bi-journal-bookmark-fill",
     },
+    {
+        text: "Chapters",
+        to: "/admin/Chapters",
+        icon: "bi-collection-fill",
+    },
     { text: "Quizzes", to: "/admin/quizzes", icon: "bi-patch-question-fill" },
     {
         text: "Analytics",
