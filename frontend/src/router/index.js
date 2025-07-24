@@ -5,6 +5,7 @@ import LoginPage from "@/pages/LoginPage.vue";
 import RegisterPage from "@/pages/RegisterPage.vue";
 import AdminDashboard from "@/pages/AdminDashboard.vue";
 import UserDashboard from "@/pages/UserDashboard.vue";
+import ManageSubjects from "@/pages/ManageSubjects.vue";
 
 const routes = [
     { path: "/", name: "Quiz Master", component: HomePage },
@@ -32,6 +33,12 @@ const routes = [
         name: "User Dashboard",
         component: UserDashboard,
         meta: { requiresAuth: true, isUser: true },
+    },
+    {
+        path: "/admin/subjects",
+        name: "Manage Subjects",
+        component: ManageSubjects,
+        meta: { requiresAuth: true, isAdmin: true },
     },
 ];
 

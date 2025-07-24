@@ -22,4 +22,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+main {
+    min-height: 100vh;
+}
+</style>

@@ -41,7 +41,7 @@ def create_subject():
 # List of all subjects (Checked)
 @admin_bp.route("/subjects", methods=["GET"])
 @user_required
-def list_subjects():
+def list_subjects(**kwargs):
     try:
         subjects = Subject.query.all()
         subjects_data = [

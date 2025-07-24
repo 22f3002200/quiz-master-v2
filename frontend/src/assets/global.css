@@ -6,4 +6,5 @@
     --primary5: hsl(197, 33%, 25%, 5%);
     --secondary: #88bfd3;
     --accent: #2c83a5;
+    --static: rgba(0, 0, 0, 0.03);
 }
