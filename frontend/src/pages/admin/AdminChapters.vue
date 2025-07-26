@@ -61,8 +61,9 @@
                     <table class="table table-hover align-middle">
                         <thead>
                             <tr>
-                                <th scope="col">CHAPTER NAME</th>
-                                <th scope="col">DESCRIPTION</th>
+                                <th scope="col">CHAPTER</th>
+                                <th scope="col">SUBJECT</th>
+                                <!-- <th scope="col">DESCRIPTION</th> -->
                                 <th
                                     scope="col"
                                     class="text-end"
@@ -77,7 +78,10 @@
                                 :key="chapter.id"
                             >
                                 <td>{{ chapter.name }}</td>
-                                <td>{{ chapter.description }}</td>
+                                <!-- <td>{{ chapter.description }}</td> -->
+                                <td>
+                                    {{ getSubjectName(chapter.subject_id) }}
+                                </td>
                                 <td class="text-end">
                                     <div
                                         class="d-flex justify-content-end gap-2"
@@ -198,9 +202,11 @@
                 </template>
             </BaseModal>
 
-            <ChapterDetailsModal
+            <DetailsModal
                 :show="isDetailsModalVisible"
-                :chapter="detailedChapter"
+                :item="detailedItem"
+                title="Chapter Details"
+                :fields="chapterFields"
                 @close="closeDetailsModal"
             />
         </div>
@@ -212,7 +218,7 @@ import { ref, onMounted } from "vue";
 import api from "@/utils/api";
 import BaseButton from "@/components/base/BaseButton.vue";
 import BaseModal from "@/components/base/BaseModal.vue";
-import ChapterDetailsModal from "@/components/admin/ChapterDetailsModal.vue";
+import DetailsModal from "@/components/admin/DetailsModal.vue";
 import AdminLayout from "@/components/admin/AdminLayout.vue";
 
 const chapters = ref([]);
@@ -222,14 +228,28 @@ const isModalVisible = ref(false);
 const isDetailsModalVisible = ref(false);
 const isEditing = ref(false);
 const isSubmitting = ref(false);
+const detailedItem = ref(null);
+const selectedSubject = ref(null);
 const currentChapter = ref({
     id: null,
     name: "",
     description: "",
     subject_id: "",
 });
-const detailedChapter = ref(null);
-const selectedSubject = ref(null);
+
+const getSubjectName = (subjectId) => {
+    const subject = subjects.value.find((s) => s.id === subjectId);
+    return subject ? subject.name : "N/A";
+};
+
+const chapterFields = [
+    { key: "id", label: "ID" },
+    { key: "subject_name", label: "Subject Name" },
+    { key: "name", label: "Chapter Name" },
+    { key: "description", label: "Description" },
+    { key: "created_at", label: "Created At", isDate: true },
+    { key: "updated_at", label: "Updated At", isDate: true },
+];
 
 const fetchSubjects = async () => {
     try {
@@ -279,7 +299,10 @@ const openEditModal = (chapter) => {
 };
 
 const openDetailsModal = (chapter) => {
-    detailedChapter.value = chapter;
+    detailedItem.value = {
+        ...chapter,
+        subject_name: getSubjectName(chapter.subject_id),
+    };
     isDetailsModalVisible.value = true;
 };
 
@@ -328,16 +351,4 @@ const deleteChapter = async (id) => {
 
 <style scoped>
 @import "../../assets/subjects.css";
-.btn-outline-info.details {
-    border-color: #0dcaf0;
-}
-.btn-outline-info.details:hover {
-    background-color: #0dcaf0;
-}
-i.bi-eye {
-    color: #0dcaf0;
-}
-.btn-outline-info.details:hover i.bi-eye {
-    color: var(--background);
-}
 </style>

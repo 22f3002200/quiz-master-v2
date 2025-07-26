@@ -1,7 +1,7 @@
 <template>
     <AdminLayout>
         <div class="container py-4">
-            <div class="card-box p-4 rounded-3 shadow-lg">
+            <div class="card-box p-4 rounded-3">
                 <div
                     class="d-flex justify-content-between align-items-center mb-4"
                 >
@@ -56,6 +56,15 @@
                                     <div
                                         class="d-flex justify-content-end gap-2"
                                     >
+                                        <BaseButton
+                                            size="sm"
+                                            class="btn-outline-info details"
+                                            style="padding: 0.5em 1em"
+                                            color="primary5"
+                                            @click="openDetailsModal(subject)"
+                                        >
+                                            <i class="bi bi-eye"></i>
+                                        </BaseButton>
                                         <BaseButton
                                             size="sm"
                                             class="btn-outline-success edit"
@@ -135,6 +144,13 @@
                     >
                 </template>
             </BaseModal>
+            <DetailsModal
+                :show="isDetailsModalVisible"
+                :item="detailedItem"
+                title="Subject Details"
+                :fields="subjectFields"
+                @close="closeDetailsModal"
+            />
         </div>
     </AdminLayout>
 </template>
@@ -145,13 +161,24 @@ import api from "@/utils/api";
 import BaseButton from "@/components/base/BaseButton.vue";
 import BaseModal from "@/components/base/BaseModal.vue";
 import AdminLayout from "@/components/admin/AdminLayout.vue";
+import DetailsModal from "@/components/admin/DetailsModal.vue";
 
 const subjects = ref([]);
 const loading = ref(true);
 const isModalVisible = ref(false);
+const isDetailsModalVisible = ref(false);
 const isEditing = ref(false);
 const isSubmitting = ref(false);
 const currentSubject = ref({ id: null, name: "", description: "" });
+const detailedItem = ref(null);
+
+const subjectFields = [
+    { key: "id", label: "ID" },
+    { key: "name", label: "Name" },
+    { key: "description", label: "Description" },
+    { key: "created_at", label: "Created At", isDate: true },
+    { key: "updated_at", label: "Updated At", isDate: true },
+];
 
 const fetchSubjects = async () => {
     try {
@@ -179,8 +206,17 @@ const openEditModal = (subject) => {
     isModalVisible.value = true;
 };
 
+const openDetailsModal = (subject) => {
+    detailedItem.value = subject;
+    isDetailsModalVisible.value = true;
+};
+
 const closeModal = () => {
     isModalVisible.value = false;
+};
+
+const closeDetailsModal = () => {
+    isDetailsModalVisible.value = false;
 };
 
 const handleSubjectSubmit = async () => {

@@ -1,6 +1,6 @@
 <template>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light shadow-sm py-2">
+        <nav class="navbar navbar-expand-md navbar-light shadow-sm py-2">
             <div class="container-xxl">
                 <router-link
                     to="/"
@@ -62,14 +62,19 @@
                                 </router-link>
                             </template>
 
-                            <!-- Show logout if user is logged in -->
                             <template v-else>
-                                <button
-                                    @click="logout"
-                                    class="btn btn-danger"
+                                <router-link
+                                    to="/admin/dashboard"
+                                    class="nav-link"
                                 >
-                                    Logout
-                                </button>
+                                    Dashboard
+                                </router-link>
+                                <router-link
+                                    to="/"
+                                    class="nav-link"
+                                >
+                                    Home
+                                </router-link>
                             </template>
                         </span>
                     </div>
@@ -84,7 +89,7 @@ import { useAuth } from "@/composables/useAuth";
 import { computed } from "vue";
 export default {
     setup() {
-        const { user, logout } = useAuth();
+        const { user } = useAuth();
 
         const allLinks = [
             {
@@ -109,50 +114,6 @@ export default {
                 to: "/#categories",
                 field: "Categories",
                 showFor: "guest",
-            },
-            {
-                // Admin Links
-                id: "admin-dashboard",
-                class: "nav-link",
-                to: "/admin/dashboard",
-                field: "Dashboard",
-                showFor: "admin",
-            },
-            {
-                id: "admin-subjects",
-                class: "nav-link",
-                to: "/admin/subjects",
-                field: "Subjects",
-                showFor: "admin",
-            },
-            {
-                id: "admin-quizzes",
-                class: "nav-link",
-                to: "/admin/quizzes",
-                field: "Quizzes",
-                showFor: "admin",
-            },
-            // User Links
-            {
-                id: "user-dashboard",
-                class: "nav-link",
-                to: "/user/dashboard",
-                field: "Dashboard",
-                showFor: "user",
-            },
-            {
-                id: "user-subjects",
-                class: "nav-link",
-                to: "/user/subjects",
-                field: "Subjects",
-                showFor: "user",
-            },
-            {
-                id: "user-quizzes",
-                class: "nav-link",
-                to: "/user/quizzes",
-                field: "Quizzes",
-                showFor: "user",
             },
         ];
         const buttons = [
@@ -184,7 +145,6 @@ export default {
         return {
             title: "QuizMaster",
             user,
-            logout,
             buttons,
             visibleLinks,
             isLoggedIn,

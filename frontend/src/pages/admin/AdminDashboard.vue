@@ -1,11 +1,13 @@
 <template>
     <AdminLayout>
-        <div class="p-4">
+        <div
+            class="container-xxl p-4 justify-content-center align-items-center"
+        >
             <h2
                 class="mb-4 fw-bold"
                 style="color: var(--primary)"
             >
-                Dashboard Overview
+                Dashboard
             </h2>
 
             <div class="row g-4 mb-4">
@@ -55,6 +57,7 @@ import AdminLayout from "@/components/admin/AdminLayout.vue";
 import StatCard from "@/components/admin/StatCard.vue";
 import QuizPerformanceChart from "@/components/admin/QuizPerformanceChart.vue";
 import RecentActivityTable from "@/components/admin/RecentActivityTable.vue";
+
 import { ref } from "vue";
 
 // --- Mock Data (Replace with API calls) ---
@@ -89,3 +92,9 @@ const quizHeaders = ref([
     { text: "Subject", key: "subject" },
 ]);
 </script>
+
+<style scoped>
+div.container-xxl {
+    margin-left: 15px;
+}
+</style>
