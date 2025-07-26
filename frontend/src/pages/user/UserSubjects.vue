@@ -12,10 +12,12 @@
                 v-if="subjects.length"
                 class="row g-4"
             >
-                <div
+                <router-link
+                    :to="`/api/admin/subjects/${subject.id}/chapters`"
                     v-for="subject in subjects"
                     :key="subject.id"
                     class="col-md-6 col-lg-4 card-box-subjects"
+                    style="text-decoration: none"
                 >
                     <div
                         class="border rounded overflow-hidden h-100 shadow-sm hover-shadow transition"
@@ -63,14 +65,13 @@
                             <!-- Button -->
                             <BaseButton
                                 :to="`/user/quizzes/subject/${subject.id}`"
-                                @click="handleQuizEndpoint"
                                 class="btn btn-primary w-100"
                             >
                                 Browse Quiz
                             </BaseButton>
                         </div>
                     </div>
-                </div>
+                </router-link>
             </div>
 
             <div
