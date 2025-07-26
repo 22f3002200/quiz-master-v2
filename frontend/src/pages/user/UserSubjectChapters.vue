@@ -5,37 +5,12 @@
                 class="mb-4 fw-bold"
                 style="color: var(--primary)"
             >
-                Chapters
+                Chapters in {{ subjectName }}
             </h2>
 
-            <!-- Filter Dropdown -->
-            <div class="mb-4 dropdown">
-                <label
-                    for="subjectFilter"
-                    class="form-label fw-semibold"
-                    >Filter by Subject</label
-                >
-                <select
-                    id="subjectFilter"
-                    class="form-select"
-                    v-model="selectedSubject"
-                    @change="fetchChapters"
-                >
-                    <option :value="null">All Subjects</option>
-                    <option
-                        v-for="subject in subjects"
-                        :key="subject.id"
-                        :value="subject.id"
-                    >
-                        {{ subject.name }}
-                    </option>
-                </select>
-            </div>
-
-            <!-- Cards -->
             <div
                 v-if="loading"
-                class="text-center py-5 chapters-card"
+                class="text-center py-5"
             >
                 <div
                     class="spinner-border text-primary"
@@ -49,7 +24,7 @@
                 v-else-if="chapters.length === 0"
                 class="text-center py-5"
             >
-                <p>No chapters found for the selected subject.</p>
+                <p>No chapters found under this subject.</p>
             </div>
 
             <div
@@ -85,9 +60,6 @@
                                     <h5 class="fw-semibold mb-1">
                                         {{ chapter.name }}
                                     </h5>
-                                    <small>{{
-                                        getSubjectName(chapter.subject_id)
-                                    }}</small>
                                 </div>
                             </div>
 
@@ -123,46 +95,32 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
+import { useRoute } from "vue-router";
 import api from "@/utils/api";
 import UserLayout from "@/components/user/UserLayout.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
 import DetailsModal from "@/components/admin/DetailsModal.vue";
 
 const chapters = ref([]);
-const subjects = ref([]);
 const loading = ref(true);
+const subjectName = ref("Subject");
 const isDetailsModalVisible = ref(false);
 const detailedItem = ref(null);
-const selectedSubject = ref(null);
-
-const getSubjectName = (subjectId) => {
-    const subject = subjects.value.find((s) => s.id === subjectId);
-    return subject ? subject.name : "N/A";
-};
 
 const chapterFields = [
-    { key: "subject_name", label: "Subject Name" },
     { key: "name", label: "Chapter Name" },
     { key: "description", label: "Description" },
 ];
 
-const fetchSubjects = async () => {
-    try {
-        const response = await api.get("/api/admin/subjects");
-        subjects.value = response.data;
-    } catch (error) {
-        console.error("Failed to fetch subjects:", error);
-    }
-};
+const route = useRoute();
+const subjectId = parseInt(route.params.subjectId);
 
 const fetchChapters = async () => {
     try {
         loading.value = true;
-        let url = "/api/admin/chapters";
-        if (selectedSubject.value) {
-            url = `/api/admin/subjects/${selectedSubject.value}/chapters`;
-        }
-        const response = await api.get(url);
+        const response = await api.get(
+            `/api/admin/subjects/${subjectId}/chapters`
+        );
         chapters.value = response.data;
     } catch (error) {
         console.error("Failed to fetch chapters:", error);
@@ -171,22 +129,29 @@ const fetchChapters = async () => {
     }
 };
 
-onMounted(async () => {
-    await fetchSubjects();
-    await fetchChapters();
-});
+const fetchSubjectName = async () => {
+    try {
+        const response = await api.get("/api/admin/subjects");
+        const subject = response.data.find((s) => s.id === subjectId);
+        subjectName.value = subject ? subject.name : "Unknown Subject";
+    } catch (err) {
+        console.error("Error fetching subject name", err);
+    }
+};
 
 const openDetailsModal = (chapter) => {
-    detailedItem.value = {
-        ...chapter,
-        subject_name: getSubjectName(chapter.subject_id),
-    };
+    detailedItem.value = chapter;
     isDetailsModalVisible.value = true;
 };
 
 const closeDetailsModal = () => {
     isDetailsModalVisible.value = false;
 };
+
+onMounted(async () => {
+    await fetchSubjectName();
+    await fetchChapters();
+});
 </script>
 
 <style scoped>
@@ -203,16 +168,8 @@ h5 {
     color: var(--primary);
 }
 
+p,
 small {
-    color: var(--primary);
-}
-
-p {
-    color: var(--text);
-}
-
-.badge {
-    background-color: var(--secondary);
     color: var(--text);
 }
 
@@ -222,8 +179,6 @@ p {
 }
 
 .btn:hover {
-    background-color: var(--primary);
-    color: var(--background);
     transform: translate(0, -3px);
     box-shadow: 0 20px 80px -10px var(--text);
 }
@@ -235,13 +190,5 @@ i {
 .card:hover {
     transform: translateY(-5px);
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
-}
-
-.container-md {
-    margin-left: 15px;
-}
-
-div.dropdown {
-    width: fit-content;
 }
 </style>

@@ -13,7 +13,7 @@
                 class="row g-4"
             >
                 <router-link
-                    :to="`/api/admin/subjects/${subject.id}/chapters`"
+                    :to="`/user/subjects/${subject.id}/chapters`"
                     v-for="subject in subjects"
                     :key="subject.id"
                     class="col-md-6 col-lg-4 card-box-subjects"
@@ -22,6 +22,18 @@
                     <div
                         class="border rounded overflow-hidden h-100 shadow-sm hover-shadow transition"
                     >
+                        <div class="position-relative">
+                            <!-- Info button -->
+                            <button
+                                type="button"
+                                class="btn btn-sm btn-light position-absolute top-0 end-0 m-2"
+                                @click.stop.prevent="openDetailsModal(subject)"
+                                title="View Subject Details"
+                            >
+                                <i class="bi bi-info-circle text-primary"></i>
+                            </button>
+                        </div>
+
                         <!-- Top color bar -->
                         <div
                             class="w-100 d-block"
@@ -72,6 +84,14 @@
                         </div>
                     </div>
                 </router-link>
+                <DetailsModal
+                    :show="isDetailsModalVisible"
+                    :item="detailedItem"
+                    title="Subject Details"
+                    :fields="subjectFields"
+                    @close="closeDetailsModal"
+                    class="i-button"
+                />
             </div>
 
             <div
@@ -89,8 +109,22 @@ import { ref, onMounted } from "vue";
 import api from "@/utils/api";
 import UserLayout from "@/components/user/UserLayout.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
+import DetailsModal from "@/components/admin/DetailsModal.vue";
 
 const subjects = ref([]);
+const isDetailsModalVisible = ref(false);
+const detailedItem = ref(null);
+
+const subjectFields = [
+    {
+        key: "name",
+        label: "Name",
+    },
+    {
+        key: "description",
+        label: "Description",
+    },
+];
 
 const fetchSubjects = async () => {
     try {
@@ -99,6 +133,15 @@ const fetchSubjects = async () => {
     } catch (error) {
         console.error("Failed to fetch subjects:", error);
     }
+};
+
+const openDetailsModal = (subject) => {
+    detailedItem.value = subject;
+    isDetailsModalVisible.value = true;
+};
+
+const closeDetailsModal = () => {
+    isDetailsModalVisible.value = false;
 };
 
 onMounted(fetchSubjects);
@@ -128,15 +171,15 @@ small {
 }
 
 .btn {
-    background-color: var(--primary);
-    color: var(--background);
+    background-color: var(--static);
+    border: none;
 }
 
 .btn:hover {
-    background-color: var(--primary);
-    color: var(--background);
+    background-color: var(--secondary);
+
     transform: translate(0, -3px);
-    box-shadow: 0 20px 80px -10px var(--text);
+    /* box-shadow: 0 20px 80px -10px var(--text); */
 }
 
 i {
