@@ -3,7 +3,10 @@
         class="sidebar"
         :class="sidebarClass"
     >
-        <div class="user-profile d-flex align-items-center mb-4">
+        <div
+            v-if="user"
+            class="user-profile d-flex align-items-center mb-4"
+        >
             <i class="bi bi-person-circle fs-2 me-2"></i>
             <span class="fs-5 fw-semibold">{{ user.full_name }}</span>
         </div>

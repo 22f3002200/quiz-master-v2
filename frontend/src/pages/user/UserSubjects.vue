@@ -1,6 +1,6 @@
 <template>
     <div class="container py-4">
-        <div class="card-box p-4 rounded-3 shadow-lg">
+        <div class="card-box p-4 rounded-3">
             <div class="d-flex align-items-center mb-4">
                 <h2 class="fw-bold mb-0">Available Subjects</h2>
             </div>

@@ -16,7 +16,7 @@ class Quiz(db.Model):
     title = db.Column(db.String(120), nullable=False)
     date_of_quiz = db.Column(db.Date, nullable=False)
     scheduled_at = db.Column(db.DateTime, nullable=False)
-    duration = db.Column(db.Interval, nullable=False)
+    duration = db.Column(db.Integer, nullable=False)
     remarks = db.Column(db.Text, default="Easy Peasy")
     created_at = db.Column(db.DateTime, default=datetime.now())
 

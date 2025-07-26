@@ -1,7 +1,7 @@
 <template>
     <UserLayout>
         <div class="container py-4">
-            <div class="card-box p-4 rounded-3 shadow-lg">
+            <div class="card-box p-4 rounded-3">
                 <h2 class="fw-bold mb-4">My Profile</h2>
                 <div
                     v-if="loading"

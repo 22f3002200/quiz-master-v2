@@ -3,6 +3,7 @@
 }
 .card-box {
     background-color: var(--static);
+    margin-top: 35px;
 }
 h2 {
     color: var(--primary);
@@ -27,11 +28,11 @@ h2 {
 }
 
 .btn-outline-success.edit {
-    border-color: var(--primary);
+    border-color: var(--primary) !important;
 }
 
 .btn-outline-success.edit:hover {
-    background-color: var(--secondary);
+    background-color: var(--secondary) !important;
 }
 
 i.bi-pencil {
@@ -73,7 +74,7 @@ a {
 }
 
 .btn-outline-info.details {
-    border-color: #f0730d;
+    border-color: #f0730d !important;
 }
 .btn-outline-info.details:hover {
     background-color: #f0730d5e;
