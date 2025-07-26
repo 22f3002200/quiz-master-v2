@@ -1,7 +1,9 @@
 <template>
-    <button
-        type="button"
+    <component
+        :is="tag"
+        :to="to"
         :class="['btn', `btn-${color}`]"
+        :type="tag === 'button' ? 'button' : undefined"
         :disabled="disabled"
         @click="$emit('click', '$event')"
     >
@@ -10,11 +12,14 @@
             class="spinner-border spinner-border-sm me-2"
         ></span>
         <slot></slot>
-    </button>
+    </component>
 </template>
 
 <script setup>
-defineProps({
+import { computed } from "vue";
+
+const props = defineProps({
+    to: String,
     color: {
         type: String,
         default: "",
@@ -29,6 +34,8 @@ defineProps({
     },
 });
 defineEmits(["click"]);
+
+const tag = computed(() => (props.to ? "router-link" : "button"));
 </script>
 
 <style scoped>

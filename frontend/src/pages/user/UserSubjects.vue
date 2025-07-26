@@ -1,6 +1,6 @@
 <template>
     <UserLayout>
-        <div class="container-xxl p-4">
+        <div class="container-md p-4">
             <h2
                 class="mb-4 fw-bold"
                 style="color: var(--primary)"
@@ -15,7 +15,7 @@
                 <div
                     v-for="subject in subjects"
                     :key="subject.id"
-                    class="col-md-6 col-lg-4"
+                    class="col-md-6 col-lg-4 card-box-subjects"
                 >
                     <div
                         class="border rounded overflow-hidden h-100 shadow-sm hover-shadow transition"
@@ -53,7 +53,7 @@
                                 </div>
                             </div>
 
-                            <!-- Difficulty tags (optional placeholder) -->
+                            <!-- Difficulty tags -->
                             <div class="mb-3 d-flex flex-wrap gap-2">
                                 <span class="badge">Beginner</span>
                                 <span class="badge">Intermediate</span>
@@ -61,12 +61,13 @@
                             </div>
 
                             <!-- Button -->
-                            <router-link
+                            <BaseButton
                                 :to="`/user/quizzes/subject/${subject.id}`"
-                                class="btn w-100"
+                                @click="handleQuizEndpoint"
+                                class="btn btn-primary w-100"
                             >
-                                View Quizzes
-                            </router-link>
+                                Browse Quiz
+                            </BaseButton>
                         </div>
                     </div>
                 </div>
@@ -86,6 +87,7 @@
 import { ref, onMounted } from "vue";
 import api from "@/utils/api";
 import UserLayout from "@/components/user/UserLayout.vue";
+import BaseButton from "@/components/base/BaseButton.vue";
 
 const subjects = ref([]);
 
@@ -102,7 +104,6 @@ onMounted(fetchSubjects);
 </script>
 
 <style scoped>
-/* Reuse the design styles */
 .border {
     background-color: var(--primary5);
 }
@@ -146,7 +147,7 @@ i {
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
 }
 
-.container-xxl {
+.container-md {
     margin-left: 15px;
 }
 </style>

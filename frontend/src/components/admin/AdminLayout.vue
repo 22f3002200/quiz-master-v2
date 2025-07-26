@@ -39,6 +39,6 @@ const adminNavLinks = [
 }
 .main-content {
     background-color: var(--background);
-    width: calc(100% - 250px); /* Adjust based on sidebar width */
+    width: calc(100% - 250px);
 }
 </style>
