@@ -33,3 +33,4 @@ class Quiz(db.Model):
     saved_by_users = db.relationship(
         "User", secondary=saved_quizzes, back_populates="saved_quizzes_rel"
     )
+    

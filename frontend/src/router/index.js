@@ -7,6 +7,7 @@ import AdminSubjects from "@/pages/admin/AdminSubjects.vue";
 import AdminChapters from "@/pages/admin/AdminChapters.vue";
 import AdminUsers from "@/pages/admin/AdminUsers.vue";
 import AdminQuizzes from "@/pages/admin/AdminQuizzes.vue";
+import AdminQuestions from "@/pages/admin/AdminQuestions.vue";
 import UserDashboard from "@/pages/user/UserDashboard.vue";
 import UserSubjects from "@/pages/user/UserSubjects.vue";
 import UserChapters from "@/pages/user/UserChapters.vue";
@@ -49,6 +50,12 @@ const routes = [
         path: "/admin/quizzes",
         name: "Manage Quizzes",
         component: AdminQuizzes,
+        meta: { requiresAuth: true, isAdmin: true },
+    },
+    {
+        path: "/admin/quizzes/:quizId/questions",
+        name: "Manage Questions",
+        component: AdminQuestions,
         meta: { requiresAuth: true, isAdmin: true },
     },
     {

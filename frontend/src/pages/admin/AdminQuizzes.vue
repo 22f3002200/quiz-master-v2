@@ -106,7 +106,12 @@
                                 v-for="quiz in quizzes"
                                 :key="quiz.id"
                             >
-                                <td>{{ quiz.title }}</td>
+                                <td class="title">
+                                    <router-link
+                                        :to="`/admin/quizzes/${quiz.id}/questions`"
+                                        >{{ quiz.title }}</router-link
+                                    >
+                                </td>
                                 <td>{{ getSubjectName(quiz.subject_id) }}</td>
                                 <td>{{ getChapterName(quiz.chapter_id) }}</td>
                                 <td>{{ quiz.duration }}</td>
@@ -211,7 +216,7 @@
                         <div class="mb-3">
                             <label
                                 for="quizTitle"
-                                class="form-label fw-semibold"
+                                class="form-label title fw-semibold"
                                 >Quiz Title</label
                             >
                             <input
@@ -346,6 +351,7 @@ const getSubjectName = (subjectId) => {
 
 const getChapterName = (chapterId) => {
     const allChapters = [...chapters.value, ...modalChapters.value];
+    console.log(allChapters);
     const chapter = allChapters.find((c) => c.id === chapterId);
     return chapter ? chapter.name : "N/A";
 };
@@ -425,8 +431,18 @@ const fetchQuizzes = async () => {
     }
 };
 
+const fetchAllChapters = async () => {
+    try {
+        const response = await api.get("/api/admin/chapters");
+        chapters.value = response.data;
+    } catch (error) {
+        console.error("Failed to fetch all chapters:", error);
+    }
+};
+
 onMounted(async () => {
     await fetchSubjects();
+    await fetchAllChapters();
     await fetchQuizzes();
 });
 
@@ -515,4 +531,9 @@ const deleteQuiz = async (id) => {
 
 <style scoped>
 @import "../../assets/subjects.css";
+
+td.title a {
+    color: var(--primary);
+    text-decoration: none;
+}
 </style>
