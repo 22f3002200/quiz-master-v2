@@ -76,7 +76,7 @@
 
                             <!-- Button -->
                             <BaseButton
-                                :to="`/user/quizzes/subject/${subject.id}`"
+                                :to="`/user/quizzes/subjects/${subject.id}`"
                                 class="btn btn-primary w-100"
                             >
                                 Browse Quiz

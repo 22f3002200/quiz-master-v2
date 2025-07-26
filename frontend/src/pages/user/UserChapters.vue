@@ -64,6 +64,18 @@
                     <div
                         class="border rounded overflow-hidden h-100 shadow-sm hover-shadow transition"
                     >
+                        <div class="position-relative">
+                            <!-- Info button -->
+                            <button
+                                type="button"
+                                class="btn btn-sm btn-light position-absolute top-0 end-0 m-2"
+                                @click.stop.prevent="openDetailsModal(chapter)"
+                                title="View Subject Details"
+                            >
+                                <i class="bi bi-info-circle text-primary"></i>
+                            </button>
+                        </div>
+
                         <!-- Top color bar -->
                         <div
                             class="w-100 d-block"
@@ -100,9 +112,8 @@
                             <BaseButton
                                 size="sm"
                                 class="btn btn-primary w-100"
-                                @click="openDetailsModal(chapter)"
                             >
-                                View Details
+                                Browse Quiz
                             </BaseButton>
                         </div>
                     </div>
@@ -217,15 +228,15 @@ p {
 }
 
 .btn {
-    background-color: var(--primary);
-    color: var(--background);
+    background-color: var(--static);
+    border: none;
 }
 
 .btn:hover {
-    background-color: var(--primary);
-    color: var(--background);
+    background-color: var(--secondary);
+
     transform: translate(0, -3px);
-    box-shadow: 0 20px 80px -10px var(--text);
+    /* box-shadow: 0 20px 80px -10px var(--text); */
 }
 
 i {

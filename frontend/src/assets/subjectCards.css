@@ -1,0 +1,42 @@
+div.border {
+    background-color: var(--primary5);
+}
+
+div.d-block {
+    background-color: var(--primary);
+}
+
+h2,
+h5 {
+    color: var(--primary);
+}
+
+.badge {
+    background-color: var(--secondary);
+    color: var(--text);
+}
+
+button.btn {
+    background-color: var(--static);
+    border: none;
+}
+
+.btn:hover {
+    background-color: var(--secondary);
+
+    transform: translate(0, -3px);
+    /* box-shadow: 0 20px 80px -10px var(--text); */
+}
+
+i {
+    color: var(--primary);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.container-md {
+    margin-left: 15px;
+}
