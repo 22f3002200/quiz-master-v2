@@ -451,7 +451,7 @@ const openAddModal = () => {
     currentQuiz.value = {
         id: null,
         title: "",
-        duration: 60,
+        duration: 4,
         remarks: "",
         date_of_quiz: new Date().toISOString().slice(0, 10),
         scheduled_at: new Date().toISOString().slice(11, 16),

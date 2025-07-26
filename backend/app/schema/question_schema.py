@@ -9,7 +9,7 @@ class QuestionCreateSchema(BaseModel):
     option2: str = Field(..., min_length=1, description="Option 2")
     option3: str = Field(..., min_length=1, description="Option 3")
     option4: str = Field(..., min_length=1, description="Option 4")
-    correct_option: int = Field(..., gt=1, le=4, description="Correct option (1-4)")
+    correct_option: int = Field(..., gt=0, le=4, description="Correct option (1-4)")
 
     @field_validator("correct_option")
     def validate_correct_option(cls, v):
@@ -24,7 +24,7 @@ class QuestionUpdateSchema(BaseModel):
     option2: Optional[str] = Field(None, min_length=1)
     option3: Optional[str] = Field(None, min_length=1)
     option4: Optional[str] = Field(None, min_length=1)
-    correct_option: Optional[int] = Field(None, gt=1, le=4)
+    correct_option: Optional[int] = Field(None, gt=0, le=4)
 
     @field_validator("correct_option")
     def validate_correct_option(cls, v):
