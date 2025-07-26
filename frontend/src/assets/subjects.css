@@ -2,7 +2,6 @@
     max-width: 900px;
 }
 .card-box {
-    background-color: var(--background);
     background-color: var(--static);
 }
 h2 {
@@ -12,7 +11,7 @@ h2 {
 .table-responsive {
     border-radius: 8px;
     overflow: hidden;
-    background-color: var(--primary5);
+    background-color: var(--background);
 }
 
 .table thead th {
@@ -74,13 +73,14 @@ a {
 }
 
 .btn-outline-info.details {
-    border-color: #0dcaf0;
+    border-color: #f0730d;
 }
 .btn-outline-info.details:hover {
-    background-color: #0dcaf0;
+    background-color: #f0730d5e;
+    border: #f0730d;
 }
 i.bi-eye {
-    color: #0dcaf0;
+    color: #f0730d;
 }
 .btn-outline-info.details:hover i.bi-eye {
     color: var(--background);

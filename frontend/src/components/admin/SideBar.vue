@@ -5,7 +5,7 @@
     >
         <div class="user-profile d-flex align-items-center mb-4">
             <i class="bi bi-person-circle fs-2 me-2"></i>
-            <span class="fs-5 fw-semibold">Coolest User</span>
+            <span class="fs-5 fw-semibold">{{ user.name }}</span>
         </div>
         <ul class="nav nav-pills flex-column mb-auto">
             <li
@@ -84,7 +84,7 @@ const sidebarClass = computed(() =>
 }
 
 .nav-link.active {
-    background-color: var(--primary);
+    background-color: var(--primary) !important;
     color: var(--background);
 }
 

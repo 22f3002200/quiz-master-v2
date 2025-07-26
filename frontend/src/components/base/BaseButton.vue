@@ -42,14 +42,23 @@ defineEmits(["click"]);
 }
 
 .btn-primary {
-    background-color: var(--primary);
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: var(--background) !important;
 }
 
 .btn-primary:hover {
     background-color: var(--primary);
+    border-color: var(--primary);
     color: var(--background);
     transform: translate(0, -3px);
     box-shadow: 0 20px 80px -10px var(--text);
+}
+
+.btn-primary:active {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: var(--text);
 }
 
 .btn-secondary {
@@ -58,6 +67,7 @@ defineEmits(["click"]);
 }
 
 .btn-secondary:hover {
+    background-color: var(--secondary);
     box-shadow: 0 20px 80px -10px var(--text);
 }
 </style>
