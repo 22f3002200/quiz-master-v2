@@ -9,6 +9,7 @@ import AdminUsers from "@/pages/admin/AdminUsers.vue";
 import UserDashboard from "@/pages/user/UserDashboard.vue";
 import UserSubjects from "@/pages/user/UserSubjects.vue";
 import UserChapters from "@/pages/user/UserChapters.vue";
+import UserProfile from "@/pages/user/UserProfile.vue";
 
 const routes = [
     { path: "/", name: "Quiz Master", component: HomePage },
@@ -65,6 +66,12 @@ const routes = [
         path: "/user/chapters",
         name: "View Chapters",
         component: UserChapters,
+        meta: { requiresAuth: true, isUser: true },
+    },
+    {
+        path: "/user/profile",
+        name: "User Profile",
+        component: UserProfile,
         meta: { requiresAuth: true, isUser: true },
     },
 ];
