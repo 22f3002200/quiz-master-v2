@@ -40,7 +40,7 @@ def create_quiz(subject_id, chapter_id):
         db.session.commit()
 
         response_data = QuizResponseSchema.model_validate(quiz)
-        
+
         return jsonify(response_data.model_dump()), 201
 
     except ValidationError as e:
@@ -52,7 +52,7 @@ def create_quiz(subject_id, chapter_id):
 @admin_bp.route(
     "/subjects/<int:subject_id>/chapters/<int:chapter_id>/quizzes", methods=["GET"]
 )
-@admin_required
+@user_required
 def list_quizzes_by_chapter(subject_id, chapter_id):
     try:
         subject = Subject.query.get_or_404(subject_id)
@@ -69,8 +69,8 @@ def list_quizzes_by_chapter(subject_id, chapter_id):
 
 
 @admin_bp.route("/subjects/<int:subject_id>/quizzes", methods=["GET"])
-@admin_required
-def list_quizzes_by_subject(subject_id):
+@user_required
+def list_quizzes_by_subject(subject_id, current_user_id):
     try:
         subject = Subject.query.get_or_404(subject_id)
 
@@ -86,10 +86,12 @@ def list_quizzes_by_subject(subject_id):
 
 @admin_bp.route("/quizzes", methods=["GET"])
 @user_required
-def list_all_quizzes(current_user_id):
+def list_all_quizzes():
     try:
         quizzes = Quiz.query.all()
-        quizzes_data = [QuizResponseSchema.model_validate(quiz).model_dump() for quiz in quizzes]
+        quizzes_data = [
+            QuizResponseSchema.model_validate(quiz).model_dump() for quiz in quizzes
+        ]
         print(quizzes_data)
         return jsonify(quizzes_data), 200
     except Exception as e:

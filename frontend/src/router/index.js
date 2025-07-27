@@ -13,6 +13,7 @@ import UserSubjects from "@/pages/user/UserSubjects.vue";
 import UserChapters from "@/pages/user/UserChapters.vue";
 import UserProfile from "@/pages/user/UserProfile.vue";
 import UserSubjectChapters from "@/pages/user/UserSubjectChapters.vue";
+import UserSubjectQuizzes from "@/pages/user/UserSubjectQuizzes.vue";
 
 const routes = [
     { path: "/", name: "Quiz Master", component: HomePage },
@@ -87,6 +88,12 @@ const routes = [
         path: "/user/subjects/:subjectId/chapters",
         name: "View Subject Chapters",
         component: UserSubjectChapters,
+        meta: { requiresAuth: true, isUser: true },
+    },
+    {
+        path: "/user/quizzes/subjects/:subjectId",
+        name: "View Subject Chapters",
+        component: UserSubjectQuizzes,
         meta: { requiresAuth: true, isUser: true },
     },
     {
