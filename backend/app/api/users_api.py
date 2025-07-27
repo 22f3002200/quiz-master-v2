@@ -27,7 +27,6 @@ def list_quizzes(chapter_id, current_user_id):
         quizzes_data = []
 
         for quiz in quizzes:
-
             # Check if user has attempted this quiz
             user_score = Score.query.filter_by(
                 quiz_id=quiz.id, user_id=current_user_id
@@ -75,8 +74,6 @@ def get_quiz(quiz_id, current_user_id):
         # current_user_id = get_jwt_identity()
         quiz = Quiz.query.get_or_404(quiz_id)
 
-        
-
         # Check if quiz is scheduled and not expired
         # now = datetime.utcnow()
         # if quiz.scheduled_at > now:
@@ -106,7 +103,7 @@ def get_quiz(quiz_id, current_user_id):
             "total_questions": len(questions_data),
             "questions": questions_data,
         }
-        
+
         print(quiz_data)
 
         return jsonify(quiz_data), 200
@@ -133,6 +130,7 @@ def submit_quiz(quiz_id, current_user_id):
         correct_count = 0
         wrong_count = 0
         unattempted_count = 0
+        total_score = 0
 
         # Process each question
         for question in questions:
@@ -150,13 +148,15 @@ def submit_quiz(quiz_id, current_user_id):
             # Calculate score
             if selected_option is None:
                 unattempted_count = unattempted_count + 1
-            elif selected_option == question.correct_option:
+            elif int(selected_option) == question.correct_option:
                 correct_count = correct_count + 1
+                total_score = total_score + question.marks
             else:
                 wrong_count = wrong_count + 1
+                total_score = total_score - question.negative_marks
 
         # Calculate total score
-        total_score = correct_count * 4 - wrong_count * 1
+        # total_score = correct_count * 4 - wrong_count * 1
 
         # Save Score
         score = Score()
@@ -232,7 +232,6 @@ def get_scores(current_user_id):
 @user_required
 def get_user_dashboard(current_user_id):
     try:
-
         # Get user's statistics
         total_quizzes_attempted = Score.query.filter_by(user_id=current_user_id).count()
 
