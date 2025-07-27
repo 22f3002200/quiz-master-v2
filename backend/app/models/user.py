@@ -40,7 +40,7 @@ class User(db.Model):
     full_name = db.Column(db.String(120), nullable=False)
     qualification = db.Column(db.String(50))
     dob = db.Column(db.Date)
-    created_at = db.Column(db.DateTime, default=datetime.now())
+    created_at = db.Column(db.DateTime, default=datetime.utcnow())
 
     # Relationships
     roles = db.relationship("Role", secondary=user_roles, back_populates="users")

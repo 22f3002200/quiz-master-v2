@@ -2,7 +2,7 @@ from datetime import datetime
 
 from app.extensions import db
 
-now = datetime.now()
+now = datetime.utcnow()
 
 
 class Score(db.Model):

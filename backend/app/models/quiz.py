@@ -18,7 +18,7 @@ class Quiz(db.Model):
     scheduled_at = db.Column(db.DateTime, nullable=False)
     duration = db.Column(db.Integer, nullable=False)
     remarks = db.Column(db.Text, default="Easy Peasy")
-    created_at = db.Column(db.DateTime, default=datetime.now())
+    created_at = db.Column(db.DateTime, default=datetime.utcnow())
 
     # Relationships
     questions = db.relationship(

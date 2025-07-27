@@ -1,44 +1,48 @@
 <template>
-    <div
-        class="modal fade"
-        :class="{ show: show }"
-        :style="{ display: show ? 'block' : 'none' }"
-        tabindex="-1"
-        @click.self="$emit('close')"
-    >
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        <slot name="header">Default Header</slot>
-                    </h5>
-                    <button
-                        type="button"
-                        class="btn-close"
-                        @click="$emit('close')"
-                    ></button>
-                </div>
-                <div class="modal-body">
-                    <slot name="body">Default Body</slot>
-                </div>
-                <div class="modal-footer">
-                    <slot name="footer">
-                        <BaseButton
-                            color="secondary"
+    <div>
+        <div
+            class="modal fade"
+            :class="{ show: show }"
+            :style="{ display: show ? 'block' : 'none' }"
+            tabindex="-1"
+            @click.self="$emit('close')"
+        >
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <slot name="header">Default Header</slot>
+                        </h5>
+                        <button
+                            type="button"
+                            class="btn-close"
                             @click="$emit('close')"
-                        >
-                            Close
-                        </BaseButton>
-                        <BaseButton color="primary">Save changes</BaseButton>
-                    </slot>
+                        ></button>
+                    </div>
+                    <div class="modal-body">
+                        <slot name="body">Default Body</slot>
+                    </div>
+                    <div class="modal-footer">
+                        <slot name="footer">
+                            <BaseButton
+                                color="secondary"
+                                @click="$emit('close')"
+                            >
+                                Close
+                            </BaseButton>
+                            <BaseButton color="primary"
+                                >Save changes</BaseButton
+                            >
+                        </slot>
+                    </div>
                 </div>
             </div>
         </div>
+        <div
+            v-if="show"
+            class="modal-backdrop fade show"
+        ></div>
     </div>
-    <div
-        v-if="show"
-        class="modal-backdrop fade show"
-    ></div>
 </template>
 
 <script setup>

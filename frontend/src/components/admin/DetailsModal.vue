@@ -15,7 +15,9 @@
                         <strong>{{ field.label }}:</strong>
                         {{
                             field.isDate
-                                ? new Date(item[field.key]).toLocaleString()
+                                ? formatToIST(item[field.key], {
+                                      showTime: field.key !== "date_of_quiz",
+                                  })
                                 : item[field.key]
                         }}
                     </p>
@@ -38,6 +40,7 @@
 <script setup>
 import BaseModal from "@/components/base/BaseModal.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
+import { formatToIST } from "@/utils/dateFormatter";
 
 defineProps({
     show: Boolean,

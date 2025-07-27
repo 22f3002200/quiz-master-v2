@@ -76,7 +76,7 @@ def get_quiz(quiz_id):
         quiz = Quiz.query.get_or_404(quiz_id)
 
         # Check if quiz is scheduled and not exxpired
-        now = datetime.now()
+        now = datetime.utcnow()
         if quiz.scheduled_at > now:
             return jsonify({"error": "Quiz is not yet available"}), 400
 
@@ -162,7 +162,7 @@ def submit_quiz(quiz_id, current_user_id):
         score.wrong_count = wrong_count
         score.unattempted_count = unattempted_count
         score.total_score = total_score
-        score.timestamp = datetime.now()
+        score.timestamp = datetime.utcnow()
         score.status = "completed"
 
         db.session.add(score)

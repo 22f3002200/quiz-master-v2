@@ -110,6 +110,7 @@
 
                             <!-- Button -->
                             <BaseButton
+                                :to="`/user/subjects/${chapter.subject_id}/chapters/${chapter.id}/quizzes`"
                                 size="sm"
                                 class="btn btn-primary w-100"
                             >

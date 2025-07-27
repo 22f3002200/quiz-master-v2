@@ -4,7 +4,7 @@ from app.extensions import db
 
 from .user import enrolled_subjects
 
-now = datetime.now()
+now = datetime.utcnow()
 
 
 class Subject(db.Model):

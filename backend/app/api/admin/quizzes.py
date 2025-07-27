@@ -53,7 +53,7 @@ def create_quiz(subject_id, chapter_id):
     "/subjects/<int:subject_id>/chapters/<int:chapter_id>/quizzes", methods=["GET"]
 )
 @user_required
-def list_quizzes_by_chapter(subject_id, chapter_id):
+def list_quizzes_by_chapter(subject_id, chapter_id, current_user_id):
     try:
         subject = Subject.query.get_or_404(subject_id)
         chapter = Chapter.query.get_or_404(chapter_id)
@@ -86,7 +86,7 @@ def list_quizzes_by_subject(subject_id, current_user_id):
 
 @admin_bp.route("/quizzes", methods=["GET"])
 @user_required
-def list_all_quizzes():
+def list_all_quizzes(current_user_id):
     try:
         quizzes = Quiz.query.all()
         quizzes_data = [
