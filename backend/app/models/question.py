@@ -12,6 +12,8 @@ class Question(db.Model):
     option3 = db.Column(db.Text, nullable=False)
     option4 = db.Column(db.Text, nullable=False)
     correct_option = db.Column(db.Integer, nullable=False)
+    marks = db.Column(db.Integer, nullable=False)
+    negative_marks = db.Column(db.Integer, nullable=False)
 
     # Relationship
     quiz = db.relationship("Quiz", back_populates="questions")

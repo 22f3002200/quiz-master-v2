@@ -10,6 +10,8 @@ class QuestionCreateSchema(BaseModel):
     option3: str = Field(..., min_length=1, description="Option 3")
     option4: str = Field(..., min_length=1, description="Option 4")
     correct_option: int = Field(..., gt=0, le=4, description="Correct option (1-4)")
+    marks: int = Field(..., ge=1)
+    negative_marks: float = Field(default=0, ge=0)
 
     @field_validator("correct_option")
     def validate_correct_option(cls, v):
@@ -25,6 +27,8 @@ class QuestionUpdateSchema(BaseModel):
     option3: Optional[str] = Field(None, min_length=1)
     option4: Optional[str] = Field(None, min_length=1)
     correct_option: Optional[int] = Field(None, gt=0, le=4)
+    marks: Optional[int] = Field(None, ge=1)
+    negative_marks: Optional[float] = Field(None, ge=0)
 
     @field_validator("correct_option")
     def validate_correct_option(cls, v):
@@ -42,6 +46,8 @@ class QuestionResponseSchema(BaseModel):
     option3: str
     option4: str
     correct_option: int
+    marks: int
+    negative_marks: Optional[float]
 
     class Config:
         from_attributes = True

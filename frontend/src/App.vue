@@ -1,10 +1,10 @@
 <template>
     <div class="min-vh-100">
-        <HeaderSection />
+        <HeaderSection v-if="!$route.meta.hideLayout" />
         <main>
             <router-view :title="title" />
         </main>
-        <FooterSection />
+        <FooterSection v-if="!$route.meta.hideLayout" />
     </div>
 </template>
 

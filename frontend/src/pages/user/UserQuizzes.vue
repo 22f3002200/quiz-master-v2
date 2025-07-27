@@ -42,10 +42,6 @@
                                     </h5>
                                     <small>
                                         Duration: {{ quiz.duration }} mins<br />
-                                    </small>
-
-                                    <small>
-                                        Duration: {{ quiz.duration }} mins<br />
                                         Scheduled:
                                         {{ formatDateTime(quiz.scheduled_at) }}
                                     </small>
@@ -99,6 +95,10 @@ const fetchQuizzes = async () => {
 
 const formatDate = (dateStr) => {
     return new Date(dateStr).toLocaleDateString();
+};
+
+const formatDateTime = (dateTimeStr) => {
+    return new Date(dateTimeStr).toLocaleString();
 };
 
 onMounted(fetchQuizzes);

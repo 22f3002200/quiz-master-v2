@@ -121,7 +121,7 @@ const routes = [
         path: "/user/quiz/:quizId",
         name: "Quiz Attempt",
         component: () => import("@/pages/user/QuizAttempt.vue"),
-        meta: { requiresAuth: true, isUser: true },
+        meta: { requiresAuth: true, isUser: true, hideLayout: true },
     },
 ];
 

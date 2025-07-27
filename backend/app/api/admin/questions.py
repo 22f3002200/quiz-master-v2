@@ -30,6 +30,9 @@ def create_question(quiz_id):
         question.option3 = question_data.option3
         question.option4 = question_data.option4
         question.correct_option = question_data.correct_option
+        question.marks = question_data.marks
+        question.negative_marks = question_data.negative_marks
+        
 
         db.session.add(question)
         db.session.commit()

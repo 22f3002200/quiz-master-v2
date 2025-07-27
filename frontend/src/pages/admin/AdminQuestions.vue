@@ -14,6 +14,7 @@
                     </BaseButton>
                 </div>
 
+                <!-- Marks Toggle -->
                 <div
                     class="form-check form-switch mb-3 d-flex align-items-center gap-2 ps-0"
                 >
@@ -30,24 +31,61 @@
                     >
                 </div>
 
+                <!-- Negative Toggle -->
                 <div
-                    v-if="uniformMarks"
-                    class="mb-3"
+                    class="form-check form-switch mb-3 d-flex align-items-center gap-2 ps-0"
                 >
-                    <label
-                        for="uniformMarksValue"
-                        class="form-label fw-semibold"
-                        >Marks for each question</label
-                    >
                     <input
-                        type="number"
-                        class="form-control"
-                        id="uniformMarksValue"
-                        v-model="uniformMarksValue"
-                        min="1"
+                        class="form-check-input"
+                        type="checkbox"
+                        id="negativeMarkingToggle"
+                        v-model="enableNegativeMarking"
                     />
+                    <label
+                        class="form-check-label"
+                        for="negativeMarkingToggle"
+                        >Enable Negative Marking</label
+                    >
                 </div>
 
+                <!-- Marks + Negative Input Row -->
+                <div
+                    v-if="uniformMarks"
+                    class="mb-3 d-flex align-items-end gap-3 flex-wrap"
+                >
+                    <div>
+                        <label
+                            for="uniformMarksValue"
+                            class="form-label fw-semibold"
+                            >Marks for each question</label
+                        >
+                        <input
+                            type="number"
+                            class="form-control"
+                            id="uniformMarksValue"
+                            v-model="uniformMarksValue"
+                            min="1"
+                        />
+                    </div>
+
+                    <div v-if="enableNegativeMarking">
+                        <label
+                            for="uniformNegativeMarksValue"
+                            class="form-label fw-semibold"
+                            >Negative Marks</label
+                        >
+                        <input
+                            type="number"
+                            class="form-control"
+                            id="uniformNegativeMarksValue"
+                            v-model="uniformNegativeMarksValue"
+                            min="0"
+                            step="0.1"
+                        />
+                    </div>
+                </div>
+
+                <!-- Loading / No Questions / Table -->
                 <div
                     v-if="loading"
                     class="text-center"
@@ -82,6 +120,12 @@
                                     scope="col"
                                 >
                                     MARKS
+                                </th>
+                                <th
+                                    v-if="!uniformMarks"
+                                    scope="col"
+                                >
+                                    NEGATIVE
                                 </th>
                                 <th
                                     scope="col"
@@ -120,6 +164,13 @@
                                 <td v-if="!uniformMarks">
                                     {{ question.marks }}
                                 </td>
+                                <td v-if="!uniformMarks">
+                                    {{
+                                        question.negative_marks > 0
+                                            ? `-${question.negative_marks}`
+                                            : 0
+                                    }}
+                                </td>
                                 <td class="text-end">
                                     <div
                                         class="d-flex justify-content-end gap-2"
@@ -146,6 +197,7 @@
                 </div>
             </div>
 
+            <!-- Modal -->
             <BaseModal
                 :show="isModalVisible"
                 @close="closeModal"
@@ -169,59 +221,21 @@
                                 required
                             ></textarea>
                         </div>
-                        <div class="mb-3">
+                        <div
+                            class="mb-3"
+                            v-for="n in 4"
+                            :key="n"
+                        >
                             <label
-                                for="option1"
+                                :for="'option' + n"
                                 class="form-label fw-semibold"
-                                >Option 1</label
+                                >Option {{ n }}</label
                             >
                             <input
                                 type="text"
                                 class="form-control"
-                                id="option1"
-                                v-model="currentQuestion.option1"
-                                required
-                            />
-                        </div>
-                        <div class="mb-3">
-                            <label
-                                for="option2"
-                                class="form-label fw-semibold"
-                                >Option 2</label
-                            >
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="option2"
-                                v-model="currentQuestion.option2"
-                                required
-                            />
-                        </div>
-                        <div class="mb-3">
-                            <label
-                                for="option3"
-                                class="form-label fw-semibold"
-                                >Option 3</label
-                            >
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="option3"
-                                v-model="currentQuestion.option3"
-                                required
-                            />
-                        </div>
-                        <div class="mb-3">
-                            <label
-                                for="option4"
-                                class="form-label fw-semibold"
-                                >Option 4</label
-                            >
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="option4"
-                                v-model="currentQuestion.option4"
+                                :id="'option' + n"
+                                v-model="currentQuestion['option' + n]"
                                 required
                             />
                         </div>
@@ -243,10 +257,13 @@
                                 >
                                     Please select correct option:
                                 </option>
-                                <option :value="1">Option 1</option>
-                                <option :value="2">Option 2</option>
-                                <option :value="3">Option 3</option>
-                                <option :value="4">Option 4</option>
+                                <option
+                                    v-for="n in 4"
+                                    :value="n"
+                                    :key="n"
+                                >
+                                    Option {{ n }}
+                                </option>
                             </select>
                         </div>
                         <div
@@ -264,6 +281,24 @@
                                 id="questionMarks"
                                 v-model.number="currentQuestion.marks"
                                 min="1"
+                            />
+                        </div>
+                        <div
+                            v-if="!uniformMarks"
+                            class="mb-3"
+                        >
+                            <label
+                                for="questionNegativeMarks"
+                                class="form-label fw-semibold"
+                                >Negative Marks</label
+                            >
+                            <input
+                                type="number"
+                                class="form-control"
+                                id="questionNegativeMarks"
+                                v-model.number="currentQuestion.negative_marks"
+                                min="0"
+                                step="0.1"
                             />
                         </div>
                     </form>
@@ -305,6 +340,8 @@ const isEditing = ref(false);
 const isSubmitting = ref(false);
 const uniformMarks = ref(true);
 const uniformMarksValue = ref(4);
+const enableNegativeMarking = ref(false);
+const uniformNegativeMarksValue = ref(0);
 
 const currentQuestion = ref({
     id: null,
@@ -315,14 +352,13 @@ const currentQuestion = ref({
     option4: "",
     correct_option: 1,
     marks: 4,
+    negative_marks: 0,
 });
 
 const fetchQuizDetails = async () => {
     try {
         const response = await api.get(`/api/admin/quizzes`);
-        console.log("response", response);
         quizTitle.value = response.data[0].title;
-        console.log(response.data[0].title);
     } catch (error) {
         console.error("Failed to fetch quiz details:", error);
     }
@@ -357,14 +393,21 @@ const openAddModal = () => {
         option3: "",
         option4: "",
         correct_option: 1,
-        marks: uniformMarks.value ? uniformMarksValue.value : 10,
+        marks: uniformMarks.value ? uniformMarksValue.value : 4,
+        negative_marks:
+            uniformMarks.value && enableNegativeMarking.value
+                ? uniformNegativeMarksValue.value
+                : 0,
     };
     isModalVisible.value = true;
 };
 
 const openEditModal = (question) => {
     isEditing.value = true;
-    currentQuestion.value = { ...question };
+    currentQuestion.value = {
+        ...question,
+        negative_marks: question.negative_marks ?? 0,
+    };
     isModalVisible.value = true;
 };
 
@@ -376,7 +419,11 @@ const handleQuestionSubmit = async () => {
     isSubmitting.value = true;
     if (uniformMarks.value) {
         currentQuestion.value.marks = uniformMarksValue.value;
+        currentQuestion.value.negative_marks = enableNegativeMarking.value
+            ? uniformNegativeMarksValue.value
+            : 0;
     }
+
     try {
         if (isEditing.value) {
             await api.put(
@@ -424,8 +471,4 @@ const deleteQuestion = async (id) => {
 .form-switch .form-check-input:checked {
     background-color: var(--primary);
 }
-
-/* #uniformMarksToggle {
-    background-color: var(--background);
-} */
 </style>

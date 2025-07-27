@@ -1,96 +1,166 @@
 <template>
-    <UserLayout>
-        <div class="container py-4">
+    <div class="container py-4">
+        <div
+            v-if="loading"
+            class="text-center py-5"
+        >
             <div
-                v-if="loading"
-                class="text-center"
+                class="spinner-border text-primary"
+                role="status"
             >
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+
+        <div
+            v-else-if="quiz"
+            class="card-box p-4 rounded-3"
+        >
+            <h2 class="fw-bold mb-2">{{ quiz.title }}</h2>
+            <p class="text-muted">Time Remaining: {{ formattedTime }}</p>
+
+            <!-- Progress Bar -->
+            <div class="progress mb-4">
                 <div
-                    class="spinner-border text-primary"
-                    role="status"
+                    class="progress-bar"
+                    role="progressbar"
+                    :style="{ width: progress + '%' }"
+                    :aria-valuenow="progress"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
                 >
-                    <span class="visually-hidden">Loading...</span>
+                    {{ Math.round(progress) }}%
                 </div>
             </div>
-            <div
-                v-else-if="quiz"
-                class="card-box p-4 rounded-3"
-            >
-                <h2 class="fw-bold mb-2">{{ quiz.title }}</h2>
-                <p class="text-muted">Time Remaining: {{ formattedTime }}</p>
 
-                <div class="progress mb-4">
-                    <div
-                        class="progress-bar"
-                        role="progressbar"
-                        :style="{ width: progress + '%' }"
-                        :aria-valuenow="progress"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                    >
-                        {{ Math.round(progress) }}%
+            <div class="row">
+                <!-- Question Content -->
+                <div class="col-md-9">
+                    <div v-if="currentQuestion">
+                        <div
+                            class="d-flex align-items-center justify-content-between mb-3"
+                        >
+                            <span
+                                class="badge bg-primary rounded-pill px-3 py-2 fs-6"
+                            >
+                                Question {{ currentQuestionIndex + 1 }}
+                            </span>
+                            <span class="text-muted">
+                                {{ currentQuestionIndex + 1 }} of
+                                {{ quiz.questions.length }}
+                            </span>
+                        </div>
+
+                        <p class="fw-semibold">
+                            <span v-html="highlightedStatement"></span>
+                        </p>
+
+                        <div class="list-group my-4">
+                            <button
+                                type="button"
+                                class="list-group-item list-group-item-action"
+                                v-for="(
+                                    option, index
+                                ) in currentQuestion.options"
+                                :key="index"
+                                @click="selectOption(index + 1)"
+                                :class="{
+                                    active:
+                                        userAnswers[currentQuestionIndex] ===
+                                        index + 1,
+                                }"
+                            >
+                                {{ String.fromCharCode(65 + index) }}.
+                                {{ option }}
+                            </button>
+                        </div>
+
+                        <!-- Status Display -->
+                        <p class="text-muted">
+                            Status:
+                            <span
+                                :class="{
+                                    'text-success':
+                                        userAnswers[currentQuestionIndex] !==
+                                        null,
+                                    'text-danger':
+                                        userAnswers[currentQuestionIndex] ===
+                                        null,
+                                }"
+                            >
+                                {{
+                                    userAnswers[currentQuestionIndex] !== null
+                                        ? "Attempted"
+                                        : "Unattempted"
+                                }}
+                            </span>
+                        </p>
+
+                        <!-- Navigation -->
+                        <div class="d-flex justify-content-between mt-4">
+                            <BaseButton
+                                class="btn-secondary"
+                                @click="previousQuestion"
+                                :disabled="currentQuestionIndex === 0"
+                            >
+                                Previous
+                            </BaseButton>
+                            <BaseButton
+                                v-if="
+                                    currentQuestionIndex <
+                                    quiz.questions.length - 1
+                                "
+                                @click="nextQuestion"
+                                class="btn-primary"
+                            >
+                                Next
+                            </BaseButton>
+                            <BaseButton
+                                v-else
+                                @click="submitQuiz"
+                                color="primary"
+                            >
+                                Submit Quiz
+                            </BaseButton>
+                        </div>
                     </div>
                 </div>
 
-                <div v-if="currentQuestion">
-                    <h5 class="fw-semibold mb-3">
-                        {{ currentQuestion.statement }}
-                    </h5>
-                    <div class="list-group">
+                <!-- Question Tracker Right Sidebar -->
+                <div class="col-md-3 border-start">
+                    <h6 class="mb-3">Questions</h6>
+                    <div class="d-flex flex-wrap gap-2">
                         <button
-                            type="button"
-                            class="list-group-item list-group-item-action"
-                            v-for="(option, index) in currentQuestion.options"
-                            :key="index"
-                            @click="selectOption(index + 1)"
+                            v-for="(q, idx) in quiz.questions"
+                            :key="'tracker-' + idx"
+                            class="btn btn-sm"
                             :class="{
-                                active:
-                                    userAnswers[currentQuestionIndex] ===
-                                    index + 1,
+                                'btn-success': userAnswers[idx] !== null,
+                                'btn-outline-secondary':
+                                    userAnswers[idx] === null,
                             }"
+                            @click="goToQuestion(idx)"
                         >
-                            {{ option }}
+                            Q{{ idx + 1 }}
                         </button>
                     </div>
                 </div>
-
-                <div class="d-flex justify-content-between mt-4">
-                    <BaseButton
-                        @click="previousQuestion"
-                        :disabled="currentQuestionIndex === 0"
-                    >
-                        Previous
-                    </BaseButton>
-                    <BaseButton
-                        v-if="currentQuestionIndex < quiz.questions.length - 1"
-                        @click="nextQuestion"
-                    >
-                        Next
-                    </BaseButton>
-                    <BaseButton
-                        v-else
-                        @click="submitQuiz"
-                        color="primary"
-                    >
-                        Submit Quiz
-                    </BaseButton>
-                </div>
-            </div>
-            <div
-                v-else
-                class="text-center py-5"
-            >
-                <p>Could not load the quiz.</p>
             </div>
         </div>
-    </UserLayout>
+
+        <div
+            v-else
+            class="text-center py-5"
+        >
+            <p>Could not load the quiz.</p>
+        </div>
+    </div>
 </template>
 
 <script setup>
-import { ref, onMounted, computed, onUnmounted } from "vue";
+import { ref, computed, onMounted, onUnmounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import api from "@/utils/api";
-import UserLayout from "@/components/user/UserLayout.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
 
 const route = useRoute();
@@ -135,31 +205,35 @@ const startTimer = () => {
 };
 
 onMounted(fetchQuiz);
+onUnmounted(() => clearInterval(timer));
 
-onUnmounted(() => {
-    clearInterval(timer);
-});
+const currentQuestion = computed(() =>
+    quiz.value ? quiz.value.questions[currentQuestionIndex.value] : null
+);
 
-const currentQuestion = computed(() => {
-    return quiz.value ? quiz.value.questions[currentQuestionIndex.value] : null;
+const highlightedStatement = computed(() => {
+    if (!currentQuestion.value?.statement) return "";
+
+    const parts = currentQuestion.value.statement.split("**");
+    if (parts.length < 3) return currentQuestion.value.statement;
+
+    return `${parts[0]}<strong>${parts[1]}</strong>${parts[2]}`;
 });
 
 const progress = computed(() => {
     if (!quiz.value) return 0;
-    const answeredCount = userAnswers.value.filter(
-        (answer) => answer !== null
-    ).length;
-    return (answeredCount / quiz.value.questions.length) * 100;
+    const answered = userAnswers.value.filter((ans) => ans !== null).length;
+    return (answered / quiz.value.questions.length) * 100;
 });
 
 const formattedTime = computed(() => {
-    const minutes = Math.floor(timeLeft.value / 60);
-    const seconds = timeLeft.value % 60;
-    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+    const mins = Math.floor(timeLeft.value / 60);
+    const secs = timeLeft.value % 60;
+    return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
 });
 
-const selectOption = (optionIndex) => {
-    userAnswers.value[currentQuestionIndex.value] = optionIndex;
+const selectOption = (index) => {
+    userAnswers.value[currentQuestionIndex.value] = index;
 };
 
 const nextQuestion = () => {
@@ -174,34 +248,55 @@ const previousQuestion = () => {
     }
 };
 
+const goToQuestion = (index) => {
+    currentQuestionIndex.value = index;
+};
+
 const submitQuiz = async () => {
     clearInterval(timer);
     const answers = {};
-    quiz.value.questions.forEach((question, index) => {
-        if (userAnswers.value[index] !== null) {
-            answers[question.id] = userAnswers.value[index];
+    quiz.value.questions.forEach((q, idx) => {
+        if (userAnswers.value[idx] !== null) {
+            answers[q.id] = userAnswers.value[idx];
         }
     });
 
     try {
         await api.post(`/api/quizzes/${quizId}/submit`, { answers });
-        // Redirect to a results page or dashboard
         router.push("/user/dashboard");
     } catch (error) {
-        console.error("Failed to submit quiz:", error);
+        console.error("Quiz submission failed:", error);
     }
 };
 </script>
 
 <style scoped>
-@import "../../assets/subjects.css";
-
 .progress-bar {
     background-color: var(--primary);
 }
-
 .list-group-item.active {
     background-color: var(--primary);
     border-color: var(--primary);
+    color: white;
+}
+.badge {
+    background-color: var(--secondary);
+    color: var(--text);
+}
+
+.container {
+    height: 100vh;
+}
+.card-box {
+    box-shadow: none;
+}
+
+/* Tracker buttons */
+.btn-outline-secondary {
+    border-width: 2px;
+}
+.btn-success {
+    border-width: 2px;
+    color: white;
 }
 </style>
