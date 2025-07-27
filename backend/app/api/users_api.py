@@ -70,15 +70,17 @@ def list_quizzes(chapter_id, current_user_id):
 # Get quiz for attempt
 @bp.route("/quizzes/<int:quiz_id>", methods=["GET"])
 @user_required
-def get_quiz(quiz_id):
+def get_quiz(quiz_id, current_user_id):
     try:
         # current_user_id = get_jwt_identity()
         quiz = Quiz.query.get_or_404(quiz_id)
 
-        # Check if quiz is scheduled and not exxpired
-        now = datetime.utcnow()
-        if quiz.scheduled_at > now:
-            return jsonify({"error": "Quiz is not yet available"}), 400
+        
+
+        # Check if quiz is scheduled and not expired
+        # now = datetime.utcnow()
+        # if quiz.scheduled_at > now:
+        #     return jsonify({"error": "Quiz is not yet available"}), 400
 
         questions = Question.query.filter_by(quiz_id=quiz_id).all()
         questions_data = []
@@ -97,13 +99,15 @@ def get_quiz(quiz_id):
         quiz_data = {
             "id": quiz.id,
             "title": quiz.title,
-            "duration": quiz.duration.total_seconds() / 60,
+            "duration": quiz.duration,
             "remarks": quiz.remarks,
-            "chapter_name": quiz.chapter_name,
-            "subject_name": quiz.subject_name,
+            "chapter_name": quiz.chapter.name,
+            "subject_name": quiz.subject.name,
             "total_questions": len(questions_data),
             "questions": questions_data,
         }
+        
+        print(quiz_data)
 
         return jsonify(quiz_data), 200
 

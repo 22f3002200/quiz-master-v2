@@ -13,3 +13,7 @@ class UserAnswer(db.Model):
         db.Integer, db.ForeignKey("question.id", ondelete="CASCADE"), nullable=False
     )
     selected_option = db.Column(db.Integer)
+
+    #relationship
+    quiz = db.relationship("Quiz", back_populates="user_answers")
+    question = db.relationship("Question", back_populates="user_answers")

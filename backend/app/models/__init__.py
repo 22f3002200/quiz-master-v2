@@ -1,6 +1,6 @@
 from .chapter import Chapter
-from .question import Question
 from .quiz import Quiz
+from .question import Question
 from .role import Role
 from .score import Score
 from .subject import Subject
@@ -10,8 +10,8 @@ from .user_answer import UserAnswer
 __all__ = [
     "User",
     "Chapter",
-    "Question",
     "Quiz",
+    "Question",
     "Role",
     "Score",
     "Subject",

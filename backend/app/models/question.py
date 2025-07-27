@@ -14,6 +14,7 @@ class Question(db.Model):
     correct_option = db.Column(db.Integer, nullable=False)
 
     # Relationship
+    quiz = db.relationship("Quiz", back_populates="questions")
     user_answers = db.relationship(
-        "UserAnswer", backref="question", lazy=True, cascade="all, delete-orphan"
+        "UserAnswer", back_populates="question", lazy=True, cascade="all, delete-orphan"
     )

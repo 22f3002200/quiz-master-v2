@@ -59,7 +59,10 @@
                             </div>
 
                             <!-- Button -->
-                            <BaseButton class="btn btn-primary w-100">
+                            <BaseButton
+                                :to="`/user/quiz/${quiz.id}`"
+                                class="btn btn-primary w-100"
+                            >
                                 Start Quiz
                             </BaseButton>
                         </div>

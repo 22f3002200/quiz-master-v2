@@ -22,15 +22,14 @@ class Quiz(db.Model):
 
     # Relationships
     questions = db.relationship(
-        "Question", backref="quiz", lazy=True, cascade="all, delete-orphan"
+        "Question", back_populates="quiz", lazy=True, cascade="all, delete-orphan"
     )
     user_answers = db.relationship(
-        "UserAnswer", backref="quiz", lazy=True, cascade="all, delete-orphan"
+        "UserAnswer", back_populates="quiz", lazy=True, cascade="all, delete-orphan"
     )
     scores = db.relationship(
-        "Score", backref="quiz", lazy=True, cascade="all, delete-orphan"
+        "Score", back_populates="quiz", lazy=True, cascade="all, delete-orphan"
     )
     saved_by_users = db.relationship(
         "User", secondary=saved_quizzes, back_populates="saved_quizzes_rel"
     )
-    

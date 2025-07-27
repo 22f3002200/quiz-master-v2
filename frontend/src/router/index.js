@@ -109,6 +109,12 @@ const routes = [
         component: UserProfile,
         meta: { requiresAuth: true, isUser: true },
     },
+    {
+        path: "/user/quiz/:quizId",
+        name: "Quiz Attempt",
+        component: () => import("@/pages/user/QuizAttempt.vue"),
+        meta: { requiresAuth: true, isUser: true },
+    },
 ];
 
 const scrollBehavior = function (to, from, savedPosition) {
