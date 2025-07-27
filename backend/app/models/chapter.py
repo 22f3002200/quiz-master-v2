@@ -1,6 +1,6 @@
 from datetime import datetime
-import pytz
 
+# import pytz
 from app.extensions import db
 
 now = datetime.now()

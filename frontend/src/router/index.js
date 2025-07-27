@@ -15,6 +15,7 @@ import UserProfile from "@/pages/user/UserProfile.vue";
 import UserSubjectChapters from "@/pages/user/UserSubjectChapters.vue";
 import UserSubjectQuizzes from "@/pages/user/UserSubjectQuizzes.vue";
 import UserChapterQuizzes from "@/pages/user/UserChapterQuizzes.vue";
+import UserQuizzes from "@/pages/user/UserQuizzes.vue";
 
 const routes = [
     { path: "/", name: "Quiz Master", component: HomePage },
@@ -103,6 +104,13 @@ const routes = [
         component: UserChapterQuizzes,
         meta: { requiresAuth: true, isUser: true },
     },
+    {
+        path: "/user/quizzes",
+        name: "View Quizzes",
+        component: UserQuizzes,
+        meta: { requiresAuth: true, isUser: true },
+    },
+
     {
         path: "/user/profile",
         name: "User Profile",

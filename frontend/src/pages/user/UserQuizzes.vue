@@ -5,7 +5,7 @@
                 class="mb-4 fw-bold"
                 style="color: var(--primary)"
             >
-                Chapter Quizzes
+                My Quizzes
             </h2>
 
             <div
@@ -21,7 +21,6 @@
                     <div
                         class="border rounded overflow-hidden h-100 shadow-sm hover-shadow transition"
                     >
-                        <!-- Top color bar -->
                         <div
                             class="w-100 d-block"
                             style="height: 4px"
@@ -30,7 +29,6 @@
                         <div
                             class="p-4 d-flex flex-column justify-content-between h-100"
                         >
-                            <!-- Icon and title -->
                             <div class="d-flex align-items-start mb-3">
                                 <div
                                     class="p-2 rounded me-3 d-flex align-items-center justify-content-center"
@@ -44,13 +42,16 @@
                                     </h5>
                                     <small>
                                         Duration: {{ quiz.duration }} mins<br />
+                                    </small>
+
+                                    <small>
+                                        Duration: {{ quiz.duration }} mins<br />
                                         Scheduled:
                                         {{ formatDateTime(quiz.scheduled_at) }}
                                     </small>
                                 </div>
                             </div>
 
-                            <!-- Date badge -->
                             <div class="mb-3 d-flex flex-wrap gap-2">
                                 <span class="badge"
                                     >Scheduled on:
@@ -58,7 +59,6 @@
                                 >
                             </div>
 
-                            <!-- Button -->
                             <BaseButton
                                 :to="`/user/quiz/${quiz.id}`"
                                 class="btn btn-primary w-100"
@@ -74,7 +74,7 @@
                 v-else
                 class="text-center"
             >
-                <p>No quizzes are available for this chapter.</p>
+                <p>No quizzes are available at the moment.</p>
             </div>
         </div>
     </UserLayout>
@@ -82,36 +82,23 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRoute } from "vue-router";
 import api from "@/utils/api";
 import UserLayout from "@/components/user/UserLayout.vue";
 import BaseButton from "@/components/base/BaseButton.vue";
 
-const route = useRoute();
 const quizzes = ref([]);
-const chapterId = parseInt(route.params.chapterId);
-const subjectId = parseInt(route.params.subjectId);
-
-console.log(route);
 
 const fetchQuizzes = async () => {
     try {
-        const response = await api.get(
-            `/api/admin/subjects/${subjectId}/chapters/${chapterId}/quizzes`
-        );
-
+        const response = await api.get(`/api/admin/quizzes`);
         quizzes.value = response.data;
     } catch (error) {
-        console.error("Failed to fetch chapter quizzes:", error);
+        console.error("Failed to fetch quizzes:", error);
     }
 };
 
 const formatDate = (dateStr) => {
     return new Date(dateStr).toLocaleDateString();
-};
-
-const formatDateTime = (dateTimeStr) => {
-    return new Date(dateTimeStr).toLocaleString();
 };
 
 onMounted(fetchQuizzes);
