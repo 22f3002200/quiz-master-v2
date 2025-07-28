@@ -1,6 +1,8 @@
 import os
 from datetime import timedelta
 
+from celery.schedules import crontab
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -44,6 +46,12 @@ class Config(object):
     CELERY_ACCEPT_CONTENT = ["json"]
     CELERY_TIMEZONE = "UTC"
     CELERY_ENABLE_UTC = True
+    CELECRY_BEAT_SCHEDULE = {
+        "send-daily-reminder": {
+            "task": "app.tasks.send_daily_reminders",
+            "schedule": crontab(minute="*/1"),
+        }
+    }
 
     # Redis Configuration
     REDIS_URL = os.environ.get("REDIS_URL", "redis://localhost:6379/0")

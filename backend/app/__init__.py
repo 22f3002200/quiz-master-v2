@@ -5,8 +5,7 @@ from flask_security.core import Security
 from flask_security.datastore import SQLAlchemyUserDatastore
 
 from app.auth.jwt_manager import jwt
-
-# from app.celery_app import make_celery
+from app.celery_app import create_celery_app
 from app.extensions import db, login_manager
 from app.models.role import Role
 from app.models.user import User
@@ -56,14 +55,6 @@ def create_app(config_class=Config):
 
     # Initialize jwt
     jwt.init_app(app)
-
-    # Intialize Celery
-    # celery = make_celery(app)
-    # app.celery = celery
-
-    # setup flask-security
-    # user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-    # # security = Security(app, user_datastore)
 
     CORS(app)
 
