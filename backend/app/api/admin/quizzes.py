@@ -7,6 +7,7 @@ from app.api.admin import admin_bp
 from app.auth.decorators import admin_required, user_required
 from app.extensions import db
 from app.models.chapter import Chapter
+from app.models.question import Question
 from app.models.quiz import Quiz
 from app.models.subject import Subject
 from app.schema.quiz_schema import (

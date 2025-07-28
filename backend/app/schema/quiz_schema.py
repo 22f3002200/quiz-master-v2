@@ -30,6 +30,7 @@ class QuizResponseSchema(BaseModel):
     duration: int
     remarks: Optional[str]
     created_at: datetime
+    total_marks: float
 
     class Config:
         from_attributes = True

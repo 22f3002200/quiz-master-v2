@@ -44,6 +44,8 @@
                                     </h5>
                                     <small>
                                         Duration: {{ quiz.duration }} mins<br />
+                                        Total Marks: {{ quiz.total_marks }}
+                                        <br />
                                         Scheduled:
                                         {{ formatDateTime(quiz.scheduled_at) }}
                                     </small>

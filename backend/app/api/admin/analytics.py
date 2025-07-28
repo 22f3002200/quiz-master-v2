@@ -1,6 +1,7 @@
 from flask import jsonify
 from sqlalchemy import func
 
+from app import db
 from app.api.admin import admin_bp
 from app.models.chapter import Chapter
 from app.models.question import Question
@@ -81,6 +82,22 @@ def get_quiz_performance():
 
         performance_data = []
         for stat in quiz_stat:
+            max_user = (
+                db.session.query(User.full_name)
+                .join(Score)
+                .filter(Score.quiz_id == stat.id)
+                .filter(Score.total_score == stat.max_score)
+                .first()
+            )
+
+            min_user = (
+                db.session.query(User.full_name)
+                .join(Score)
+                .filter(Score.quiz_id == stat.id)
+                .filter(Score.total_score == stat.min_score)
+                .first()
+            )
+
             performance_data.append(
                 {
                     "quiz_id": stat.id,
@@ -88,8 +105,10 @@ def get_quiz_performance():
                     "subject_id": stat.subject_id,
                     "total_attempts": stat.total_attempts or 0,
                     "average_score": float(stat.avg_score) if stat.avg_score else 0,
-                    "max-score": stat.max_score or 0,
+                    "max_score": stat.max_score or 0,
                     "min_score": stat.min_score or 0,
+                    "max_score_user": max_user[0] if max_user else None,
+                    "min_score_user": min_user[0] if min_user else None,
                 }
             )
 

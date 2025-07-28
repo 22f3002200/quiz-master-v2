@@ -19,6 +19,7 @@ class Quiz(db.Model):
     duration = db.Column(db.Integer, nullable=False)
     remarks = db.Column(db.Text, default="Easy Peasy")
     created_at = db.Column(db.DateTime, default=datetime.utcnow())
+    total_marks = db.Column(db.Float, default=0.0, nullable=False)
 
     # Relationships
     questions = db.relationship(

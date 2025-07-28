@@ -93,6 +93,7 @@
                                 <th scope="col">SUBJECT</th>
                                 <th scope="col">CHAPTER</th>
                                 <th scope="col">DURATION (MIN)</th>
+                                <th scope="col">TOTAL MARKS</th>
                                 <th
                                     scope="col"
                                     class="text-end"
@@ -115,6 +116,7 @@
                                 <td>{{ getSubjectName(quiz.subject_id) }}</td>
                                 <td>{{ getChapterName(quiz.chapter_id) }}</td>
                                 <td>{{ quiz.duration }}</td>
+                                <td>{{ quiz.total_marks }}</td>
                                 <td class="text-end">
                                     <div
                                         class="d-flex justify-content-end gap-2"
@@ -368,6 +370,7 @@ const quizFields = [
     { key: "subject_name", label: "Subject" },
     { key: "chapter_name", label: "Chapter" },
     { key: "duration", label: "Duration (min)" },
+    { key: "total_marks", label: "Total Marks" },
     { key: "date_of_quiz", label: "Date of Quiz", isDate: true },
     { key: "scheduled_at", label: "Scheduled At", isDate: true },
     { key: "remarks", label: "Remarks" },

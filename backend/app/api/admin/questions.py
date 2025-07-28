@@ -13,6 +13,18 @@ from app.schema.question_schema import (
 )
 
 
+def calculate_quiz_total_marks(quiz_id):
+    quiz = Quiz.query.get(quiz_id)
+    if quiz:
+        total_marks = (
+            db.session.query(db.func.sum(Question.marks))
+            .filter_by(quiz_id=quiz_id)
+            .scalar()
+        )
+        quiz.total_marks = total_marks or 0
+        db.session.commit()
+
+
 @admin_bp.route("/quizzes/<int:quiz_id>/questions", methods=["POST"])
 @admin_required
 def create_question(quiz_id):
@@ -32,10 +44,11 @@ def create_question(quiz_id):
         question.correct_option = question_data.correct_option
         question.marks = question_data.marks
         question.negative_marks = question_data.negative_marks
-        
 
         db.session.add(question)
         db.session.commit()
+
+        calculate_quiz_total_marks(quiz_id)
 
         response_data = QuestionResponseSchema.model_validate(question)
         return jsonify(response_data.model_dump()), 200
@@ -92,6 +105,8 @@ def update_question(question_id):
 
         db.session.commit()
 
+        calculate_quiz_total_marks(question.quiz_id)
+
         response_data = QuestionResponseSchema.model_validate(question)
         return jsonify(response_data.model_dump()), 200
 
@@ -110,6 +125,8 @@ def delete_question(question_id):
         question = Question.query.get_or_404(question_id)
         db.session.delete(question)
         db.session.commit()
+
+        calculate_quiz_total_marks(question.quiz_id)
 
         return jsonify({"message": "Question deleted successfully"})
 
