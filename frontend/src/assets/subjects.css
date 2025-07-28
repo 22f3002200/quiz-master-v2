@@ -1,7 +1,4 @@
-.container {
-    max-width: 900px;
-}
-.card-box {
+div.card-box {
     background-color: var(--static);
     margin-top: 35px;
 }
@@ -9,19 +6,19 @@ h2 {
     color: var(--primary);
 }
 
-.table-responsive {
+div.table-responsive {
     border-radius: 8px;
     overflow: hidden;
     background-color: var(--background);
 }
 
-.table thead th {
+table.table thead th {
     color: var(--accent);
     font-weight: 600;
     border-bottom: 1px solid var(--text5);
     background-color: var(--primary5);
 }
-.table tbody td {
+table.table tbody td {
     color: var(--text);
     background-color: var(--primary5);
     border-bottom: 1px solid var(--text5);
@@ -59,17 +56,17 @@ a {
     text-decoration: none;
     font-weight: 500;
 }
-.form-control,
-.form-select {
-    background-color: white;
+input.form-control,
+input.form-select {
+    background-color: var(--background);
     border: 1px solid var(--secondary);
 }
-.form-control:focus,
-.form-select:focus {
+input.form-control:focus,
+input.form-select:focus {
     border-color: var(--primary);
     box-shadow: 0 0 0 0.25rem var(--primary5);
 }
-.form-label {
+label.form-label {
     color: var(--primary);
 }
 

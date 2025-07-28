@@ -48,8 +48,8 @@ def get_dashboard_summary():
                 {
                     "id": quiz.id,
                     "title": quiz.title,
-                    "subject_name": quiz.subject_name if quiz.subject else None,
-                    "chapter_name": quiz.chapter_name if quiz.chapter else None,
+                    "subject_name": quiz.subject.name if quiz.subject else None,
+                    "chapter_name": quiz.chapter.name if quiz.chapter else None,
                     "created_at": quiz.created_at.isoformat(),
                 }
                 for quiz in recent_quizzes

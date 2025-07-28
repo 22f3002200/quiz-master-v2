@@ -122,6 +122,8 @@
                                         <BaseButton
                                             size="sm"
                                             class="btn-outline-info details"
+                                            style="padding: 0.5em 1em"
+                                            color="primary5"
                                             @click="openDetailsModal(quiz)"
                                         >
                                             <i class="bi bi-eye"></i>
@@ -129,6 +131,8 @@
                                         <BaseButton
                                             size="sm"
                                             class="btn-outline-success edit"
+                                            style="padding: 0.5em 1em"
+                                            color="primary5"
                                             @click="openEditModal(quiz)"
                                         >
                                             <i class="bi bi-pencil"></i>
@@ -136,6 +140,8 @@
                                         <BaseButton
                                             size="sm"
                                             class="btn-outline-danger delete"
+                                            style="padding: 0.5em 1em"
+                                            color="primary5"
                                             @click="deleteQuiz(quiz.id)"
                                         >
                                             <i class="bi bi-trash"></i>
