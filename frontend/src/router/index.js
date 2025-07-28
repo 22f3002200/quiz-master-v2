@@ -16,6 +16,8 @@ import UserSubjectChapters from "@/pages/user/UserSubjectChapters.vue";
 import UserSubjectQuizzes from "@/pages/user/UserSubjectQuizzes.vue";
 import UserChapterQuizzes from "@/pages/user/UserChapterQuizzes.vue";
 import UserQuizzes from "@/pages/user/UserQuizzes.vue";
+import QuizAttempt from "@/pages/user/QuizAttempt.vue";
+import AdminAnalytics from "@/pages/admin/AdminAnalytics.vue";
 
 const routes = [
     { path: "/", name: "Quiz Master", component: HomePage },
@@ -66,6 +68,12 @@ const routes = [
         path: "/admin/users",
         name: "View Users",
         component: AdminUsers,
+        meta: { requiresAuth: true, isAdmin: true },
+    },
+    {
+        path: "/admin/analytics",
+        name: "View Analytics",
+        component: AdminAnalytics,
         meta: { requiresAuth: true, isAdmin: true },
     },
     {
@@ -120,7 +128,7 @@ const routes = [
     {
         path: "/user/quiz/:quizId",
         name: "Quiz Attempt",
-        component: () => import("@/pages/user/QuizAttempt.vue"),
+        component: QuizAttempt,
         meta: { requiresAuth: true, isUser: true, hideLayout: true },
     },
 ];
