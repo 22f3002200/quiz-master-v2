@@ -1,33 +1,63 @@
-from datetime import datetime, timedelta
+import csv
+from datetime import datetime
 
+from celery import shared_task
+from extensions import db
+from models.score import Score
+from models.user import User
 from sqlalchemy import func
 
-from . import create_app, db
-from .celery_app import create_celery_app
-from .models.score import Score
-from .models.user import User
 
-app = create_app()
-celery = create_celery_app(app)
-
-
-@celery.task
-def send_daily_reminders():
-    with app.app_context():
-        seven_days_ago = datetime.utcnow() - timedelta(days=7)
-
-        # Users who have scores, but their last score is older than 7 days
-        users_to_remind = (
-            db.session.query(User.id, User.email, User.full_name)
+# Task:1 - Download CSV for Admin
+@shared_task(ignore_results=False, name="download_csv_report")
+def csv_report():
+    try:
+        users_stat = (
+            db.session.query(
+                User.id,
+                User.full_name,
+                User.email,
+                func.count(Score.id),
+                func.avg(Score.total_score),
+                func.max(Score.total_score),
+            )
             .outerjoin(Score)
             .group_by(User.id)
-            .having(func.max(Score.timestamp) < seven_days_ago)
             .all()
         )
 
-        for user in users_to_remind:
-            send_reminder_email(user.email, user.full_name)
+        timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+        filename = f"user_performance_{timestamp}.csv"
+        filepath = f"app/static/{filename}"
+
+        with open(filepath, "w", newline="") as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow(
+                [
+                    "USER ID",
+                    "FULL NAME",
+                    "EMAIL",
+                    "TOTAL ATTEMPTS",
+                    "AVG SCORE",
+                    "MAX SCORE",
+                ]
+            )
+
+            for row in users_stat:
+                writer.writerow(
+                    [
+                        row.id,
+                        row.full_name,
+                        row.email,
+                        row[3],
+                        float(row[4]) if row[4] else 0,
+                        row[5] or 0,
+                    ]
+                )
+
+        return {"status": "completed", "url": f"/static/exports/{filename}"}
+    except Exception as e:
+        return {"status": "failed", "error": str(e)}
 
 
-def send_reminder_email(email, name):
-    print(f"Sending reminder email to {name} at {email}")
+# Task:2 - Monthly Report sent via email

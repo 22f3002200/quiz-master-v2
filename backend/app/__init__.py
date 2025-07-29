@@ -5,7 +5,7 @@ from flask_security.core import Security
 from flask_security.datastore import SQLAlchemyUserDatastore
 
 from app.auth.jwt_manager import jwt
-from app.celery_app import create_celery_app
+from app.celery_init import celery_init_app
 from app.extensions import db, login_manager
 from app.models.role import Role
 from app.models.user import User
@@ -57,6 +57,9 @@ def create_app(config_class=Config):
     jwt.init_app(app)
 
     CORS(app)
+
+    celery = celery_init_app(app)
+    celery.autodiscover_tasks()
 
     # from app import models
     from app.api import bp as api_blueprint
