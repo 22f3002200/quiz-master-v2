@@ -5,10 +5,11 @@ from flask_security.core import Security
 from flask_security.datastore import SQLAlchemyUserDatastore
 
 from app.auth.jwt_manager import jwt
-from app.celery_app import create_celery_app
 from app.extensions import db, login_manager, mail
 from app.models.role import Role
 from app.models.user import User
+
+from .celery_init import celery_init_app
 
 
 def create_admin_user():
@@ -46,7 +47,7 @@ def create_admin_user():
 
 
 def create_app(config_class=Config):
-    app = Flask(__name__)
+    app = Flask(__name__.split(".")[0])
     app.config.from_object(config_class)
 
     # Intialize extensions
@@ -59,7 +60,7 @@ def create_app(config_class=Config):
     CORS(app)
 
     mail.init_app(app)
-    celery = create_celery_app(app)
+    celery = celery_init_app(app)
     celery.autodiscover_tasks()
 
     # from app import models
