@@ -33,3 +33,13 @@ class Config(object):
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=30)
     JWT_ALGORIGHTM = "HS256"
     JWT_VERIFY_SUB = False
+
+    CELERY_BROKER_URL = "redis://localhost:6379/0"
+    CELERY_BACKEND_URL = "redis://localhost:6379/1"
+
+    # MailHog configuration
+    MAIL_SERVER = "localhost"
+    MAIL_PORT = 1025  # Default MailHog SMTP port
+    MAIL_USE_TLS = False
+    MAIL_USE_SSL = False
+    MAIL_DEFAULT_SENDER = "noreply@quizmaster.com"
