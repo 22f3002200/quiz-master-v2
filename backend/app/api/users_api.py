@@ -284,3 +284,28 @@ def get_user_dashboard(current_user_id):
 
     except Exception as e:
         return jsonify({"error": "Internal server error", "details": str(e)}), 500
+
+
+@bp.route("/dashboard/performance", methods=["GET"])
+def get_user_perfromance(current_user_id):
+    try:
+        # User's performance data
+        scores = (
+            Score.query.filter_by(user_id=current_user_id)
+            .order_by(Score.timestamp.asc())
+            .all()
+        )
+
+        performance_data = []
+        for score in scores:
+            performance_data.append(
+                {
+                    "quiz_title": score.quiz.title,
+                    "total_score": score.total_score,
+                    "timestamp": score.timestamp.isoformat(),
+                }
+            )
+        return jsonify(performance_data), 200
+
+    except Exception as e:
+        return jsonify({"error": "Internal server error", "details": str(e)}), 500

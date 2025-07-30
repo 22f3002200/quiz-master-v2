@@ -26,7 +26,7 @@
 
             <div class="row g-4 mb-4">
                 <div class="col-12">
-                    <QuizPerformanceChart />
+                    <UserQuizPerformanceChart />
                 </div>
             </div>
 
@@ -49,7 +49,7 @@ import { ref, onMounted } from "vue";
 import api from "@/utils/api";
 import UserLayout from "@/components/user/UserLayout.vue";
 import StatCard from "@/components/admin/StatCard.vue";
-import QuizPerformanceChart from "@/components/admin/QuizPerformanceChart.vue";
+import UserQuizPerformanceChart from "@/components/user/UserQuizPerformanceChart.vue";
 import RecentActivityTable from "@/components/admin/RecentActivityTable.vue";
 
 const stats = ref([]);
