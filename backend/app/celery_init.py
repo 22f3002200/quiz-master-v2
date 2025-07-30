@@ -9,6 +9,7 @@ def celery_init_app(app):
 
     celery_app = Celery(app.name, task_cls=FlaskTask, include=["app.tasks"])
     celery_app.config_from_object(app.config, namespace="CELERY")
+    celery_app.conf.beat_schedule = app.config.get("CELERYBEAT_SCHEDULE", {})
     celery_app.set_default()
     app.extensions["celery"] = celery_app
     return celery_app

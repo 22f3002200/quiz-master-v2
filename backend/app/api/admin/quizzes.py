@@ -1,11 +1,12 @@
+import json
 from datetime import timedelta
 
-from flask import jsonify, request
+from flask import current_app, jsonify, request
 from pydantic import ValidationError
 
 from app.api.admin import admin_bp
 from app.auth.decorators import admin_required, user_required
-from app.extensions import db
+from app.extensions import db, redis_client
 from app.models.chapter import Chapter
 from app.models.question import Question
 from app.models.quiz import Quiz
@@ -89,10 +90,20 @@ def list_quizzes_by_subject(subject_id, current_user_id):
 @user_required
 def list_all_quizzes(current_user_id):
     try:
+        cached_quizzes = redis_client.get("all_quizzes")
+
+        if cached_quizzes:
+            return jsonify(json.loads(cached_quizzes)), 200
+
         quizzes = Quiz.query.all()
         quizzes_data = [
             QuizResponseSchema.model_validate(quiz).model_dump() for quiz in quizzes
         ]
+
+        redis_client.setex(
+            "all_quizzes", timedelta(hours=1), json.dumps(quizzes_data, default=str)
+        )
+
         print(quizzes_data)
         return jsonify(quizzes_data), 200
     except Exception as e:

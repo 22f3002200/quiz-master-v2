@@ -1,4 +1,5 @@
 import csv
+import os  # Import the os module
 from datetime import datetime, timedelta
 
 from celery import shared_task
@@ -30,7 +31,10 @@ def csv_report():
 
         timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
         filename = f"user_performance_{timestamp}.csv"
-        filepath = f"app/static/{filename}"
+        filepath = f"app/static/exports/{filename}"
+
+        # Ensure the directory exists
+        os.makedirs(os.path.dirname(filepath), exist_ok=True)
 
         with open(filepath, "w", newline="") as csvfile:
             writer = csv.writer(csvfile)
@@ -73,8 +77,11 @@ def send_monthly_activity_report():
         first_day_of_prev_month = last_day_of_prev_month.replace(day=1)
 
         reports_sent = 0
+        import logging
 
-        for user in users[1:]:
+        logger = logging.getLogger(__name__)
+        logger.info(f"Users: {users}")
+        for user in users:
             scores = Score.query.filter(
                 Score.user_id == user.id,
                 Score.timestamp.between(

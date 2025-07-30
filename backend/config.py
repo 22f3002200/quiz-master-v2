@@ -1,6 +1,8 @@
 import os
 from datetime import timedelta
 
+from celery.schedules import crontab
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -39,6 +41,18 @@ class Config(object):
     RESULT_BACKEND = "redis://localhost:6379/1"
     TIMEZONE = "Asia/Kolkata"
     CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+
+    # Celery Beat Schedule
+    CELERYBEAT_SCHEDULE = {
+        "send-daily-reminders": {
+            "task": "app.tasks.send_daily_reminders",
+            "schedule": crontab(hour=18, minute=0),  # Run every day at 6 PM
+        },
+        "send-monthly-reports": {
+            "task": "app.tasks.send_monthly_activity_report",
+            "schedule": crontab(day_of_month=1, hour=8, minute=0),
+        },
+    }
 
     # MailHog configuration
     MAIL_SERVER = "localhost"

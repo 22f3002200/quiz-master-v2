@@ -1,10 +1,13 @@
+import json
+from datetime import timedelta
+
 from flask import jsonify, request
 from pydantic import ValidationError
 from sqlalchemy.exc import IntegrityError
 
 from app.api.admin import admin_bp
 from app.auth.decorators import admin_required, user_required
-from app.extensions import db
+from app.extensions import db, redis_client
 from app.models.chapter import Chapter
 from app.models.subject import Subject
 from app.schema.chapter_schema import (
@@ -66,11 +69,21 @@ def list_chapters(subject_id, current_user_id):
 @user_required
 def list_of_chapters(current_user_id):
     try:
+        cached_chapters = redis_client.get("all_chapters")
+
+        if cached_chapters:
+            return jsonify(json.loads(cached_chapters)), 200
+
         chapters = Chapter.query.all()
         chapters_data = [
             ChapterResponseSchema.model_validate(chapter).model_dump()
             for chapter in chapters
         ]
+
+        redis_client.setex(
+            "all_chapters", timedelta(hours=1), json.dumps(chapters_data, default=str)
+        )
+
         return jsonify(chapters_data), 200
 
     except Exception as e:

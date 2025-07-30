@@ -1,3 +1,4 @@
+import json
 from datetime import timedelta
 
 from flask import jsonify, request
@@ -5,7 +6,7 @@ from pydantic import ValidationError
 
 from app.api.admin import admin_bp
 from app.auth.decorators import admin_required, user_required
-from app.extensions import db
+from app.extensions import db, redis_client
 from app.models.subject import Subject
 from app.schema.subject_schema import (
     SubjectCreateSchema,
@@ -43,11 +44,21 @@ def create_subject():
 @user_required
 def list_subjects(**kwargs):
     try:
+        cached_subjects = redis_client.get("all_subjects")
+
+        if cached_subjects:
+            return jsonify(json.loads(cached_subjects)), 200
+
         subjects = Subject.query.all()
         subjects_data = [
             SubjectResponseSchema.model_validate(subject).model_dump()
             for subject in subjects
         ]
+
+        redis_client.setex(
+            "all_subjects", timedelta(hours=1), json.dumps(subjects_data, default=str)
+        )
+
         return jsonify(subjects_data), 200
 
     except Exception as e:

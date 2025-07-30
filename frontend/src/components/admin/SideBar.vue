@@ -26,7 +26,18 @@
                 </router-link>
             </li>
 
-            <!-- logout button -->
+            <li class="nav-item">
+                <button
+                    class="nav-link d-flex align-items-center w-100 text-start"
+                    @click="exportCsv"
+                >
+                    <i
+                        class="bi bi-file-earmark-arrow-down-fill icon me-2 fs-5"
+                    />
+                    <span class="link-text">Export CSV</span>
+                </button>
+            </li>
+
             <li class="nav-item">
                 <button
                     class="nav-link d-flex align-items-center w-100 text-start"
@@ -43,6 +54,7 @@
 <script setup>
 import { useAuth } from "@/composables/useAuth";
 import { computed } from "vue";
+import api from "@/utils/api";
 
 const { logout } = useAuth();
 defineProps({
@@ -54,6 +66,23 @@ const { user } = useAuth();
 const sidebarClass = computed(() =>
     user.value ? "sidebar--mobile-hidden" : ""
 );
+
+const exportCsv = async () => {
+    try {
+        const response = await api.post("/api/admin/export-csv");
+        if (response.data.url) {
+            console.log("downloading...");
+        } else {
+            alert(
+                "Error exporting CSV: " +
+                    (response.data.error || "Unknown error")
+            );
+        }
+    } catch (error) {
+        console.error("Failed to export CSV:", error);
+        alert("Failed to export CSV. Please check the console for details.");
+    }
+};
 </script>
 
 <style scoped>
