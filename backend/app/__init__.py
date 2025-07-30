@@ -1,8 +1,6 @@
 from config import Config
 from flask import Flask
 from flask_cors import CORS
-from flask_security.core import Security
-from flask_security.datastore import SQLAlchemyUserDatastore
 
 from app.auth.jwt_manager import jwt
 from app.extensions import db, login_manager, mail

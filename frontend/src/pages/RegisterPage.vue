@@ -170,19 +170,19 @@ export default {
             try {
                 const res = await api.post("/api/auth/register", this.form);
                 localStorage.setItem("access_token", res.data.access_token);
-                this.$router.push("/"); // Redirect to home or a profile page
+                this.$router.push("/login"); // Redirect to home or a profile page
                 this.message = "Registration successful!";
                 this.messageType = "success";
             } catch (err) {
                 console.error("Error response:", err.response);
-                this.message =
+                const errors = err.response?.data?.errors;
+                let message =
                     err.response?.data?.msg ||
                     "Registration failed. Please try again.";
-                this.messageType = "error";
-                // Clear the message after 5 seconds
-                setTimeout(() => {
-                    this.message = "";
-                }, 5000);
+                if (errors) {
+                    message = errors.map((e) => e.msg).join(", ");
+                }
+                this.emitter.emit("flash", { message, type: "danger" });
             } finally {
                 this.loading = false;
             }

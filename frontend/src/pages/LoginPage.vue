@@ -141,11 +141,10 @@ export default {
                 }
             } catch (err) {
                 console.error("Error response:", err.response);
-                this.message = err.response?.data?.msg || "Login failed";
-                this.messageType = "error";
-                setTimeout(() => {
-                    this.message = "";
-                }, 5000);
+                this.emitter.emit("flash", {
+                    message: err.response?.data?.msg || "Login failed",
+                    type: "danger",
+                });
             } finally {
                 this.loading = false;
             }
