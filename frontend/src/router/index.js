@@ -192,7 +192,7 @@ router.beforeEach((to, from, next) => {
     const isAdmin = userRole === "admin";
     const isUser = userRole === "user";
 
-    // Redirect logged-in users from guest pages (like /login)
+    // Redirect logged-in users from guest pages
     if (to.meta.guest && isLoggedIn) {
         if (isAdmin) return next("/admin/dashboard");
         return next("/user/dashboard"); // Default for other logged-in users
@@ -209,7 +209,7 @@ router.beforeEach((to, from, next) => {
         if (to.meta.isAdmin && !isAdmin) {
             return next("/user/dashboard"); // Redirect to their own dashboard
         }
-        // If a non-user (i.e., an admin) tries to access a user-only route
+        // If a non-user tries to access a user-only route
         if (to.meta.isUser && !isUser) {
             return next("/admin/dashboard"); // Redirect to their own dashboard
         }

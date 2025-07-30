@@ -126,7 +126,6 @@ const fetchDashboardData = async () => {
         recentQuizzes.value = data.recent_quizzes;
     } catch (error) {
         console.error("Failed to fetch dashboard data:", error);
-        // Optionally, set an error state to show a message to the user
     } finally {
         loading.value = false;
     }

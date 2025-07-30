@@ -287,6 +287,7 @@ def get_user_dashboard(current_user_id):
 
 
 @bp.route("/dashboard/performance", methods=["GET"])
+@user_required
 def get_user_perfromance(current_user_id):
     try:
         # User's performance data
@@ -348,7 +349,6 @@ def get_quiz_review(score_id, current_user_id):
                     "correct_option": question.correct_option,
                     "user_answer": user_answer,
                     "marks_awarded": marks_awarded,
-                    # FIX: Add marking scheme to each question
                     "marks_for_correct": question.marks,
                     "negative_marks_for_incorrect": question.negative_marks,
                 }
