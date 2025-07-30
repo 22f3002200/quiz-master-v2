@@ -67,7 +67,7 @@ input.form-select:focus {
     box-shadow: 0 0 0 0.25rem var(--primary5);
 }
 label.form-label {
-    color: var(--primary);
+    color: var(--background);
 }
 
 .btn-outline-info.details {

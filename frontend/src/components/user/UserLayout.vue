@@ -18,7 +18,7 @@ const userNavLinks = [
         icon: "bi-journal-bookmark-fill",
     },
     { text: "Chapters", to: "/user/chapters", icon: "bi-collection-fill" },
-    { text: "My Quizzes", to: "/user/quizzes", icon: "bi-patch-question-fill" },
+    { text: "Quizzes", to: "/user/quizzes", icon: "bi-patch-question-fill" },
     { text: "Profile", to: "/user/profile", icon: "bi-person-fill" },
 ];
 </script>

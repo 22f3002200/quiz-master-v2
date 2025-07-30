@@ -2,12 +2,17 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomePage from "@/pages/HomePage.vue";
 import LoginPage from "@/pages/LoginPage.vue";
 import RegisterPage from "@/pages/RegisterPage.vue";
+
+// Admin components
 import AdminDashboard from "@/pages/admin/AdminDashboard.vue";
 import AdminSubjects from "@/pages/admin/AdminSubjects.vue";
 import AdminChapters from "@/pages/admin/AdminChapters.vue";
 import AdminUsers from "@/pages/admin/AdminUsers.vue";
 import AdminQuizzes from "@/pages/admin/AdminQuizzes.vue";
 import AdminQuestions from "@/pages/admin/AdminQuestions.vue";
+import AdminAnalytics from "@/pages/admin/AdminAnalytics.vue";
+
+// User components
 import UserDashboard from "@/pages/user/UserDashboard.vue";
 import UserSubjects from "@/pages/user/UserSubjects.vue";
 import UserChapters from "@/pages/user/UserChapters.vue";
@@ -17,7 +22,7 @@ import UserSubjectQuizzes from "@/pages/user/UserSubjectQuizzes.vue";
 import UserChapterQuizzes from "@/pages/user/UserChapterQuizzes.vue";
 import UserQuizzes from "@/pages/user/UserQuizzes.vue";
 import QuizAttempt from "@/pages/user/QuizAttempt.vue";
-import AdminAnalytics from "@/pages/admin/AdminAnalytics.vue";
+import UserScores from "@/pages/user/UserScores.vue";
 
 const routes = [
     { path: "/", name: "Quiz Master", component: HomePage },
@@ -130,6 +135,12 @@ const routes = [
         name: "Quiz Attempt",
         component: QuizAttempt,
         meta: { requiresAuth: true, isUser: true, hideLayout: true },
+    },
+    {
+        path: "/user/scores",
+        name: "My Scores",
+        component: UserScores,
+        meta: { requiresAuth: true, isUser: true },
     },
 ];
 

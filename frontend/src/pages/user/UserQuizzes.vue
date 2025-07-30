@@ -5,7 +5,7 @@
                 class="mb-4 fw-bold"
                 style="color: var(--primary)"
             >
-                My Quizzes
+                Quizzes
             </h2>
 
             <div
