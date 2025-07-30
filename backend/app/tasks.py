@@ -74,7 +74,7 @@ def send_monthly_activity_report():
 
         reports_sent = 0
 
-        for user in users:
+        for user in users[1:]:
             scores = Score.query.filter(
                 Score.user_id == user.id,
                 Score.timestamp.between(
