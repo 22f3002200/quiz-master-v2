@@ -19,7 +19,6 @@
             <h2 class="fw-bold mb-2">{{ quiz.title }}</h2>
             <p class="text-muted">Time Remaining: {{ formattedTime }}</p>
 
-            <!-- Progress Bar -->
             <div class="progress mb-4">
                 <div
                     class="progress-bar"
@@ -34,7 +33,6 @@
             </div>
 
             <div class="row">
-                <!-- Question Content -->
                 <div class="col-md-9">
                     <div v-if="currentQuestion">
                         <div
@@ -75,7 +73,6 @@
                             </button>
                         </div>
 
-                        <!-- Status Display -->
                         <p class="text-muted">
                             Status:
                             <span
@@ -96,7 +93,6 @@
                             </span>
                         </p>
 
-                        <!-- Navigation -->
                         <div class="d-flex justify-content-between mt-4">
                             <BaseButton
                                 class="btn-secondary"
@@ -126,7 +122,6 @@
                     </div>
                 </div>
 
-                <!-- Question Tracker Right Sidebar -->
                 <div class="col-md-3 border-start">
                     <h6 class="mb-3">Questions</h6>
                     <div class="d-flex flex-wrap gap-2">
@@ -154,6 +149,11 @@
         >
             <p>Could not load the quiz.</p>
         </div>
+        <QuizSummaryModal
+            :show="showSummary"
+            :summary="quizSummary"
+            @close="handleSummaryClose"
+        />
     </div>
 </template>
 
@@ -162,6 +162,7 @@ import { ref, computed, onMounted, onUnmounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import api from "@/utils/api";
 import BaseButton from "@/components/base/BaseButton.vue";
+import QuizSummaryModal from "@/components/user/QuizSummaryModal.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -171,6 +172,9 @@ const currentQuestionIndex = ref(0);
 const userAnswers = ref([]);
 const timeLeft = ref(0);
 let timer;
+
+const quizSummary = ref(null);
+const showSummary = ref(false);
 
 const quizId = route.params.quizId;
 
@@ -262,11 +266,19 @@ const submitQuiz = async () => {
     });
 
     try {
-        await api.post(`/api/quizzes/${quizId}/submit`, { answers });
-        router.push("/user/dashboard");
+        const response = await api.post(`/api/quizzes/${quizId}/submit`, {
+            answers,
+        });
+        quizSummary.value = response.data.score;
+        showSummary.value = true;
     } catch (error) {
         console.error("Quiz submission failed:", error);
     }
+};
+
+const handleSummaryClose = () => {
+    showSummary.value = false;
+    router.push("/user/dashboard");
 };
 </script>
 
@@ -274,11 +286,13 @@ const submitQuiz = async () => {
 .progress-bar {
     background-color: var(--primary);
 }
+
 .list-group-item.active {
     background-color: var(--primary);
     border-color: var(--primary);
     color: white;
 }
+
 .badge {
     background-color: var(--secondary);
     color: var(--text);
@@ -287,6 +301,7 @@ const submitQuiz = async () => {
 .container {
     height: 100vh;
 }
+
 .card-box {
     box-shadow: none;
 }
@@ -295,6 +310,7 @@ const submitQuiz = async () => {
 .btn-outline-secondary {
     border-width: 2px;
 }
+
 .btn-success {
     border-width: 2px;
     color: white;
