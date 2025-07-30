@@ -44,10 +44,10 @@ def create_subject():
 @user_required
 def list_subjects(**kwargs):
     try:
-        cached_subjects = redis_client.get("all_subjects")
+        # cached_subjects = redis_client.get("all_subjects")
 
-        if cached_subjects:
-            return jsonify(json.loads(cached_subjects)), 200
+        # if cached_subjects:
+        #     return jsonify(json.loads(cached_subjects)), 200
 
         subjects = Subject.query.all()
         subjects_data = [
@@ -55,9 +55,9 @@ def list_subjects(**kwargs):
             for subject in subjects
         ]
 
-        redis_client.setex(
-            "all_subjects", timedelta(hours=1), json.dumps(subjects_data, default=str)
-        )
+        # redis_client.setex(
+        #     "all_subjects", timedelta(hours=1), json.dumps(subjects_data, default=str)
+        # )
 
         return jsonify(subjects_data), 200
 

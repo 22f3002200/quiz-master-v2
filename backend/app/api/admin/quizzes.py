@@ -90,21 +90,21 @@ def list_quizzes_by_subject(subject_id, current_user_id):
 @user_required
 def list_all_quizzes(current_user_id):
     try:
-        cached_quizzes = redis_client.get("all_quizzes")
+        # cached_quizzes = redis_client.get("all_quizzes")
 
-        if cached_quizzes:
-            return jsonify(json.loads(cached_quizzes)), 200
+        # if cached_quizzes:
+        #     return jsonify(json.loads(cached_quizzes)), 200
 
         quizzes = Quiz.query.all()
         quizzes_data = [
             QuizResponseSchema.model_validate(quiz).model_dump() for quiz in quizzes
         ]
 
-        redis_client.setex(
-            "all_quizzes", timedelta(hours=1), json.dumps(quizzes_data, default=str)
-        )
+        # redis_client.setex(
+        #     "all_quizzes", timedelta(hours=1), json.dumps(quizzes_data, default=str)
+        # )
 
-        print(quizzes_data)
+        # print(quizzes_data)
         return jsonify(quizzes_data), 200
     except Exception as e:
         return jsonify({"error": "Internal server error", "details": str(e)}), 500

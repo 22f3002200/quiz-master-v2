@@ -26,7 +26,10 @@
                 </router-link>
             </li>
 
-            <li class="nav-item">
+            <li
+                class="nav-item"
+                v-if="user && user.role === 'admin'"
+            >
                 <button
                     class="nav-link d-flex align-items-center w-100 text-start"
                     @click="exportCsv"

@@ -69,10 +69,10 @@ def list_chapters(subject_id, current_user_id):
 @user_required
 def list_of_chapters(current_user_id):
     try:
-        cached_chapters = redis_client.get("all_chapters")
+        # cached_chapters = redis_client.get("all_chapters")
 
-        if cached_chapters:
-            return jsonify(json.loads(cached_chapters)), 200
+        # if cached_chapters:
+        #     return jsonify(json.loads(cached_chapters)), 200
 
         chapters = Chapter.query.all()
         chapters_data = [
@@ -80,9 +80,9 @@ def list_of_chapters(current_user_id):
             for chapter in chapters
         ]
 
-        redis_client.setex(
-            "all_chapters", timedelta(hours=1), json.dumps(chapters_data, default=str)
-        )
+        # redis_client.setex(
+        #     "all_chapters", timedelta(hours=1), json.dumps(chapters_data, default=str)
+        # )
 
         return jsonify(chapters_data), 200
 
