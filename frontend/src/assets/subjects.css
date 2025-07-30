@@ -66,8 +66,8 @@ input.form-select:focus {
     border-color: var(--primary);
     box-shadow: 0 0 0 0.25rem var(--primary5);
 }
-label.form-label {
-    color: var(--background);
+.form-label {
+    color: var(--primary);
 }
 
 .btn-outline-info.details {

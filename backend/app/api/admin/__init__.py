@@ -8,6 +8,7 @@ from app.api.admin import (
     chapters,
     questions,
     quizzes,
+    search,
     subjects,
     users,
 )

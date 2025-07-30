@@ -48,6 +48,10 @@
                         </li>
                     </ul>
 
+                    <div class="d-flex align-items-center ms-3">
+                        <SearchComponent />
+                    </div>
+
                     <div class="d-flex align-items-end ms-auto gap-2">
                         <!-- Show login/signup buttons if user not logged in -->
                         <span class="d-flex ms-auto gap-2">
@@ -87,7 +91,11 @@
 <script>
 import { useAuth } from "@/composables/useAuth";
 import { computed } from "vue";
+import SearchComponent from "./SearchComponent.vue";
 export default {
+    components: {
+        SearchComponent,
+    },
     setup() {
         const { user } = useAuth();
 
