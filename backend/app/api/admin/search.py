@@ -14,25 +14,17 @@ def search(current_user_id):
     term = request.args.get("term", "")
     area = request.args.get("area", "chapter,subject,quizzes")
 
-    # Check the user's role from the g object provided by @user_required
-    # current_user_role = g.current_user.get("role") if g.current_user else None
-
-    # # Prevent non-admins from even attempting to search users
-    # if "users" in area and current_user_role != "admin":
-    #     return jsonify({"error": "You are not authorized to search for users."}), 403
-
     search_areas = [a.strip() for a in area.split(",")]
     results = {}
 
     if not term or not search_areas:
         return jsonify(results)
 
-    # --- Publicly searchable items ---
     if "chapter" in search_areas:
         chapters = Chapter.query.filter(Chapter.name.ilike(f"%{term}%")).all()
-        # Add a 'type' field to help the frontend with routing
         results["chapters"] = [
-            {"id": c.id, "name": c.name, "type": "chapter"} for c in chapters
+            {"id": c.id, "name": c.name, "type": "chapter", "subject_id": c.subject_id}
+            for c in chapters
         ]
 
     if "subject" in search_areas:
@@ -44,15 +36,14 @@ def search(current_user_id):
     if "quizzes" in search_areas:
         quizzes = Quiz.query.filter(Quiz.title.ilike(f"%{term}%")).all()
         results["quizzes"] = [
-            {"id": q.id, "title": q.title, "type": "quiz"} for q in quizzes
+            {
+                "id": q.id,
+                "title": q.title,
+                "type": "quiz",
+                "subject_id": q.subject_id,
+                "chapter_id": q.chapter_id,
+            }
+            for q in quizzes
         ]
-
-    # --- Admin-only search ---
-    # Double-check for admin role before searching users
-    # if "users" in search_areas and current_user_role == "admin":
-    #     users = User.query.filter(User.full_name.ilike(f"%{term}%")).all()
-    #     results["users"] = [
-    #         {"id": u.id, "full_name": u.full_name, "type": "user"} for u in users
-    #     ]
 
     return jsonify(results)

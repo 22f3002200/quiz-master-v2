@@ -48,12 +48,14 @@
                         </li>
                     </ul>
 
-                    <div class="d-flex align-items-center ms-3">
+                    <div
+                        v-if="user"
+                        class="d-flex align-items-center ms-3"
+                    >
                         <SearchComponent />
                     </div>
 
                     <div class="d-flex align-items-end ms-auto gap-2">
-                        <!-- Show login/signup buttons if user not logged in -->
                         <span class="d-flex ms-auto gap-2">
                             <template v-if="!user">
                                 <router-link

@@ -65,6 +65,7 @@
 </template>
 
 <script>
+import { useAuth } from "@/composables/useAuth";
 import api from "@/utils/api";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
@@ -78,6 +79,7 @@ export default {
         const selectedAreas = ref([...areas]);
         const showFilters = ref(false);
         const router = useRouter();
+        const { user } = useAuth();
 
         const onSearch = async () => {
             if (term.value.trim().length < 2) {
@@ -102,18 +104,32 @@ export default {
 
         const goToResult = (item) => {
             const highlight = encodeURIComponent(term.value);
-            if (item.type === "subject") {
-                router.push(
-                    `/admin/subjects?highlight=${highlight}&id=${item.id}`
-                );
-            } else if (item.type === "chapter") {
-                router.push(
-                    `/admin/chapters?highlight=${highlight}&id=${item.id}`
-                );
-            } else if (item.type === "quiz") {
-                router.push(
-                    `/admin/quizzes?highlight=${highlight}&id=${item.id}`
-                );
+            const userRole = user.value ? user.value.role : null;
+
+            if (userRole === "admin") {
+                if (item.type === "subject") {
+                    router.push(
+                        `/admin/subjects?highlight=${highlight}&id=${item.id}`
+                    );
+                } else if (item.type === "chapter") {
+                    router.push(
+                        `/admin/chapters?highlight=${highlight}&id=${item.id}`
+                    );
+                } else if (item.type === "quiz") {
+                    router.push(
+                        `/admin/quizzes?highlight=${highlight}&id=${item.id}`
+                    );
+                }
+            } else if (userRole === "user") {
+                if (item.type === "subject") {
+                    router.push(`/user/subjects/${item.id}/chapters`);
+                } else if (item.type === "chapter") {
+                    router.push(
+                        `/user/subjects/${item.subject_id}/chapters/${item.id}/quizzes`
+                    );
+                } else if (item.type === "quiz") {
+                    router.push(`/user/quiz/${item.id}`);
+                }
             }
             clearSearch();
         };
