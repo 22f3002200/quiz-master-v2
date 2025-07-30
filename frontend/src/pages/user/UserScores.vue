@@ -32,6 +32,7 @@
                                 <th scope="col">CHAPTER</th>
                                 <th scope="col">SCORE</th>
                                 <th scope="col">DATE</th>
+                                <th scope="col">ACTIONS</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -50,6 +51,13 @@
                                         ).toLocaleDateString()
                                     }}
                                 </td>
+                                <td>
+                                    <BaseButton
+                                        :to="`/user/scores/${score.id}/review`"
+                                        class="btn btn-primary btn-sm"
+                                        >Review</BaseButton
+                                    >
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -63,6 +71,7 @@
 import { ref, onMounted } from "vue";
 import api from "@/utils/api";
 import UserLayout from "@/components/user/UserLayout.vue";
+import BaseButton from "@/components/base/BaseButton.vue";
 
 const scores = ref([]);
 const loading = ref(true);

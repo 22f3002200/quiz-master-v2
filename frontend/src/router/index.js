@@ -23,6 +23,7 @@ import UserChapterQuizzes from "@/pages/user/UserChapterQuizzes.vue";
 import UserQuizzes from "@/pages/user/UserQuizzes.vue";
 import QuizAttempt from "@/pages/user/QuizAttempt.vue";
 import UserScores from "@/pages/user/UserScores.vue";
+import QuizReview from "@/pages/user/QuizReview.vue";
 
 const routes = [
     { path: "/", name: "Quiz Master", component: HomePage },
@@ -140,6 +141,12 @@ const routes = [
         path: "/user/scores",
         name: "My Scores",
         component: UserScores,
+        meta: { requiresAuth: true, isUser: true },
+    },
+    {
+        path: "/user/scores/:scoreId/review",
+        name: "Quiz Review",
+        component: QuizReview,
         meta: { requiresAuth: true, isUser: true },
     },
 ];

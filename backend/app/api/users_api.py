@@ -309,3 +309,56 @@ def get_user_perfromance(current_user_id):
 
     except Exception as e:
         return jsonify({"error": "Internal server error", "details": str(e)}), 500
+
+
+@bp.route("/scores/<int:score_id>/review", methods=["GET"])
+@user_required
+def get_quiz_review(score_id, current_user_id):
+    try:
+        score = Score.query.filter_by(
+            id=score_id, user_id=current_user_id
+        ).first_or_404()
+        quiz = score.quiz
+        user_answers = UserAnswer.query.filter_by(
+            quiz_id=quiz.id, user_id=current_user_id
+        ).all()
+        user_answers_map = {ua.question_id: ua.selected_option for ua in user_answers}
+
+        questions_data = []
+        for question in quiz.questions:
+            user_answer = user_answers_map.get(question.id)
+            marks_awarded = 0
+            if user_answer is not None:
+                if user_answer == question.correct_option:
+                    marks_awarded = question.marks
+                else:
+                    # Make the awarded marks negative for incorrect answers
+                    marks_awarded = -question.negative_marks
+
+            questions_data.append(
+                {
+                    "id": question.id,
+                    "statement": question.statement,
+                    "options": [
+                        question.option1,
+                        question.option2,
+                        question.option3,
+                        question.option4,
+                    ],
+                    "correct_option": question.correct_option,
+                    "user_answer": user_answer,
+                    "marks_awarded": marks_awarded,
+                    # FIX: Add marking scheme to each question
+                    "marks_for_correct": question.marks,
+                    "negative_marks_for_incorrect": question.negative_marks,
+                }
+            )
+
+        # FIX: Remove the incorrect top-level marking scheme
+        review_data = {
+            "quiz_title": quiz.title,
+            "questions": questions_data,
+        }
+        return jsonify(review_data), 200
+    except Exception as e:
+        return jsonify({"error": "Internal server error", "details": str(e)}), 500
